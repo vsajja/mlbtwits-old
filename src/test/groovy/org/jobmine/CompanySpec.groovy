@@ -2,8 +2,8 @@ package org.jobmine
 
 import groovy.json.JsonOutput
 import jooq.generated.tables.daos.JobMineDao
-import org.jobmine.postgres.PostgresConfig
-import org.jobmine.postgres.PostgresModule
+import org.mlbtwits.postgres.PostgresConfig
+import org.mlbtwits.postgres.PostgresModule
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.SQLDialect

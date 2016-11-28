@@ -9,8 +9,8 @@ import io.netty.handler.codec.http.DefaultFullHttpRequest
 import io.netty.handler.codec.http.HttpRequest
 import io.netty.handler.codec.http.HttpVersion
 import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder
-import org.jobmine.postgres.PostgresConfig
-import org.jobmine.postgres.PostgresModule
+import org.mlbtwits.postgres.PostgresConfig
+import org.mlbtwits.postgres.PostgresModule
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL

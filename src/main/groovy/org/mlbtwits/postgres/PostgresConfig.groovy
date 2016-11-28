@@ -1,4 +1,4 @@
-package org.jobmine.postgres
+package org.mlbtwits.postgres
 
 import groovy.transform.CompileStatic
 

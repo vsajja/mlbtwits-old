@@ -16,11 +16,11 @@ ratpack {
     bindings {
         final ConfigData configData = ConfigData.of { ConfigDataBuilder builder ->
             builder.props(
-                    ['postgres.user'        : 'zoqyxwbxjuntzp',
-                     'postgres.password'    : 'sfXLiNPmZuRUxS_biBDNyNRhDh',
+                    ['postgres.user'        : 'elnsxicscvthpy',
+                     'postgres.password'    : '42YdDI0OVjJhMhzBEvxA-f5rze',
                      'postgres.portNumber'  : 5432,
-                     'postgres.databaseName': 'd4ogiv1q9mi0tp',
-                     'postgres.serverName'  : 'ec2-54-243-249-65.compute-1.amazonaws.com'])
+                     'postgres.databaseName': 'ddqeubt8e101m',
+                     'postgres.serverName'  : 'ec2-54-243-202-113.compute-1.amazonaws.com'])
             builder.build()
         }
 

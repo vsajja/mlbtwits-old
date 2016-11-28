@@ -1,16 +1,8 @@
-# jobmine #
+# mlbtwits #
 
-jobmine, originally founded by the University of Waterloo, is a website that helps students find jobs by creating companies and jobs. jobmine requires courage as it's aiming to eliminate resumes and interviews from the job market. jobmine introduces the concept of a mine and is also the only company allowed to have a mine. All other mines will be created by schools. Students and alumni will be able to join the site from all universities, colleges and high-schools worldwide. 
+mlbtwits is the goto place for everything fantasy baseball.
 
-It will be free for everyone and there will be no ads. 
-
-The ultimate goal of jobmine is to help students and companies automate the startup process.
-
-## startup process ##
-
-<img src="http://i.imgur.com/LuSwdzz.png" alt="the startup process" width="144px" height="192px">
-
-# jobmine report #
+# mlbtwits report #
 
 ## ui ##
 
@@ -28,7 +20,7 @@ change 8.562 seconds
 lines: 20175 total
 
 ## stats ##
-16 schools, 16 students and 14 companies. search 10 jobs from 2 mines
+0 players, 0 users, 0 tweeets
 
 # the *simple* stack#
 
@@ -87,15 +79,13 @@ netstat -o -n -a | findstr 0.0:5050
 taskkill /F /PID <pid>
 
 # website #
-www.jobmine.ca/index.html
+www.mlbtwits.com
 
 # heroku #
-https://jm-app.herokuapp.com/index.html
+https://mlbtwits-app.herokuapp.com/index.html
 
 ## deploy ##
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-<<<<<<< HEAD
-TODO
 
 # Report #
 UI start time: 206ms
@@ -103,7 +93,3 @@ Server startup time: 11.044 seconds
 
 UI change: < 10ms
 Server change: 8.562 seconds
-
-Total Lines of Code: 20175 total
-=======
->>>>>>> bae7ca471392fa3f0ce8c5cb2817c013b7cf3e76

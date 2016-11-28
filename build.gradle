@@ -42,37 +42,37 @@ task wrapper(type: Wrapper) {
     gradleVersion = '3.1'
 }
 
-import org.jooq.util.jaxb.*
-import org.jooq.util.*
+//import org.jooq.util.jaxb.*
+//import org.jooq.util.*
 
-task jooqCodegen {
-    doLast {
-        // TODO: move DB config to a properties file
-        Configuration configuration = new Configuration()
-                .withJdbc(new Jdbc()
-                .withDriver('org.postgresql.Driver')
-                .withProperties([new Property()
-                                         .withKey('ssl')
-                                         .withValue('true'),
-                                 new Property()
-                                         .withKey('sslfactory')
-                                         .withValue('org.postgresql.ssl.NonValidatingFactory')])
-                .withUrl('jdbc:postgresql://ec2-54-243-249-65.compute-1.amazonaws.com:5432/d4ogiv1q9mi0tp')
-                .withUser('zoqyxwbxjuntzp')
-                .withPassword('sfXLiNPmZuRUxS_biBDNyNRhDh'))
-                .withGenerator(new org.jooq.util.jaxb.Generator()
-                .withGenerate(new Generate()
-                .withImmutablePojos(true)
-                .withDaos(true)
-                .withFluentSetters(true))
-                .withDatabase(new org.jooq.util.jaxb.Database()
-                .withName('org.jooq.util.postgres.PostgresDatabase')
-                .withIncludes('.*')
-                .withExcludes('')
-                .withInputSchema('public'))
-                .withTarget(new Target()
-                .withPackageName('jooq.generated')
-                .withDirectory('src/main/java')))
-        GenerationTool.generate(configuration)
-    }
-}
+//task jooqCodegen {
+//    doLast {
+//        // TODO: move DB config to a properties file
+//        Configuration configuration = new Configuration()
+//                .withJdbc(new Jdbc()
+//                .withDriver('org.postgresql.Driver')
+//                .withProperties([new Property()
+//                                         .withKey('ssl')
+//                                         .withValue('true'),
+//                                 new Property()
+//                                         .withKey('sslfactory')
+//                                         .withValue('org.postgresql.ssl.NonValidatingFactory')])
+//                .withUrl('jdbc:postgresql://ec2-54-243-249-65.compute-1.amazonaws.com:5432/d4ogiv1q9mi0tp')
+//                .withUser('zoqyxwbxjuntzp')
+//                .withPassword('sfXLiNPmZuRUxS_biBDNyNRhDh'))
+//                .withGenerator(new org.jooq.util.jaxb.Generator()
+//                .withGenerate(new Generate()
+//                .withImmutablePojos(true)
+//                .withDaos(true)
+//                .withFluentSetters(true))
+//                .withDatabase(new org.jooq.util.jaxb.Database()
+//                .withName('org.jooq.util.postgres.PostgresDatabase')
+//                .withIncludes('.*')
+//                .withExcludes('')
+//                .withInputSchema('public'))
+//                .withTarget(new Target()
+//                .withPackageName('jooq.generated')
+//                .withDirectory('src/main/java')))
+//        GenerationTool.generate(configuration)
+//    }
+//}

@@ -15,11 +15,11 @@ angular.module('jobmineApp')
       'Karma'
     ];
 
-    var jobmine = Restangular.all('jobmine');
+    var mlbtwits = Restangular.all('mlbtwits');
 
     // This will query /mlbtwits and return a promise.
-    jobmine.customGET().then(function (jobmine) {
-      $scope.jobmine = jobmine;
+    mlbtwits.customGET().then(function (mlbtwits) {
+      $scope.mlbtwits = mlbtwits;
     });
   }]);
 

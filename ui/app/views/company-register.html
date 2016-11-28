@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-sm-4">
+  </div>
+
+  <div class="col-sm-4">
+    <!-- SHOW ERROR/SUCCESS MESSAGES -->
+    <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+         close="closeAlert($index)">{{alert.msg}}
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Company</h4>
+      </div>
+      <div class="panel-body">
+        <div class="box box-info">
+          <div class="box-body">
+            <!-- FORM -->
+            <form ng-submit="registerCompany()">
+
+              <div align="center">
+                <div class="isa_warning fa-2x">
+                  <i class="fa fa-warning" style="color: red"></i>
+                </div>
+                <p style="color: red"><strong>please enter personal details at your own risk</strong></p>
+              </div>
+
+              <!-- NAME -->
+              <div id="name-group" class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Name" ng-model="company.name" required>
+                <span class="help-block"></span>
+              </div>
+
+              <!-- DESCRIPTION -->
+              <div id="name-group" class="form-group">
+                <label>Description</label>
+
+                <textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"
+                          class="form-control" placeholder="Description" ng-model="company.description"
+                          required></textarea>
+                <span class="help-block"></span>
+              </div>
+
+              <!-- WEBSITE URL -->
+              <div id="name-group" class="form-group">
+                <label>Website</label>
+                <input type="text" name="websiteUrl" class="form-control" placeholder="Website Url" ng-model="company.websiteUrl" required>
+                <span class="help-block"></span>
+              </div>
+
+              <!-- INDUSTRY -->
+              <div id="name-group" class="form-group">
+                <label>Industry</label>
+                <input type="text" name="industry" class="form-control" placeholder="Industry" ng-model="company.industry" required>
+                <span class="help-block"></span>
+              </div>
+
+              <!-- SUBMIT BUTTON -->
+              <button type="submit" class="btn btn-success btn-lg btn-block">
+                Register
+              </button>
+            </form>
+
+            <br/>
+
+            <textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"
+                      class="form-control">{{ company }}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+  </div>
+</div>

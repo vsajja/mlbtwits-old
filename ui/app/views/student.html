@@ -1,0 +1,183 @@
+<div class="row">
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">Student</div>
+      <div class="panel-body">
+        <div class="box box-info">
+          <div class="box-body">
+            <div class="col-sm-6">
+              <div align="center">
+                <!--<img alt="User Pic" src="images/student_profile_nobody.jpg" class="img-circle img-responsive">-->
+                <i class="fa fa-user fa-5x" aria-hidden="true"></i>
+                <div style="color:#999;">click here to change profile image</div>
+              </div>
+              <br>
+            </div>
+
+            <div class="col-sm-6">
+              <h4 style="color:#00b1b1;">{{student.firstName}} {{student.lastName}}</h4></span>
+              <span><p>Computer Engineer</p></span>
+            </div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div>
+              <div class="col-sm-5 col-xs-6 tital"><strong>Dreams</strong></div>
+              <!--<div class="col-sm-7 col-xs-6 ">{{student.dreams}}</div>-->
+              <a href="#" editable-text="user.name">{{ student.dreams }}</a>
+              <div class="clearfix"></div>
+              <div class="bot-border"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Id</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.studentId}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Username</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.username}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Email</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.emailAddress}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Status</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.employmentStatus}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Gender</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.gender}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Age</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.age}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Phone</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.phoneNumber}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Location</strong></div>
+            <div class="col-sm-7 col-xs-6 ">Planet Earth</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Joined</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.joinedTimestamp | date}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Last seen</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.lastLoggedinTimestamp | date}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Karma</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.karma}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Total Views</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{student.totalViews}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Created by</strong></div>
+            <div class="col-sm-7 col-xs-6 ">jobmine</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Showcase</div>
+      <div class="panel-body">
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Follow</div>
+      <div class="panel-body">
+        <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i>
+        <i
+          class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+        <i class="fa fa-twitch fa-2x"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">Schools</div>
+      <div class="panel-body">
+        <i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i>
+        <i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i>
+        <i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Skills</div>
+      <div class="panel-body">{{student.skills}}</div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Employment History</div>
+      <div class="panel-body">{{student.employmentHistory}}</div>
+    </div>
+
+
+    <uib-tabset active="activeForm" style="height: 300px">
+      <uib-tab index="1" heading="Applications">
+        <br/>
+        applied to job1 job2 job3
+      </uib-tab>
+
+      <uib-tab index="2" heading="Shortlist">
+        <br/>
+        like job1 job2 job3
+      </uib-tab>
+
+      <uib-tab index="4" heading="Interviews">
+        <br/>
+        job interviews for job1 and job2
+      </uib-tab>
+
+      <uib-tab index="5" heading="Offers">
+        <br/>
+        job offers from job1
+      </uib-tab>
+
+      <uib-tab index="6" heading="Settings">
+        <p>update username</p>
+        <p>update email</p>
+        <p>update password</p>
+        <p>deactivate account</p>
+        <p>email notifications</p>
+        <p>timezone</p>
+        <p>privacy</p>
+        <!--<p>Mobile text notifications</p>-->
+        <!--<p>Language settings</p>-->
+      </uib-tab>
+    </uib-tabset>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<table st-table="companyCollection" st-safe-src="companyList" class="table table-striped">
+  <tr>
+    <th colspan="10"><input st-search="" class="form-control" placeholder="Filter results..."
+                            type="text"/></th>
+  </tr>
+  <thead>
+  <tr>
+    <th></th>
+    <!--<th>Logo</th>-->
+    <th st-sort="name" class="st-sort-ascent">Name</th>
+    <th st-sort="description" class="st-sort-ascent">Description</th>
+    <th st-sort="websiteUrl" class="st-sort-ascent">Website</th>
+    <th st-sort="industry" class="st-sort-ascent">Industry</th>
+    <th st-sort="totalEmployees" class="st-sort-ascent">Employees</th>
+    <th st-sort="foundedDate" class="st-sort-ascent">Founded</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="company in companyCollection">
+    <td><i class="fa fa-building fa-3x" aria-hidden="true"></i></td>
+    <!--<td><img style="height: auto; width: auto; max-width: 100px; max-height: 100px" ng-src="{{row.logourl}}"/></td>-->
+    <td><a ng-href="#/companies/{{company.companyId}}">{{company.name}}</a></td>
+    <td>{{company.description}}</td>
+    <td>{{company.websiteUrl}}</td>
+    <td>{{company.industry}}</td>
+    <td>{{company.totalEmployees}}</td>
+    <td>{{company.foundedDate}}</td>
+  </tr>
+  </tbody>
+</table>

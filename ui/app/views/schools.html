@@ -1,0 +1,39 @@
+<table st-table="schoolCollection" st-safe-src="schoolList" class="table table-striped">
+  <tr>
+    <!-- TODO: add dropdown, filter by location etc -->
+    <th colspan="10"><input st-search="" class="form-control" placeholder="Filter results..."
+                           type="text"/></th>
+  </tr>
+  <thead>
+  <tr>
+    <th></th>
+    <th st-sort="name" class="st-sort-ascent">School</th>
+    <th st-sort="type" class="st-sort-ascent">Type</th>
+    <th st-sort="description" class="st-sort-ascent">Description</th>
+    <!--<th st-sort="location" class="st-sort-ascent">City</th>-->
+    <!--<th st-sort="location" class="st-sort-ascent">Location</th>-->
+    <th st-sort="establishedDate" class="st-sort-ascent">Established</th>
+    <th st-sort="totalStudents" class="st-sort-ascent">Students</th>
+    <!--<th st-sort="registeredstudents" class="st-sort-ascent">Registered</th>-->
+    <!--<th st-sort="registeredstudents" class="st-sort-ascent">Alumni</th>-->
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="school in schoolCollection">
+    <!-- TODO: load icon -->
+    <td>
+      <i class="fa fa-graduation-cap fa-2x" aria-hidden="true"></i>
+    </td>
+    <td><a ng-href="#/schools/{{school.schoolId}}">{{school.name}}</a></td>
+    <td>{{school.type}}</td>
+    <td>{{school.description}}</td>
+    <!-- TODO: format the location better, some schools have multiple cities -->
+    <!--<td>{{school.city}}</td>-->
+    <!--<td>{{school.provinceorstate + ',' + school.country}}</td>-->
+    <td>{{school.establishedDate | date}}</td>
+    <td>{{school.totalStudents | number}}</td>
+    <!--<td>0</td>-->
+    <!--<td>0</td>-->
+  </tr>
+  </tbody>
+</table>

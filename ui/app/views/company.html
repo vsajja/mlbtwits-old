@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">Company</div>
+      <div class="panel-body">
+        <div class="box box-info">
+          <div class="box-body">
+            <div class="col-sm-6">
+              <div align="center">
+                <!--<img height="200px" width="200px" src="images/student_profile_nobody.jpg"-->
+                     <!--class="img-circle img-responsive">-->
+                <i class="fa fa-building fa-5x" aria-hidden="true"></i>
+                <div style="color:#999;">click here to change profile image</div>
+              </div>
+              <br>
+            </div>
+
+            <div class="col-sm-6">
+              <h4 style="color:#00b1b1;">{{company.name}}</h4></span>
+            </div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Id</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{company.companyId}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Industry</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{company.industry}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Website</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{company.websiteUrl}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Founded</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{company.foundedDate}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Total Employees</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{company.totalEmployees}}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Total Views</strong></div>
+            <div class="col-sm-7 col-xs-6 ">1</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Created by</strong></div>
+            <div class="col-sm-7 col-xs-6 ">jobmine</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Follow</div>
+      <div class="panel-body">
+        <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i>
+        <i
+          class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">Description</div>
+      <div class="panel-body">
+        {{company.description}}
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Investments</div>
+      <div class="panel-body">
+        No investments
+      </div>
+    </div>
+
+    <div align="center">
+      <h4>
+        <i class="fa fa-sign-in" aria-hidden="true"></i>
+        <a ng-href="#/companies/{{company.companyId}}/job/create">post a job!</a>
+      </h4>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<table st-table="mineCollection" st-safe-src="mineList" class="table table-striped">
+  <tr>
+    <th colspan="2"><input st-search="" class="form-control" placeholder="Filter results..." type="text"/></th>
+  </tr>
+  <thead>
+  <tr>
+    <th></th>
+    <th st-sort="title" class="st-sort-ascent">Title</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="mine in mineCollection">
+    <td>
+      <i class="fa fa-gear fa-2x" aria-hidden="true"></i>
+    </td>
+    <td>{{mine.name}}</a></td>
+  </tr>
+  </tbody>
+</table>

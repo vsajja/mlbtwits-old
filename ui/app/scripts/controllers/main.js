@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name jobmineApp.controller:MainCtrl
+ * @name mlbTwitsApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the jobmineApp
+ * Controller of the mlbTwitsApp
  */
-angular.module('jobmineApp')
+angular.module('mlbTwitsApp')
   .controller('MainCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
     this.awesomeThings = [
       'HTML5 Boilerplate',

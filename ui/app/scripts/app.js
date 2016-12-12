@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 var mlbTwitsApp = angular
-  .module('jobmineApp', [
+  .module('mlbTwitsApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',

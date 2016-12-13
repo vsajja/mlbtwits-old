@@ -6,8 +6,12 @@ import ratpack.config.ConfigDataBuilder
 import ratpack.groovy.sql.SqlModule
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
+import ratpack.http.Status
+import ratpack.http.client.HttpClient
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
+import ratpack.http.client.RequestSpec
+
 import static ratpack.groovy.Groovy.ratpack
 
 final Logger log = LoggerFactory.getLogger(this.class)
@@ -67,6 +71,24 @@ ratpack {
 //                        result.put('countries', 1)
 //
 //                        render json(result)
+                    }
+                }
+            }
+        }
+
+        prefix('test/data') {
+            path('players') {
+                byMethod {
+                    get {
+                        URI uri = new URI('https://api.stattleship.com/baseball/mlb/players')
+                        HttpClient httpClient = registry.get(HttpClient.class)
+                        httpClient.get(uri) { RequestSpec spec ->
+                            spec.headers.set 'Authorization', 'Token token=7181e74000a30ca2a3b10c9bb14f1a09'
+                            spec.headers.set 'Content-Type', 'application/json'
+                            spec.headers.set 'Accept', 'application/vnd.stattleship.com; version=1'
+                        }.then {
+                            render it.body.text
+                        }
                     }
                 }
             }

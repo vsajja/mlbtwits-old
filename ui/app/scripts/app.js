@@ -28,6 +28,11 @@ var mlbTwitsApp = angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
+      .when('/player', {
+        templateUrl: 'views/player.html',
+        controller: 'PlayerCtrl',
+        controllerAs: 'player'
+      })
       .otherwise({
         redirectTo: '/'
       });

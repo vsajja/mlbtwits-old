@@ -1,4 +1,5 @@
 import com.zaxxer.hikari.HikariConfig
+import groovy.json.JsonOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
@@ -77,18 +78,31 @@ ratpack {
         }
 
         prefix('test/data') {
-            path('players') {
+            path('stattleship') {
                 byMethod {
                     get {
-                        URI uri = new URI('https://api.stattleship.com/baseball/mlb/players')
+                        URI uri = new URI('https://api.stattleship.com/baseball/mlb/players' +
+//                        '?team_id=mlb-bos' +
+                        '?per_page=40' +
+                        '&player_id=mlb-francisley-bueno')
                         HttpClient httpClient = registry.get(HttpClient.class)
                         httpClient.get(uri) { RequestSpec spec ->
                             spec.headers.set 'Authorization', 'Token token=7181e74000a30ca2a3b10c9bb14f1a09'
                             spec.headers.set 'Content-Type', 'application/json'
                             spec.headers.set 'Accept', 'application/vnd.stattleship.com; version=1'
                         }.then {
-                            render it.body.text
+                            render JsonOutput.prettyPrint(it.body.text)
                         }
+                    }
+                }
+            }
+
+            path('players') {
+                byMethod {
+                    get {
+
+                        File mlb2016Teams = new File('data/baseball-reference-mlb-teams-2016.html')
+                        render mlb2016Teams.text
                     }
                 }
             }

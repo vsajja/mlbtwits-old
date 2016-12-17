@@ -1,5 +1,7 @@
 import com.zaxxer.hikari.HikariConfig
+import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
+import org.ccil.cowan.tagsoup.Parser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
@@ -7,7 +9,6 @@ import ratpack.config.ConfigDataBuilder
 import ratpack.groovy.sql.SqlModule
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
-import ratpack.http.Status
 import ratpack.http.client.HttpClient
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
@@ -101,8 +102,76 @@ ratpack {
                 byMethod {
                     get {
 
-                        File mlb2016Teams = new File('data/baseball-reference-mlb-teams-2016.html')
+                        File mlb2016Teams = new File('src/ratpack/data/baseball-reference-mlb-teams-2016.html')
+
+                        XmlSlurper slurper = new XmlSlurper()
+
+                        def teams = slurper.parse(mlb2016Teams)
+
+                        teams.children().children().each {
+                            assert it.a.@title.toString()
+                            assert it.a.@href.toString()
+
+                            String bTeamName = it.a.@title.toString()
+                            String bTeamCode = it.a.toString()
+                            String bTeamUrl = 'www.baseball-reference.com' + it.a.@href.toString()
+
+                            log.info(bTeamCode)
+                            log.info(bTeamName)
+                            log.info(bTeamUrl)
+
+                            HttpClient httpClient = registry.get(HttpClient.class)
+
+                            URI bTeamUri = new URI(bTeamUrl)
+
+                            httpClient.get(bTeamUri).then {
+                                assert it.body.text
+                            }
+                        }
+
                         render mlb2016Teams.text
+                    }
+                }
+            }
+
+            path('player') {
+                byMethod {
+                    get {
+                        String bTeamName = 'Toronto Blue Jays'
+                        String bTeamCode = 'TOR'
+                        String bTeamUrl = 'http://www.baseball-reference.com' + '/teams/TOR/2016.shtml'
+
+                        log.info(bTeamCode)
+                        log.info(bTeamName)
+                        log.info(bTeamUrl)
+
+                        XmlSlurper slurper = new XmlSlurper(new Parser())
+//                        sluper.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+//                        sluper.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+                        HttpClient httpClient = registry.get(HttpClient.class)
+
+                        httpClient.get(new URI(bTeamUrl)).then {
+                            def teamPage = slurper.parseText(it.body.text)
+
+                            def batting = teamPage.find { it.name() == 'div' && it.@id == 'player_standard_batting' }
+
+//                            def batting = teamPage.depthFirst().findAll { it.name() == 'div' && it.@id == 'player_standard_batting' }
+//                            def batting = teamPage.depthFirst().findAll { it.name() == 'div' && it.@id == 'player_standard_batting' }
+
+
+                            def hitters = batting.depthFirst().findAll {
+                                it.name() == 'a' && it.@href.contains('players')
+                            }
+                            hitters.each { hitter ->
+                                log.info(hitter.toString())
+                            }
+
+
+//                            def pitching = teamPage.depthFirst().findAll { it.name() == 'div' && it.@id == 'player_standard_batting'}
+                        }
+
+                        render 'hello'
                     }
                 }
             }

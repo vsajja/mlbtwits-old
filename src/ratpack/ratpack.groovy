@@ -1,6 +1,7 @@
 import com.zaxxer.hikari.HikariConfig
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
+import jooq.generated.tables.pojos.Player
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
@@ -20,6 +21,8 @@ import ratpack.http.client.RequestSpec
 import javax.sql.DataSource
 
 import static ratpack.groovy.Groovy.ratpack
+import static ratpack.jackson.Jackson.json
+import static ratpack.jackson.Jackson.jsonNode
 import static jooq.generated.Tables.*;
 
 final Logger log = LoggerFactory.getLogger(this.class)
@@ -64,21 +67,44 @@ ratpack {
             path('mlbtwits') {
                 byMethod {
                     get {
-                        render 'hello plebs'
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
-//                        DataSource dataSource = registry.get(DataSource.class)
-//                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-//
-//                        def schools = context.selectCount().from(SCHOOL).asField('schools')
-//                        def students = context.selectCount().from(STUDENT).asField('students')
-//                        def companies = context.selectCount().from(COMPANY).asField('companies')
-//                        def jobs = context.selectCount().from(JOB).asField('jobs')
-//                        def mines = context.selectCount().from(JOB_MINE).asField('mines')
-//
-//                        def result = context.select(schools, students, companies, jobs, mines).fetchOneMap()
-//                        result.put('countries', 1)
-//
-//                        render json(result)
+                        def players = context.selectCount().from(PLAYER).asField('players')
+
+                        def result = context.select(players).fetchOneMap()
+                        result.put('users', 1)
+                        render json(result)
+                    }
+                }
+            }
+
+            path('players') {
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+                        List<Player> players = context.selectFrom(PLAYER)
+                                .fetch()
+                                .into(Player.class)
+                        render json(players)
+                    }
+                }
+            }
+
+            path('players/:playerId') {
+                def playerId = pathTokens['playerId']
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+                        Player player = context.selectFrom(PLAYER)
+                                .where(PLAYER.PLAYER_ID.equal(playerId))
+                                .fetchOne()
+                                .into(Player.class)
+
+                        render json(player)
                     }
                 }
             }
@@ -90,8 +116,8 @@ ratpack {
                     get {
                         URI uri = new URI('https://api.stattleship.com/baseball/mlb/players' +
 //                        '?team_id=mlb-bos' +
-                        '?per_page=40' +
-                        '&player_id=mlb-francisley-bueno')
+                                '?per_page=40' +
+                                '&player_id=mlb-francisley-bueno')
                         HttpClient httpClient = registry.get(HttpClient.class)
                         httpClient.get(uri) { RequestSpec spec ->
                             spec.headers.set 'Authorization', 'Token token=7181e74000a30ca2a3b10c9bb14f1a09'
@@ -185,7 +211,7 @@ ratpack {
 
                                         String name = playerPage.depthFirst().find {
                                             it.name() == 'span' &&
-                                            it.@id == 'player_name'
+                                                    it.@id == 'player_name'
                                         }.toString()
 
                                         log.info(name)

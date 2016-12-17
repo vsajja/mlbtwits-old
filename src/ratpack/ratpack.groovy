@@ -2,6 +2,9 @@ import com.zaxxer.hikari.HikariConfig
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import org.ccil.cowan.tagsoup.Parser
+import org.jooq.DSLContext
+import org.jooq.SQLDialect
+import org.jooq.impl.DSL
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
@@ -14,7 +17,10 @@ import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
 import ratpack.http.client.RequestSpec
 
+import javax.sql.DataSource
+
 import static ratpack.groovy.Groovy.ratpack
+import static jooq.generated.Tables.*;
 
 final Logger log = LoggerFactory.getLogger(this.class)
 
@@ -98,7 +104,7 @@ ratpack {
                 }
             }
 
-            path('players') {
+            path('br/teams/2016') {
                 byMethod {
                     get {
 
@@ -114,18 +120,83 @@ ratpack {
 
                             String bTeamName = it.a.@title.toString()
                             String bTeamCode = it.a.toString()
-                            String bTeamUrl = 'www.baseball-reference.com' + it.a.@href.toString()
+                            String bTeamUrl = 'http://www.baseball-reference.com' + it.a.@href.toString()
+
+                            log.info(bTeamCode)
+                            log.info(bTeamName)
+                            log.info(bTeamUrl)
+                        }
+
+                        render mlb2016Teams.text
+                    }
+                }
+            }
+
+            path('br/players/2016') {
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+                        File mlb2016Teams = new File('src/ratpack/data/baseball-reference-mlb-teams-2016.html')
+
+                        XmlSlurper slurper = new XmlSlurper()
+
+                        def teams = slurper.parse(mlb2016Teams)
+
+                        teams.children().children().each {
+                            assert it.a.@title.toString()
+                            assert it.a.@href.toString()
+
+                            String brUrl = 'http://www.baseball-reference.com'
+
+                            String bTeamName = it.a.@title.toString()
+                            String bTeamCode = it.a.toString()
+                            String bTeamUrl = brUrl + it.a.@href.toString()
 
                             log.info(bTeamCode)
                             log.info(bTeamName)
                             log.info(bTeamUrl)
 
+                            slurper = new XmlSlurper(new Parser())
+
                             HttpClient httpClient = registry.get(HttpClient.class)
 
-                            URI bTeamUri = new URI(bTeamUrl)
+                            httpClient.get(new URI(bTeamUrl)).then {
+                                def teamPage = slurper.parseText(it.body.text)
 
-                            httpClient.get(bTeamUri).then {
-                                assert it.body.text
+                                def players = teamPage.depthFirst().findAll {
+                                    it.name() == 'a' &&
+                                            it.@href.toString().contains('/players/') &&
+                                            it.@href.toString() != '/players/'
+                                }
+
+                                playerLinks = players.collect { player ->
+                                    player.@href.toString().trim()
+                                }
+
+                                playerLinks.unique(false).sort().each { playerLink ->
+                                    String playerUrl = brUrl + playerLink.toString()
+
+                                    httpClient.get(new URI(playerUrl)).then {
+                                        log.info(playerUrl)
+
+                                        def playerPage = slurper.parseText(it.body.text)
+
+                                        String name = playerPage.depthFirst().find {
+                                            it.name() == 'span' &&
+                                            it.@id == 'player_name'
+                                        }.toString()
+
+                                        log.info(name)
+
+                                        log.info("Inserting player: $name")
+
+//                                        context.insertInto(PLAYER)
+//                                            .set(PLAYER.NAME, name.trim())
+//                                            .execute()
+                                    }
+                                }
                             }
                         }
 
@@ -134,61 +205,7 @@ ratpack {
                 }
             }
 
-            path('player') {
-                byMethod {
-                    get {
-                        def brUrl = 'http://www.baseball-reference.com'
-                        String bTeamName = 'Toronto Blue Jays'
-                        String bTeamCode = 'TOR'
-                        String bTeamUrl = brUrl + '/teams/TOR/2016.shtml'
-
-                        log.info(bTeamCode)
-                        log.info(bTeamName)
-                        log.info(bTeamUrl)
-
-                        XmlSlurper slurper = new XmlSlurper(new Parser())
-
-                        HttpClient httpClient = registry.get(HttpClient.class)
-
-                        httpClient.get(new URI(bTeamUrl)).then {
-                            def teamPage = slurper.parseText(it.body.text)
-
-                            def players = teamPage.depthFirst().findAll {
-                                it.name() == 'a' &&
-                                it.@href.toString().contains('/players/') &&
-                                it.@href.toString() != '/players/'
-                            }
-
-                            playerLinks = players.collect { player ->
-                                player.@href.toString().trim()
-                            }
-
-                            playerLinks.unique(false).sort().each { playerLink ->
-                                String playerUrl = brUrl + playerLink.toString()
-
-                                httpClient.get(new URI(playerUrl)).then {
-                                    log.info(playerUrl)
-
-                                    def playerPage = slurper.parseText(it.body.text)
-
-                                    def playerInfo = playerPage.depthFirst().find {
-                                        it.name() == 'div' &&
-                                        it.@id == 'info_box'
-                                    }
-
-                                    assert playerInfo
-                                }
-
-
-                            }
-                        }
-
-                        render 'hello'
-                    }
-                }
-            }
-
-            path('aplayer') {
+            path('br/player') {
                 byMethod {
                     get {
                         def playerUrl = 'http://www.baseball-reference.com/players/m/martiru01.shtml'
@@ -200,13 +217,19 @@ ratpack {
                         httpClient.get(new URI(playerUrl)).then {
                             def playerPage = slurper.parseText(it.body.text)
 
-                            log.info(playerPage.table.text())
-
-                            /*
                             String name = playerPage.depthFirst().find {
                                 it.name() == 'span' &&
-                                it.@id == 'player_name'
+                                        it.@id == 'player_name'
                             }.toString()
+
+                            log.info(name)
+
+                            /*
+                            def playerInfo = playerPage.depthFirst().find {
+                                            it.name() == 'div' &&
+                                                    it.@id == 'info_box'
+                                        }
+
 
                             String headshotUrl  = playerPage.depthFirst().find {
                                 it.name().contains('img') &&

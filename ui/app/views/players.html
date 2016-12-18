@@ -1,1 +1,22 @@
-<p>This is the players view.</p>
+<table st-table="playerCollection" st-safe-src="playerList" class="table table-striped">
+  <tr>
+    <th colspan="10"><input st-search="" class="form-control" placeholder="Filter results..."
+                            type="text"/></th>
+  </tr>
+  <thead>
+  <tr>
+    <th></th>
+    <th st-sort="playerId" class="st-sort-ascent">Player Id</th>
+    <th st-sort="name" class="st-sort-ascent">Name</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="player in playerCollection">
+    <!-- TODO: load icon -->
+    <td>
+      <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+    </td>
+    <td>{{player.playerId}}</td>
+    <td><a ng-href="#/players/{{player.playerId}}">{{player.name}}</a></td>
+  </tbody>
+</table>

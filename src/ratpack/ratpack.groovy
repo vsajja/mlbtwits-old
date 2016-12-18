@@ -72,8 +72,15 @@ ratpack {
 
                         def players = context.selectCount().from(PLAYER).asField('players')
 
+                        def trending = context.selectFrom(PLAYER)
+                                .where(PLAYER.NAME.in('Jose Fernandez', 'Ricky Nolasco', 'Dee Gordon', 'David Ortiz', 'Yoan Moncada'))
+//                                .fetch()
+//                                .into(Player.class)
+//                                .execute()
+
                         def result = context.select(players).fetchOneMap()
                         result.put('users', 1)
+//                        result.put('trending', trending)
                         render json(result)
                     }
                 }

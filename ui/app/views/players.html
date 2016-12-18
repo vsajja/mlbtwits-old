@@ -7,7 +7,7 @@
   <tr>
     <th></th>
     <th st-sort="playerId" class="st-sort-ascent">Player Id</th>
-    <th st-sort="name" class="st-sort-ascent">Name</th>
+    <th st-sort="getters.name" class="st-sort-ascent">Name</th>
   </tr>
   </thead>
   <tbody>
@@ -19,4 +19,13 @@
     <td>{{player.playerId}}</td>
     <td><a ng-href="#/players/{{player.playerId}}">{{player.name}}</a></td>
   </tbody>
+
+  <tfoot>
+  <tr>
+    <td class="text-center" st-pagination="" st-items-by-page="30" colspan="10">
+    </td>
+  </tr>
+  </tfoot>
 </table>
+
+

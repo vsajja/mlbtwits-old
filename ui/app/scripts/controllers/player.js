@@ -22,5 +22,4 @@ angular.module('mlbTwitsApp')
     player.customGET().then(function (player) {
       $scope.player = player;
     });
-
   }]);

@@ -22,4 +22,3 @@ angular.module('mlbTwitsApp')
       $scope.mlbtwits = mlbtwits;
     });
   }]);
-

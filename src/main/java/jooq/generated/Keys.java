@@ -7,7 +7,9 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Player;
+import jooq.generated.tables.Tweet;
 import jooq.generated.tables.records.PlayerRecord;
+import jooq.generated.tables.records.TweetRecord;
 
 import org.jooq.Identity;
 import org.jooq.impl.AbstractKeys;
@@ -32,6 +34,7 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<PlayerRecord, Integer> IDENTITY_PLAYER = Identities0.IDENTITY_PLAYER;
+	public static final Identity<TweetRecord, Integer> IDENTITY_TWEET = Identities0.IDENTITY_TWEET;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
@@ -49,5 +52,6 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<PlayerRecord, Integer> IDENTITY_PLAYER = createIdentity(Player.PLAYER, Player.PLAYER.PLAYER_ID);
+		public static Identity<TweetRecord, Integer> IDENTITY_TWEET = createIdentity(Tweet.TWEET, Tweet.TWEET.TWEET_ID);
 	}
 }

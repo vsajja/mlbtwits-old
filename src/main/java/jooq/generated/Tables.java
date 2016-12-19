@@ -7,6 +7,7 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Player;
+import jooq.generated.tables.Tweet;
 
 
 /**
@@ -26,4 +27,9 @@ public class Tables {
 	 * The table public.player
 	 */
 	public static final Player PLAYER = jooq.generated.tables.Player.PLAYER;
+
+	/**
+	 * The table public.tweet
+	 */
+	public static final Tweet TWEET = jooq.generated.tables.Tweet.TWEET;
 }

@@ -2,6 +2,7 @@ import com.zaxxer.hikari.HikariConfig
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import jooq.generated.tables.pojos.Player
+import jooq.generated.tables.pojos.Tweet
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
@@ -111,6 +112,59 @@ ratpack {
                                 .into(Player.class)
 
                         render json(player)
+                    }
+                }
+            }
+
+            path('players/:playerId/tweets') {
+                def playerId = pathTokens['playerId']
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+                        List<Tweet> tweets = context.selectFrom(TWEET)
+//                                .where(TWEET.PLAYER_ID.equal(playerId))
+                                .fetch()
+                                .into(Tweet.class)
+                        render json(tweets)
+                    }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+                            log.info(params.toString())
+                            def tweet = params.get('tweet')?.textValue()
+                            def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+
+                            assert tweet
+                            assert createdTimestamp
+
+                            DataSource dataSource = registry.get(DataSource.class)
+                            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+                            record = context
+                                    .insertInto(TWEET)
+                                    .set(TWEET.TWEET_, tweet)
+                                    .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
+                                    .returning()
+                                    .fetchOne()
+                                    .into(Tweet.class)
+                        }.then { Tweet tweet ->
+                            println "created tweet with id: " + tweet.getTweetId()
+                            render json(tweet)
+                        }
+                    }
+                }
+            }
+
+            path('tweets') {
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+                        List<Tweet> tweets = context.selectFrom(TWEET)
+                                .fetch()
+                                .into(Tweet.class)
+                        render json(tweets)
                     }
                 }
             }

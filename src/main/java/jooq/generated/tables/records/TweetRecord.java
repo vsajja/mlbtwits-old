@@ -29,7 +29,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TweetRecord extends TableRecordImpl<TweetRecord> implements Record3<Integer, String, Timestamp> {
 
-	private static final long serialVersionUID = -160105538;
+	private static final long serialVersionUID = -1027836835;
 
 	/**
 	 * Setter for <code>public.tweet.tweet_id</code>.
@@ -47,17 +47,17 @@ public class TweetRecord extends TableRecordImpl<TweetRecord> implements Record3
 	}
 
 	/**
-	 * Setter for <code>public.tweet.tweet</code>.
+	 * Setter for <code>public.tweet.message</code>.
 	 */
-	public TweetRecord setTweet(String value) {
+	public TweetRecord setMessage(String value) {
 		setValue(1, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.tweet.tweet</code>.
+	 * Getter for <code>public.tweet.message</code>.
 	 */
-	public String getTweet() {
+	public String getMessage() {
 		return (String) getValue(1);
 	}
 
@@ -109,7 +109,7 @@ public class TweetRecord extends TableRecordImpl<TweetRecord> implements Record3
 	 */
 	@Override
 	public Field<String> field2() {
-		return Tweet.TWEET.TWEET_;
+		return Tweet.TWEET.MESSAGE;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class TweetRecord extends TableRecordImpl<TweetRecord> implements Record3
 	 */
 	@Override
 	public String value2() {
-		return getTweet();
+		return getMessage();
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class TweetRecord extends TableRecordImpl<TweetRecord> implements Record3
 	 */
 	@Override
 	public TweetRecord value2(String value) {
-		setTweet(value);
+		setMessage(value);
 		return this;
 	}
 
@@ -196,11 +196,11 @@ public class TweetRecord extends TableRecordImpl<TweetRecord> implements Record3
 	/**
 	 * Create a detached, initialised TweetRecord
 	 */
-	public TweetRecord(Integer tweetId, String tweet, Timestamp createdTimestamp) {
+	public TweetRecord(Integer tweetId, String message, Timestamp createdTimestamp) {
 		super(Tweet.TWEET);
 
 		setValue(0, tweetId);
-		setValue(1, tweet);
+		setValue(1, message);
 		setValue(2, createdTimestamp);
 	}
 }

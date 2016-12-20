@@ -5,24 +5,23 @@
   <div class="col-sm-8">
     <div align="center">
       <h1>
-        <p style="font-family: Calibri; color: blue; font-size: 200%"><b>mlbtwits</b></p>
+        <p style="font-family: Calibri; color: black; font-size: 200%"><b>mlbtwits</b></p>
       </h1>
     </div>
 
+    <br/>
 
     <div align="center">
-      <div class="panel panel-default" style="width: 200px;">
-        <div class="panel-heading"><img height="20%" width="20%" src="images/trending_up_black.png" /> TRENDING</div>
-        <div class="panel-body">
-          <div ng-repeat="player in mlbtwits.trending">
-            <a ng-href="#/players/{{player.playerId}}">
-              {{ player.name }}
-              <!--{{$last ? '' : ', '}}-->
-            </a>
-          </div>
-        </div>
+      <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>
+
+      <div ng-repeat="player in mlbtwits.trending">
+        <a ng-href="#/players/{{player.playerId}}">
+          {{ player.name }}{{$last ? '' : ', '}}
+        </a>
       </div>
     </div>
+
+    <br/>
 
     <div align="center">
       <h4>tweet @
@@ -33,27 +32,19 @@
       </h4>
     </div>
 
-    <br/>
-
     <div align="center">
       <form class="form-inline ng-pristine ng-valid"><input disabled="" size="20"
                                                             style="height: 30px; font-family: Calibri; color: blue; font-size: 150%"
                                                             type="text" class="form-control"
                                                             placeholder="Players, Tweets...">
         <a href="#/results">
-          <button style="border: none; background: none; color: blue"><p><i class="fa fa-search fa-2x"
+          <button style="border: none; background: none; color: black"><p><i class="fa fa-search fa-2x"
                                                                             aria-hidden="true"></i></p>
           </button>
         </a></form>
     </div>
-
-    <br/>
-    <br/>
-
   </div>
 
   <div class="col-sm-2">
   </div>
 </div>
-
-

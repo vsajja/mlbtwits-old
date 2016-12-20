@@ -23,25 +23,25 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tweet implements Serializable {
 
-	private static final long serialVersionUID = 393420514;
+	private static final long serialVersionUID = 551416204;
 
 	private final Integer   tweetId;
-	private final String    tweet;
+	private final String    message;
 	private final Timestamp createdTimestamp;
 
 	public Tweet(Tweet value) {
 		this.tweetId = value.tweetId;
-		this.tweet = value.tweet;
+		this.message = value.message;
 		this.createdTimestamp = value.createdTimestamp;
 	}
 
 	public Tweet(
 		Integer   tweetId,
-		String    tweet,
+		String    message,
 		Timestamp createdTimestamp
 	) {
 		this.tweetId = tweetId;
-		this.tweet = tweet;
+		this.message = message;
 		this.createdTimestamp = createdTimestamp;
 	}
 
@@ -49,8 +49,8 @@ public class Tweet implements Serializable {
 		return this.tweetId;
 	}
 
-	public String getTweet() {
-		return this.tweet;
+	public String getMessage() {
+		return this.message;
 	}
 
 	public Timestamp getCreatedTimestamp() {
@@ -62,7 +62,7 @@ public class Tweet implements Serializable {
 		StringBuilder sb = new StringBuilder("Tweet (");
 
 		sb.append(tweetId);
-		sb.append(", ").append(tweet);
+		sb.append(", ").append(message);
 		sb.append(", ").append(createdTimestamp);
 
 		sb.append(")");

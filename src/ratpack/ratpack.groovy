@@ -124,6 +124,7 @@ ratpack {
                         DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
                         List<Tweet> tweets = context.selectFrom(TWEET)
 //                                .where(TWEET.PLAYER_ID.equal(playerId))
+                                .orderBy(TWEET.CREATED_TIMESTAMP.desc())
                                 .fetch()
                                 .into(Tweet.class)
                         render json(tweets)
@@ -132,10 +133,10 @@ ratpack {
                     post {
                         parse(jsonNode()).map { params ->
                             log.info(params.toString())
-                            def tweet = params.get('tweet')?.textValue()
+                            def message = params.get('message')?.textValue()
                             def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
 
-                            assert tweet
+                            assert message
                             assert createdTimestamp
 
                             DataSource dataSource = registry.get(DataSource.class)
@@ -143,7 +144,7 @@ ratpack {
 
                             record = context
                                     .insertInto(TWEET)
-                                    .set(TWEET.TWEET_, tweet)
+                                    .set(TWEET.MESSAGE, message)
                                     .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
                                     .returning()
                                     .fetchOne()
@@ -162,6 +163,7 @@ ratpack {
                         DataSource dataSource = registry.get(DataSource.class)
                         DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
                         List<Tweet> tweets = context.selectFrom(TWEET)
+                                .orderBy(TWEET.CREATED_TIMESTAMP.desc())
                                 .fetch()
                                 .into(Tweet.class)
                         render json(tweets)

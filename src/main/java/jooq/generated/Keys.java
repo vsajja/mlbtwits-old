@@ -11,7 +11,9 @@ import jooq.generated.tables.Tweet;
 import jooq.generated.tables.records.PlayerRecord;
 import jooq.generated.tables.records.TweetRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
+import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
 
@@ -40,11 +42,13 @@ public class Keys {
 	// UNIQUE and PRIMARY KEY definitions
 	// -------------------------------------------------------------------------
 
+	public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = UniqueKeys0.PLAYER_PLAYER_ID_PK;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
+	public static final ForeignKey<TweetRecord, PlayerRecord> TWEET__TWEET_PLAYER_PLAYER_ID_FK = ForeignKeys0.TWEET__TWEET_PLAYER_PLAYER_ID_FK;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -53,5 +57,13 @@ public class Keys {
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<PlayerRecord, Integer> IDENTITY_PLAYER = createIdentity(Player.PLAYER, Player.PLAYER.PLAYER_ID);
 		public static Identity<TweetRecord, Integer> IDENTITY_TWEET = createIdentity(Tweet.TWEET, Tweet.TWEET.TWEET_ID);
+	}
+
+	private static class UniqueKeys0 extends AbstractKeys {
+		public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = createUniqueKey(Player.PLAYER, Player.PLAYER.PLAYER_ID);
+	}
+
+	private static class ForeignKeys0 extends AbstractKeys {
+		public static final ForeignKey<TweetRecord, PlayerRecord> TWEET__TWEET_PLAYER_PLAYER_ID_FK = createForeignKey(jooq.generated.Keys.PLAYER_PLAYER_ID_PK, Tweet.TWEET, Tweet.TWEET.PLAYER_ID);
 	}
 }

@@ -4,6 +4,9 @@
 package jooq.generated.tables;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Generated;
 
 import jooq.generated.Keys;
@@ -14,6 +17,7 @@ import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
+import org.jooq.UniqueKey;
 import org.jooq.impl.TableImpl;
 
 
@@ -30,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player extends TableImpl<PlayerRecord> {
 
-	private static final long serialVersionUID = 1811352430;
+	private static final long serialVersionUID = -939956453;
 
 	/**
 	 * The reference instance of <code>public.player</code>
@@ -83,6 +87,22 @@ public class Player extends TableImpl<PlayerRecord> {
 	@Override
 	public Identity<PlayerRecord, Integer> getIdentity() {
 		return Keys.IDENTITY_PLAYER;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public UniqueKey<PlayerRecord> getPrimaryKey() {
+		return Keys.PLAYER_PLAYER_ID_PK;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<UniqueKey<PlayerRecord>> getKeys() {
+		return Arrays.<UniqueKey<PlayerRecord>>asList(Keys.PLAYER_PLAYER_ID_PK);
 	}
 
 	/**

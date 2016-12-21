@@ -5,6 +5,8 @@ package jooq.generated.tables;
 
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Generated;
 
@@ -13,6 +15,7 @@ import jooq.generated.Public;
 import jooq.generated.tables.records.TweetRecord;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -32,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tweet extends TableImpl<TweetRecord> {
 
-	private static final long serialVersionUID = -349069305;
+	private static final long serialVersionUID = 1842140610;
 
 	/**
 	 * The reference instance of <code>public.tweet</code>
@@ -63,6 +66,11 @@ public class Tweet extends TableImpl<TweetRecord> {
 	public final TableField<TweetRecord, Timestamp> CREATED_TIMESTAMP = createField("created_timestamp", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
 	/**
+	 * The column <code>public.tweet.player_id</code>.
+	 */
+	public final TableField<TweetRecord, Integer> PLAYER_ID = createField("player_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
 	 * Create a <code>public.tweet</code> table reference
 	 */
 	public Tweet() {
@@ -90,6 +98,14 @@ public class Tweet extends TableImpl<TweetRecord> {
 	@Override
 	public Identity<TweetRecord, Integer> getIdentity() {
 		return Keys.IDENTITY_TWEET;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ForeignKey<TweetRecord, ?>> getReferences() {
+		return Arrays.<ForeignKey<TweetRecord, ?>>asList(Keys.TWEET__TWEET_PLAYER_PLAYER_ID_FK);
 	}
 
 	/**

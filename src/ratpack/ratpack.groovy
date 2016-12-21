@@ -169,6 +169,31 @@ ratpack {
                                 .into(Tweet.class)
                         render json(tweets)
                     }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+                            log.info(params.toString())
+                            def message = params.get('message')?.textValue()
+                            def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+
+                            assert message
+                            assert createdTimestamp
+
+                            DataSource dataSource = registry.get(DataSource.class)
+                            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+                            record = context
+                                    .insertInto(TWEET)
+                                    .set(TWEET.MESSAGE, message)
+                                    .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
+                                    .returning()
+                                    .fetchOne()
+                                    .into(Tweet.class)
+                        }.then { Tweet tweet ->
+                            println "created tweet with id: " + tweet.getTweetId()
+                            render json(tweet)
+                        }
+                    }
                 }
             }
         }

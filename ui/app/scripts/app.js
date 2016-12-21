@@ -52,7 +52,7 @@ var mlbTwitsApp = angular
     // RestangularProvider.setBaseUrl('/api/v1');
 
     // dev
-    RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
+    // RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
   });
 //
 mlbTwitsApp.run(function (editableOptions) {

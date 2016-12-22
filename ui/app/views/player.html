@@ -1,7 +1,6 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
 
   <div class="col-sm-2">
-
   </div>
 
   <div class="col-sm-3">
@@ -55,7 +54,7 @@
   <div class="col-sm-5">
     <div class="panel panel-default">
       <div class="panel-heading">Share</div>
-      <div class="panel-body">
+      <div class="panel-body" style="height: 200px">
 
         <!-- FORM -->
         <form ng-submit="tweetPlayer()">
@@ -63,7 +62,7 @@
           <div id="tweet" class="form-group">
             <!--<label>Description</label>-->
 
-            <textarea style="height:80px; resize: none;" cols="30" rows="10" name="tweet"
+            <textarea style="height:100px; resize: none;" cols="30" rows="10" name="tweet"
                       class="form-control" placeholder="Tweet @{{player.name}}..." ng-model="tweet.message"
                       required></textarea>
             <span class="help-block"></span>
@@ -75,7 +74,7 @@
           </button>
         </form>
 
-        <br/>
+        <!--<br/>-->
 
         <!--&lt;!&ndash; SHOW ERROR/SUCCESS MESSAGES &ndash;&gt;-->
         <!--<div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"-->
@@ -84,14 +83,20 @@
 
         <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
         <!--class="form-control">{{ tweet }}</textarea>-->
-
       </div>
     </div>
 
-    <ul class="list-group">
+    <ul class="list-group" style="max-height: 650px; overflow-y: auto">
       <li class="list-group-item" ng-repeat="tweet in tweets">
         {{tweet.message}}
-        <span style="float:right;font-size:1em;font-weight:400;color:#999999">{{tweet.createdTimestamp | date }}</span>
+        <div>
+          <i class="fa fa-reply" style="color: lightgray" aria-hidden="true"></i>
+          <i class="fa fa-retweet" style="color: lightgray" aria-hidden="true"></i>
+          <i class="fa fa-share-alt" style="color: lightgray" aria-hidden="true"></i>
+          <i class="fa fa-heart" style="color: lightgray" aria-hidden="true"></i>
+
+          <span am-time-ago="tweet.createdTimestamp" style="float:right;font-size:1em;font-weight:400;color: lightgray"></span>
+        </div>
       </li>
     </ul>
   </div>

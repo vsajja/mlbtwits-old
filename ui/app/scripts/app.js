@@ -19,7 +19,8 @@ var mlbTwitsApp = angular
     'ui.bootstrap',
     'smart-table',
     'restangular',
-    'xeditable'
+    'xeditable',
+    'angularMoment'
   ])
   .config(function ($routeProvider, $compileProvider, RestangularProvider) {
     $routeProvider
@@ -52,7 +53,7 @@ var mlbTwitsApp = angular
     // RestangularProvider.setBaseUrl('/api/v1');
 
     // dev
-    // RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
+    RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
   });
 //
 mlbTwitsApp.run(function (editableOptions) {

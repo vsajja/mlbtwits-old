@@ -5,6 +5,8 @@ import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Tweet
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
+import org.jooq.Field
+import org.jooq.Result
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.slf4j.Logger
@@ -20,6 +22,7 @@ import org.mlbtwits.postgres.PostgresModule
 import ratpack.http.client.RequestSpec
 
 import javax.sql.DataSource
+import java.sql.Timestamp
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
@@ -73,10 +76,7 @@ ratpack {
 
                         def players = context.selectCount().from(PLAYER).asField('players')
 
-                        def trending = context.selectFrom(PLAYER)
-                                .where(PLAYER.NAME.in('José Fernandez', 'Ricky Nolasco', 'Dee Gordon', 'David Ortiz', 'Yoan Moncada'))
-                                .fetch()
-                                .into(Player.class)
+                        def trending = getTrending(context)
 
                         def result = context.select(players).fetchOneMap()
                         result.put('users', 1)
@@ -365,4 +365,39 @@ ratpack {
             dir 'dist'
         }
     }
+}
+
+/**
+ *  Currently getTrending just returns the 5 players with the most tweets.
+ *  See: http://stackoverflow.com/questions/787496/what-is-the-best-way-to-compute-trending-topics-or-tags
+ * @param context
+ * @return
+ */
+def getTrending(context) {
+    // get the tweets in last 7 days
+    List<Tweet> tweets = context.selectFrom(TWEET)
+            .where(TWEET.CREATED_TIMESTAMP.greaterThan(DSL.currentTimestamp().minus(7)))
+//            .join(PLAYER)
+//            .on(PLAYER.PLAYER_ID.equal(TWEET.PLAYER_ID))
+            .fetch()
+            .into(Tweet.class)
+
+    // TODO: fix bad code
+    // TODO: z-score = ([current trend] - [average historic trends]) / [standard deviation of historic trends]
+    def playerIds = tweets.countBy {
+        it.playerId
+    }.sort {
+        a, b -> b.value <=> a.value
+    }.findAll {
+        it.key != null
+    }.keySet().toList()[0..4]
+
+    println playerIds.toString()
+
+    def trending = context.selectFrom(PLAYER)
+            .where(PLAYER.PLAYER_ID.in(playerIds))
+            .fetch()
+            .into(Player.class)
+
+    return trending
 }

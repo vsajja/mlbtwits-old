@@ -22,7 +22,7 @@ var mlbTwitsApp = angular
     'xeditable',
     'angularMoment'
   ])
-  .config(function ($routeProvider, $compileProvider, RestangularProvider) {
+  .config(function ($routeProvider, $compileProvider, $locationProvider, RestangularProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -48,6 +48,8 @@ var mlbTwitsApp = angular
         redirectTo: '/'
       });
 
+    $locationProvider.html5Mode(true);
+
     // release
     // $compileProvider.debugInfoEnabled(false);
     // RestangularProvider.setBaseUrl('/api/v1');
@@ -55,7 +57,7 @@ var mlbTwitsApp = angular
     // dev
     RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
   });
-//
+
 mlbTwitsApp.run(function (editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 });

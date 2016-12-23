@@ -48,8 +48,6 @@ var mlbTwitsApp = angular
         redirectTo: '/'
       });
 
-    $locationProvider.html5Mode(true);
-
     // release
     // $compileProvider.debugInfoEnabled(false);
     // RestangularProvider.setBaseUrl('/api/v1');

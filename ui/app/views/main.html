@@ -11,7 +11,7 @@
                  style="height: 40px; font-family: Calibri; color: black; font-size: 150%; width: 100%"
                  type="text" class="form-control"
                  placeholder="{{mlbtwits.players}} Players...">
-          <a ng-href="players">
+          <a ng-href="#!/players">
             <button style="border: none; background: none; color: black"><p><i class="fa fa-search fa-2x"
                                                                                aria-hidden="true"></i></p>
             </button>
@@ -91,7 +91,7 @@
       <div class="panel-heading"><strong>TRENDING</strong></div>
       <div class="panel-body">
         <div ng-repeat="player in mlbtwits.trending">
-          <a ng-href="/players/{{player.playerId}}">
+          <a ng-href="#!/players/{{player.playerId}}">
             <i class="fa fa-line-chart" aria-hidden="true"></i> {{ player.name }}
             <!--{{$last ? '' : ','}}-->
           </a>

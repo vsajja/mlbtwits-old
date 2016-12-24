@@ -20,7 +20,8 @@ var mlbTwitsApp = angular
     'smart-table',
     'restangular',
     'xeditable',
-    'angularMoment'
+    'angularMoment',
+    'mentio'
   ])
   .config(function ($routeProvider, $compileProvider, $locationProvider, RestangularProvider) {
     $routeProvider

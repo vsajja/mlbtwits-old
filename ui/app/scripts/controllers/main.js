@@ -8,7 +8,7 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('MainCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  .controller('MainCtrl', ['$scope', '$http', '$q', '$timeout', 'Restangular', function ($scope, $http, $q, $timeout, Restangular) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -23,7 +23,6 @@ angular.module('mlbTwitsApp')
     mlbtwits.customGET().then(function (mlbtwits) {
       $scope.mlbtwits = mlbtwits;
     });
-
 
     var tweets = Restangular.all('tweets');
 
@@ -46,4 +45,31 @@ angular.module('mlbTwitsApp')
         $scope.alerts.push({type: 'danger', msg: 'Error! Unable tweet at baseball player.'});
       });
     };
+
+    $scope.topics = [];
+
+    $scope.searchTopic = function(topicTerm) {
+      console.log(topicTerm);
+      console.log(topicTerm.length);
+
+      // This will query /labels/:term and return a promise.
+      Restangular.one('labels', topicTerm).customGET().then(function (labels) {
+        console.log(labels);
+        $scope.foundTopics = labels;
+      });
+      // var topicList = [];
+      // angular.forEach($scope.topics, function(item) {
+      //   if (item.label.toUpperCase().indexOf(topicTerm.toUpperCase()) >= 0) {
+      //     topicList.push(item);
+      //   }
+      // });
+      //
+      // $scope.foundTopics = topicList;
+    };
+
+    $scope.getTopicTextRaw = function(topic) {
+      return '@' + topic.label;
+    };
   }]);
+
+

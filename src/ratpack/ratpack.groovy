@@ -99,35 +99,6 @@ ratpack {
                 }
             }
 
-            path('labels') {
-                byMethod {
-                    get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-                        List<Player> players = []
-                        render json(players.collect { ['label' : it.name]})
-                    }
-                }
-            }
-
-            path('labels/:term') {
-                def term = pathTokens['term']
-                byMethod {
-                    get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-                        term = term.toLowerCase().trim()
-
-                        List<Player> players = context.selectFrom(PLAYER)
-                                .where(DSL.lower(PLAYER.NAME).like("%$term%"))
-                                .fetch()
-                                .into(Player.class)
-                        render json(players.collect { ['label' : it.name]})
-                    }
-                }
-            }
-
             path('players/:playerId') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -183,6 +154,33 @@ ratpack {
                             println "created tweet with id: " + tweet.getTweetId()
                             render json(tweet)
                         }
+                    }
+                }
+            }
+
+            path('labels') {
+                byMethod {
+                    get {
+                        List<Player> players = []
+                        render json(players)
+                    }
+                }
+            }
+
+            path('labels/:term') {
+                def term = pathTokens['term']
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+                        term = term.toLowerCase().trim()
+
+                        List<Player> players = context.selectFrom(PLAYER)
+                                .where(DSL.lower(PLAYER.NAME).like("%$term%"))
+                                .fetch()
+                                .into(Player.class)
+                        render json(players.collect { ['label' : it.name]})
                     }
                 }
             }

@@ -63,9 +63,25 @@
           <div id="tweet" class="form-group">
             <!--<label>Description</label>-->
 
-            <textarea style="height:100px; resize: none;" cols="30" rows="10" name="tweet"
-                      class="form-control" placeholder="Tweet @{{player.name}}..." ng-model="tweet.message"
-                      required></textarea>
+            <textarea style="height:100px; resize: none;" cols="30" rows="10"
+                      name="tweet"
+                      class="form-control"
+                      placeholder="Tweet @{{player.name}}..."
+                      required
+                      type="text"
+                      mentio
+                      mentio-id="'test'"
+                      mentio-typed-text="typedTerm"
+                      ng-model="tweet.message">
+            </textarea>
+
+            <mentio-menu mentio-for="'test'"
+                         mentio-trigger-char="'@'"
+                         mentio-items="players"
+                         mentio-search="searchPlayers(term)"
+                         mentio-select="getPlayerTextRaw(item)">
+            </mentio-menu>
+
             <span class="help-block"></span>
           </div>
 

@@ -8,12 +8,14 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('MainCtrl', ['$scope', '$http', '$q', '$timeout', 'Restangular', function ($scope, $http, $q, $timeout, Restangular) {
+  .controller('MainCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
+
+    $scope.alerts = [];
 
     var mlbtwits = Restangular.all('mlbtwits');
     var tweets = Restangular.all('tweets');
@@ -29,11 +31,6 @@ angular.module('mlbTwitsApp')
         $scope.tweets = tweets;
       });
     };
-
-    $scope.getMLBTwits();
-    $scope.getTweets();
-
-    $scope.alerts = [];
 
     $scope.tweetPlayer = function () {
       tweets.post($scope.tweet).then(function (newTweet) {
@@ -54,4 +51,11 @@ angular.module('mlbTwitsApp')
     $scope.getPlayerTextRaw = function (player) {
       return '@' + player.label;
     };
+
+    $scope.closeAlert = function (index) {
+      $scope.alerts.splice(index, 1);
+    };
+
+    $scope.getMLBTwits();
+    $scope.getTweets();
   }]);

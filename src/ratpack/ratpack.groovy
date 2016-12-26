@@ -6,6 +6,7 @@ import jooq.generated.tables.pojos.Tweet
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.Field
+import org.jooq.Record
 import org.jooq.Result
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
@@ -197,9 +198,33 @@ ratpack {
                         render json(tweets)
                     }
 
+//                    post {
+//                        parse(jsonNode()).map { params ->
+//                            def message = params.get('message')?.textValue()
+//                            def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+//
+//                            assert message
+//                            assert createdTimestamp
+//
+//                            DataSource dataSource = registry.get(DataSource.class)
+//                            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+//
+//                            record = context
+//                                    .insertInto(TWEET)
+//                                    .set(TWEET.MESSAGE, message)
+//                                    .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
+//                                    .returning()
+//                                    .fetchOne()
+//                                    .into(Tweet.class)
+//
+//                        }.then { Tweet tweet ->
+//                            println "created tweet with id: " + tweet.getTweetId()
+//                            render json(tweet)
+//                        }
+//                    }
+
                     post {
                         parse(jsonNode()).map { params ->
-                            log.info(params.toString())
                             def message = params.get('message')?.textValue()
                             def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
 
@@ -209,17 +234,75 @@ ratpack {
                             DataSource dataSource = registry.get(DataSource.class)
                             DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
-                            record = context
-                                    .insertInto(TWEET)
-                                    .set(TWEET.MESSAGE, message)
-                                    .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
-                                    .returning()
-                                    .fetchOne()
-                                    .into(Tweet.class)
-                        }.then { Tweet tweet ->
-                            println "created tweet with id: " + tweet.getTweetId()
-                            render json(tweet)
+
+                            List<Tweet> insertedRecords = []
+
+                            def result = (message =~ /\[~(.*?)\]/)
+
+                            def playerNames = result.collect { it.getAt(1) }
+                            playerNames.unique().each { String playerName ->
+                                Record playerRecord = context.selectFrom(PLAYER)
+                                        .where(PLAYER.NAME.eq(playerName))
+                                        .fetchOne()
+
+                                if(playerRecord) {
+                                    Player player = playerRecord.into(Player.class)
+
+                                    def record = context
+                                            .insertInto(TWEET)
+                                            .set(TWEET.MESSAGE, message)
+                                            .set(TWEET.PLAYER_ID, player.playerId)
+                                            .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
+                                            .returning()
+                                            .fetchOne()
+                                            .into(Tweet.class)
+
+                                    insertedRecords.add(record)
+                                }
+                            }
+                        }.then { List<Tweet> insertedRecords ->
+                            render json(insertedRecords)
                         }
+                    }
+                }
+            }
+
+            path('test') {
+                byMethod {
+                    get {
+                        DataSource dataSource = registry.get(DataSource.class)
+                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+                        def insertedRecords = []
+
+                        def message = 'there are [~David Peralta] [~David Ortiz] [~Alex Rod] [~a'
+                        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+
+                        def result = (message =~ /\[~(.*?)\]/)
+
+                        def playerNames = result.collect { it.getAt(1) }
+                        playerNames.unique().each { String playerName ->
+                            Record playerRecord = context.selectFrom(PLAYER)
+                                    .where(PLAYER.NAME.eq(playerName))
+                                    .fetchOne()
+
+                            if(playerRecord) {
+                                Player player = playerRecord.into(Player.class)
+
+                                def record = context
+                                        .insertInto(TWEET)
+                                        .set(TWEET.MESSAGE, message)
+                                        .set(TWEET.PLAYER_ID, player.playerId)
+                                        .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
+                                        .returning()
+                                        .fetchOne()
+                                        .into(Tweet.class)
+
+                                insertedRecords.add(record)
+                            }
+                        }
+
+                        render json(insertedRecords)
                     }
                 }
             }

@@ -35,10 +35,24 @@ angular.module('mlbTwitsApp')
     $scope.tweetPlayer = function () {
       tweets.post($scope.tweet).then(function (newTweet) {
         $scope.getTweets();
+        $scope.getMLBTwits();
         $scope.alerts.push({type: 'success', msg: 'Success! Tweet Id: ' + newTweet.tweetId});
       }, function () {
         $scope.alerts.push({type: 'danger', msg: 'Error! Unable tweet at baseball player.'});
       });
+    };
+
+    $scope.searchPeople = function (term) {
+      var lables = Restangular.one('labels', term);
+      lables.customGET().then(function (labels) {
+        $scope.people = labels;
+      });
+    };
+
+    $scope.getPeopleText = function (player) {
+      // return '@' + player.label;
+      // return '<player playerId="' + player.label + '"' + '>' + player.label + '</player>'
+      return '[~' + player.label + ']';
     };
 
     $scope.searchPlayers = function (term) {
@@ -51,7 +65,7 @@ angular.module('mlbTwitsApp')
     $scope.getPlayerTextRaw = function (player) {
       // return '@' + player.label;
       // return '<player playerId="' + player.label + '"' + '>' + player.label + '</player>'
-      return '[~<i>' + (player.name || player.label) + '</i>]';
+      return '[~' + player.label + ']';
     };
 
     $scope.closeAlert = function (index) {

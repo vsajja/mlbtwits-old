@@ -80,7 +80,6 @@ ratpack {
                         def trending = getTrending(context)
 
                         def result = context.select(players).fetchOneMap()
-                        result.put('users', 1)
                         result.put('trending', trending)
                         render json(result)
                     }
@@ -500,7 +499,7 @@ def getTrending(context) {
         a, b -> b.value <=> a.value
     }.findAll {
         it.key != null
-    }.keySet().toList()[0..4]
+    }.keySet().toList()
 
     println playerIds.toString()
 

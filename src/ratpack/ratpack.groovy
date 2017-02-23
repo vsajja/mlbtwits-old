@@ -1,15 +1,13 @@
 import com.zaxxer.hikari.HikariConfig
-import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Tweet
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
-import org.jooq.Field
-import org.jooq.Record
-import org.jooq.Result
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.mlbtwits.jobs.RotoworldFeed
+import org.mlbtwits.services.MLBTwitsService
+import org.mlbtwits.services.RotoworldFeedService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
@@ -20,15 +18,12 @@ import ratpack.hikari.HikariModule
 import ratpack.http.client.HttpClient
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
-import ratpack.http.client.RequestSpec
 
 import javax.sql.DataSource
-import java.sql.Timestamp
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
-import static jooq.generated.Tables.*;
 
 final Logger log = LoggerFactory.getLogger(this.class)
 
@@ -52,13 +47,22 @@ ratpack {
                             configData.get('/postgres', PostgresConfig))
         }
         module SqlModule
+
+        bind RotoworldFeedService
+        bind MLBTwitsService
+        bind RotoworldFeed
     }
 
-    handlers {
+    handlers { MLBTwitsService mlbTwitsService ->
         all RequestLogger.ncsa(log)
 
         get {
             redirect('index.html')
+        }
+
+        get('rotoworld') {
+            new RotoworldFeed().execute(null)
+            render 'hello world'
         }
 
         prefix('api/v1') {
@@ -72,84 +76,44 @@ ratpack {
             path('mlbtwits') {
                 byMethod {
                     get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-                        def players = context.selectCount().from(PLAYER).asField('players')
-
-                        def trending = getTrending(context)
-
-                        def result = context.select(players).fetchOneMap()
-                        result.put('trending', trending)
+                        def result = mlbTwitsService.getMLBTwits()
                         render json(result)
                     }
                 }
             }
-
             path('players') {
                 byMethod {
                     get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-                        List<Player> players = context.selectFrom(PLAYER)
-                                .fetch()
-                                .into(Player.class)
+                        def players = mlbTwitsService.getPlayers()
                         render json(players)
                     }
                 }
             }
-
             path('players/:playerId') {
                 def playerId = pathTokens['playerId']
                 byMethod {
                     get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-                        Player player = context.selectFrom(PLAYER)
-                                .where(PLAYER.PLAYER_ID.equal(playerId))
-                                .fetchOne()
-                                .into(Player.class)
-
+                        def player = mlbTwitsService.getPlayer(playerId)
                         render json(player)
                     }
                 }
             }
-
             path('players/:playerId/tweets') {
                 def playerId = pathTokens['playerId']
                 byMethod {
                     get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-                        List<Tweet> tweets = context.selectFrom(TWEET)
-                                .where(TWEET.PLAYER_ID.equal(playerId))
-                                .orderBy(TWEET.CREATED_TIMESTAMP.desc())
-                                .fetch()
-                                .into(Tweet.class)
+                        def tweets = mlbTwitsService.getTweets(playerId)
                         render json(tweets)
                     }
-
                     post {
                         parse(jsonNode()).map { params ->
                             log.info(params.toString())
                             def message = params.get('message')?.textValue()
-                            def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
 
                             assert message
-                            assert createdTimestamp
 
-                            DataSource dataSource = registry.get(DataSource.class)
-                            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+                            mlbTwitsService.tweet(playerId, message)
 
-                            record = context
-                                    .insertInto(TWEET)
-                                    .set(TWEET.MESSAGE, message)
-                                    .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
-                                    .set(TWEET.PLAYER_ID, playerId)
-                                    .returning()
-                                    .fetchOne()
-                                    .into(Tweet.class)
                         }.then { Tweet tweet ->
                             println "created tweet with id: " + tweet.getTweetId()
                             render json(tweet)
@@ -166,167 +130,37 @@ ratpack {
                     }
                 }
             }
-
             path('labels/:term') {
                 def term = pathTokens['term']
                 byMethod {
                     get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-                        term = term.toLowerCase().trim()
-
-                        List<Player> players = context.selectFrom(PLAYER)
-                                .where(DSL.lower(PLAYER.NAME).like("%$term%"))
-                                .fetch()
-                                .into(Player.class)
+                        List<Player> players = mlbTwitsService.getPlayersByTerm(term)
                         render json(players.collect { ['label' : it.name]})
                     }
                 }
             }
-
             path('tweets') {
                 byMethod {
                     get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-                        List<Tweet> tweets = context.selectFrom(TWEET)
-                                .orderBy(TWEET.CREATED_TIMESTAMP.desc())
-                                .fetch()
-                                .into(Tweet.class)
+                        def tweets = mlbTwitsService.getTweets()
                         render json(tweets)
                     }
-
-//                    post {
-//                        parse(jsonNode()).map { params ->
-//                            def message = params.get('message')?.textValue()
-//                            def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
-//
-//                            assert message
-//                            assert createdTimestamp
-//
-//                            DataSource dataSource = registry.get(DataSource.class)
-//                            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-//
-//                            record = context
-//                                    .insertInto(TWEET)
-//                                    .set(TWEET.MESSAGE, message)
-//                                    .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
-//                                    .returning()
-//                                    .fetchOne()
-//                                    .into(Tweet.class)
-//
-//                        }.then { Tweet tweet ->
-//                            println "created tweet with id: " + tweet.getTweetId()
-//                            render json(tweet)
-//                        }
-//                    }
 
                     post {
                         parse(jsonNode()).map { params ->
                             def message = params.get('message')?.textValue()
-                            def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
-
                             assert message
-                            assert createdTimestamp
 
-                            DataSource dataSource = registry.get(DataSource.class)
-                            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-
-                            List<Tweet> insertedRecords = []
-
-                            def result = (message =~ /\[~(.*?)\]/)
-
-                            def playerNames = result.collect { it.getAt(1) }
-                            playerNames.unique().each { String playerName ->
-                                Record playerRecord = context.selectFrom(PLAYER)
-                                        .where(PLAYER.NAME.eq(playerName))
-                                        .fetchOne()
-
-                                if(playerRecord) {
-                                    Player player = playerRecord.into(Player.class)
-
-                                    def record = context
-                                            .insertInto(TWEET)
-                                            .set(TWEET.MESSAGE, message)
-                                            .set(TWEET.PLAYER_ID, player.playerId)
-                                            .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
-                                            .returning()
-                                            .fetchOne()
-                                            .into(Tweet.class)
-
-                                    insertedRecords.add(record)
-                                }
-                            }
+                            List<Tweet> insertedRecords = mlbTwitsService.tweet(message)
                         }.then { List<Tweet> insertedRecords ->
                             render json(insertedRecords)
                         }
                     }
                 }
             }
-
-            path('test') {
-                byMethod {
-                    get {
-                        DataSource dataSource = registry.get(DataSource.class)
-                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-                        def insertedRecords = []
-
-                        def message = 'there are [~David Peralta] [~David Ortiz] [~Alex Rod] [~a'
-                        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
-
-                        def result = (message =~ /\[~(.*?)\]/)
-
-                        def playerNames = result.collect { it.getAt(1) }
-                        playerNames.unique().each { String playerName ->
-                            Record playerRecord = context.selectFrom(PLAYER)
-                                    .where(PLAYER.NAME.eq(playerName))
-                                    .fetchOne()
-
-                            if(playerRecord) {
-                                Player player = playerRecord.into(Player.class)
-
-                                def record = context
-                                        .insertInto(TWEET)
-                                        .set(TWEET.MESSAGE, message)
-                                        .set(TWEET.PLAYER_ID, player.playerId)
-                                        .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
-                                        .returning()
-                                        .fetchOne()
-                                        .into(Tweet.class)
-
-                                insertedRecords.add(record)
-                            }
-                        }
-
-                        render json(insertedRecords)
-                    }
-                }
-            }
         }
 
         prefix('test/data') {
-            path('stattleship') {
-                byMethod {
-                    get {
-                        URI uri = new URI('https://api.stattleship.com/baseball/mlb/players' +
-//                        '?team_id=mlb-bos' +
-                                '?per_page=40' +
-                                '&player_id=mlb-francisley-bueno')
-                        HttpClient httpClient = registry.get(HttpClient.class)
-                        httpClient.get(uri) { RequestSpec spec ->
-                            spec.headers.set 'Authorization', 'Token token=7181e74000a30ca2a3b10c9bb14f1a09'
-                            spec.headers.set 'Content-Type', 'application/json'
-                            spec.headers.set 'Accept', 'application/vnd.stattleship.com; version=1'
-                        }.then {
-                            render JsonOutput.prettyPrint(it.body.text)
-                        }
-                    }
-                }
-            }
-
             path('br/teams/2016') {
                 byMethod {
                     get {
@@ -474,39 +308,4 @@ ratpack {
             dir 'dist'
         }
     }
-}
-
-/**
- *  Currently getTrending just returns the 5 players with the most tweets.
- *  See: http://stackoverflow.com/questions/787496/what-is-the-best-way-to-compute-trending-topics-or-tags
- * @param context
- * @return
- */
-def getTrending(context) {
-    // get the tweets in last 7 days
-    List<Tweet> tweets = context.selectFrom(TWEET)
-            .where(TWEET.CREATED_TIMESTAMP.greaterThan(DSL.currentTimestamp().minus(7)))
-//            .join(PLAYER)
-//            .on(PLAYER.PLAYER_ID.equal(TWEET.PLAYER_ID))
-            .fetch()
-            .into(Tweet.class)
-
-    // TODO: fix bad code
-    // TODO: z-score = ([current trend] - [average historic trends]) / [standard deviation of historic trends]
-    def playerIds = tweets.countBy {
-        it.playerId
-    }.sort {
-        a, b -> b.value <=> a.value
-    }.findAll {
-        it.key != null
-    }.keySet().toList()
-
-    println playerIds.toString()
-
-    def trending = context.selectFrom(PLAYER)
-            .where(PLAYER.PLAYER_ID.in(playerIds))
-            .fetch()
-            .into(Player.class)
-
-    return trending
 }

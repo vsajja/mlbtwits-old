@@ -18,6 +18,7 @@ import ratpack.hikari.HikariModule
 import ratpack.http.client.HttpClient
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
+import redis.clients.jedis.Jedis
 
 import javax.sql.DataSource
 
@@ -60,9 +61,16 @@ ratpack {
             redirect('index.html')
         }
 
-        get('rotoworld') {
-            new RotoworldFeed().execute(null)
-            render 'hello world'
+        get('redis') {
+            String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
+
+            URI redisURI = new URI(REDIS_URL);
+            Jedis jedis = new Jedis(redisURI);
+            log.info(jedis.ping())
+            jedis.del("RotoworldFeedGuids")
+            assert jedis.smembers("RotoworldFeedGuids").isEmpty()
+            jedis.close()
+            render 'redis'
         }
 
         prefix('api/v1') {

@@ -8,6 +8,7 @@ import org.quartz.JobExecutionContext
 import org.quartz.JobExecutionException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import redis.clients.jedis.Jedis
 
 import javax.sql.DataSource
 import javax.xml.crypto.Data
@@ -39,10 +40,24 @@ public class RotoworldFeed implements org.quartz.Job {
             newsMap.put(item.guid.toString(), message)
         }
 
+        String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
+
+        URI redisURI = new URI(REDIS_URL);
+        Jedis jedis = new Jedis(redisURI);
+        log.info(jedis.ping())
+
+//        log.info(jedis.smembers("RotoworldFeedGuids").toString())
+
         newsMap.each { key, value ->
             log.info(key.toString())
             log.info(value.toString())
-            mlbTwitsService.tweet(value)
+
+            if (!jedis.smembers("RotoworldFeedGuids").contains(key)) {
+                jedis.sadd("RotoworldFeedGuids", key)
+                mlbTwitsService.tweet(value)
+            }
         }
+
+        jedis.close()
     }
 }

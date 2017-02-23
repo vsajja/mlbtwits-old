@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     compile 'org.postgresql:postgresql:9.4-1205-jdbc42'
-    compile 'redis.clients:jedis:1.5.1'
+    compile 'redis.clients:jedis:2.9.0'
     compile 'org.jooq:jooq:3.7.1'
     compile 'org.pac4j:pac4j-http:1.8.5'
     compile 'org.pac4j:pac4j-oauth:1.8.5'

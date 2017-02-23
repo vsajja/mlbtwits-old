@@ -39,7 +39,7 @@ class RotoworldFeedService implements Service {
                 .withIdentity("RotoworldFeedTrigger", "group1")
                 .startNow()
                 .withSchedule(simpleSchedule()
-                .withIntervalInMinutes(60)
+                .withIntervalInMinutes(5)
                 .repeatForever())
                 .build();
 

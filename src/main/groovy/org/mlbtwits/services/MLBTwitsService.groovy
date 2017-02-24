@@ -118,7 +118,7 @@ class MLBTwitsService {
     def getTrending() {
         // get the tweets in last 2 days
         List<Tweet> tweets = context.selectFrom(TWEET)
-                .where(TWEET.CREATED_TIMESTAMP.greaterThan(DSL.currentTimestamp().minus(2)))
+                .where(TWEET.CREATED_TIMESTAMP.greaterThan(DSL.currentTimestamp().minus(1)))
 //            .join(PLAYER)
 //            .on(PLAYER.PLAYER_ID.equal(TWEET.PLAYER_ID))
                 .fetch()

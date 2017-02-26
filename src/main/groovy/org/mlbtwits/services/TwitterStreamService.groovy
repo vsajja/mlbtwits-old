@@ -46,9 +46,11 @@ class TwitterStreamService implements Service {
                 tweet = tweet.replaceAll('@Bharper3407', '[~Bryce Harper]')
 
                 tweet = "(${status.getUser().getScreenName()}) " + tweet
-                log.info(tweet)
 
-                mlbTwitsService.tweet(tweet)
+                if(!tweet.contains('RT')) {
+                    log.info(tweet)
+                    mlbTwitsService.tweet(tweet)
+                }
             }
 
             @Override

@@ -25,17 +25,18 @@ dependencies {
     compile 'org.pac4j:pac4j-oauth:1.8.5'
     compile 'joda-time:joda-time:2.9.4'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
-
     compile 'org.quartz-scheduler:quartz:2.2.1'
     compile 'org.quartz-scheduler:quartz-jobs:2.2.1'
+    compile 'org.twitter4j:twitter4j-core:4.0.6'
+    compile 'org.twitter4j:twitter4j-stream:4.0.6'
+    compile ratpack.dependency('hikari')
+    compile ratpack.dependency('pac4j')
 
     runtime 'org.slf4j:slf4j-simple:1.7.12'
+
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude module: 'groovy-all'
     }
-
-    compile ratpack.dependency('hikari')
-    compile ratpack.dependency('pac4j')
     testCompile ratpack.dependency('groovy-test')
 }
 

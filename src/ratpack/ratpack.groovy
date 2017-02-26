@@ -8,6 +8,7 @@ import org.jooq.impl.DSL
 import org.mlbtwits.jobs.RotoworldFeed
 import org.mlbtwits.services.MLBTwitsService
 import org.mlbtwits.services.RotoworldFeedService
+import org.mlbtwits.services.TwitterStreamService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
@@ -19,6 +20,15 @@ import ratpack.http.client.HttpClient
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
 import redis.clients.jedis.Jedis
+import twitter4j.FilterQuery
+import twitter4j.StallWarning
+import twitter4j.Status
+import twitter4j.StatusDeletionNotice
+import twitter4j.StatusListener
+import twitter4j.TwitterStream
+import twitter4j.TwitterStreamFactory
+import twitter4j.conf.Configuration
+import twitter4j.conf.ConfigurationBuilder
 
 import javax.sql.DataSource
 
@@ -51,7 +61,7 @@ ratpack {
 
         bind RotoworldFeedService
         bind MLBTwitsService
-        bind RotoworldFeed
+        bind TwitterStreamService
     }
 
     handlers { MLBTwitsService mlbTwitsService ->
@@ -59,6 +69,64 @@ ratpack {
 
         get {
             redirect('index.html')
+        }
+
+        get('twitter') {
+            ConfigurationBuilder configBuilder = new ConfigurationBuilder()
+            configBuilder.setDebugEnabled(true)
+                    .setOAuthConsumerKey('FKSh2PZxUP4C5XZaIWG1KGPeb')
+                    .setOAuthConsumerSecret('NnRzoLwDgiPXJVJ6cTBRitYodpYH1gKo3pIQxotrIMEJzdeOo7')
+                    .setOAuthAccessToken('35972850-c7V4j270BlomMvk8QndUR9dkNOdBxvADIorGQq0S7')
+                    .setOAuthAccessTokenSecret('SiTc7PktT6tSq82S14kjRlinNyDATZ20wEsoPHS472tTB');
+
+            Configuration twitterConfig = configBuilder.build()
+
+            StatusListener listener = new StatusListener() {
+                @Override
+                void onStatus(Status status) {
+                    String tweet = status.getText()
+                    if(tweet.contains('Mike Trout')) {
+                        log.info(status.getText())
+                    }
+                }
+
+                @Override
+                void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+//                    log.info('STATUS deleted' + statusDeletionNotice.toString())
+                }
+
+                @Override
+                void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+
+                }
+
+                @Override
+                void onScrubGeo(long userId, long upToStatusId) {
+
+                }
+
+                @Override
+                void onStallWarning(StallWarning warning) {
+
+                }
+
+                @Override
+                void onException(Exception ex) {
+
+                }
+            }
+
+            FilterQuery filter = new FilterQuery()
+            String[] query = ['baseball']
+            filter.track(query)
+
+            TwitterStream twitterStream = new TwitterStreamFactory(twitterConfig).getInstance()
+            twitterStream.addListener(listener)
+            twitterStream.filter(filter)
+            twitterStream.sample()
+
+            twitterStream.shutdown()
+            render 'twitter'
         }
 
         get('redis') {

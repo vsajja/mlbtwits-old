@@ -132,7 +132,7 @@ class MLBTwitsService {
         }.findAll {
             it.key != null
         }.keySet().toList()
-//                .take(10)
+                .take(5)
         println playerIds.toString()
 
         def trending = context.selectFrom(PLAYER)

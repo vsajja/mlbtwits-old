@@ -40,9 +40,8 @@ class TwitterStreamService implements Service {
             @Override
             void onStatus(Status status) {
 //                log.info(status.getText())
-                String tweet = status.getText().replaceAll('Mike Trout', '[~Mike Trout]')
+                String tweet = status.getText()
                 tweet = tweet.replaceAll('@MikeTrout', '[~Mike Trout]')
-                tweet = tweet.replaceAll('Bryce Harper', '[~Bryce Harper]')
                 tweet = tweet.replaceAll('@Bharper3407', '[~Bryce Harper]')
 
                 tweet = "(${status.getUser().getScreenName()}) " + tweet
@@ -81,7 +80,7 @@ class TwitterStreamService implements Service {
         }
 
         FilterQuery filter = new FilterQuery()
-        String[] query = ['@MikeTrout', 'Mike Trout', '@Bharper3407', 'Bryce Harper']
+        String[] query = ['@MikeTrout', '@Bharper3407']
         filter.track(query)
 
         twitterStream = new TwitterStreamFactory(twitterConfig).getInstance()

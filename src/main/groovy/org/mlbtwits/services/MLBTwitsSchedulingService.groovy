@@ -17,7 +17,7 @@ import ratpack.service.StopEvent
 
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule
 
-class RotoworldFeedService implements Service {
+class MLBTwitsSchedulingService implements Service {
     final Logger log = LoggerFactory.getLogger(this.class)
     Scheduler scheduler
 

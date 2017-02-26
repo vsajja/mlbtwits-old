@@ -1,13 +1,13 @@
 import com.zaxxer.hikari.HikariConfig
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Tweet
+import org.apache.commons.lang3.StringUtils
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
-import org.mlbtwits.jobs.RotoworldFeed
 import org.mlbtwits.services.MLBTwitsService
-import org.mlbtwits.services.RotoworldFeedService
+import org.mlbtwits.services.MLBTwitsSchedulingService
 import org.mlbtwits.services.TwitterStreamService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -59,9 +59,9 @@ ratpack {
         }
         module SqlModule
 
-        bind RotoworldFeedService
+        bind MLBTwitsSchedulingService
         bind MLBTwitsService
-        bind TwitterStreamService
+//        bind TwitterStreamService
     }
 
     handlers { MLBTwitsService mlbTwitsService ->
@@ -72,61 +72,9 @@ ratpack {
         }
 
         get('twitter') {
-            ConfigurationBuilder configBuilder = new ConfigurationBuilder()
-            configBuilder.setDebugEnabled(true)
-                    .setOAuthConsumerKey('FKSh2PZxUP4C5XZaIWG1KGPeb')
-                    .setOAuthConsumerSecret('NnRzoLwDgiPXJVJ6cTBRitYodpYH1gKo3pIQxotrIMEJzdeOo7')
-                    .setOAuthAccessToken('35972850-c7V4j270BlomMvk8QndUR9dkNOdBxvADIorGQq0S7')
-                    .setOAuthAccessTokenSecret('SiTc7PktT6tSq82S14kjRlinNyDATZ20wEsoPHS472tTB');
-
-            Configuration twitterConfig = configBuilder.build()
-
-            StatusListener listener = new StatusListener() {
-                @Override
-                void onStatus(Status status) {
-                    String tweet = status.getText()
-                    if(tweet.contains('Mike Trout')) {
-                        log.info(status.getText())
-                    }
-                }
-
-                @Override
-                void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-//                    log.info('STATUS deleted' + statusDeletionNotice.toString())
-                }
-
-                @Override
-                void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-
-                }
-
-                @Override
-                void onScrubGeo(long userId, long upToStatusId) {
-
-                }
-
-                @Override
-                void onStallWarning(StallWarning warning) {
-
-                }
-
-                @Override
-                void onException(Exception ex) {
-
-                }
-            }
-
-            FilterQuery filter = new FilterQuery()
-            String[] query = ['baseball']
-            filter.track(query)
-
-            TwitterStream twitterStream = new TwitterStreamFactory(twitterConfig).getInstance()
-            twitterStream.addListener(listener)
-            twitterStream.filter(filter)
-            twitterStream.sample()
-
-            twitterStream.shutdown()
-            render 'twitter'
+            def players = mlbTwitsService.getPlayers()
+            String [] playersArray = players.collect { StringUtils.stripAccents(it.name) }.toArray()
+            render playersArray.toString()
         }
 
         get('redis') {

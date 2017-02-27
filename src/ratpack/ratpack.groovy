@@ -61,7 +61,7 @@ ratpack {
 
         bind MLBTwitsSchedulingService
         bind MLBTwitsService
-        bind TwitterStreamService
+//        bind TwitterStreamService
     }
 
     handlers { MLBTwitsService mlbTwitsService ->

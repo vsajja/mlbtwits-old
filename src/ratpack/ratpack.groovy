@@ -1,4 +1,5 @@
 import com.zaxxer.hikari.HikariConfig
+import jooq.generated.tables.daos.PlayerDao
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Tweet
 import org.apache.commons.lang3.StringUtils
@@ -32,6 +33,7 @@ import twitter4j.conf.ConfigurationBuilder
 
 import javax.sql.DataSource
 
+import static jooq.generated.Tables.PLAYER
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
@@ -72,9 +74,26 @@ ratpack {
         }
 
         get('twitter') {
-            def players = mlbTwitsService.getPlayers()
-            String [] playersArray = players.collect { StringUtils.stripAccents(it.name) }.toArray()
-            render playersArray.toString()
+            DataSource dataSource = registry.get(DataSource.class)
+            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+            List<Player> players = context.selectFrom(PLAYER)
+                    .fetch()
+                    .into(Player.class)
+
+            players.each { Player player ->
+                String namePlain = StringUtils.stripAccents(player.getName())
+                context.update(PLAYER)
+                    .set(PLAYER.NAME_PLAIN, namePlain)
+                    .where(PLAYER.PLAYER_ID.equal(player.getPlayerId()))
+                    .execute()
+                log.info("updated $namePlain")
+            }
+
+            players = context.selectFrom(PLAYER)
+                    .fetch()
+                    .into(Player.class)
+
+            render players.toString()
         }
 
         get('redis') {
@@ -159,7 +178,7 @@ ratpack {
                 byMethod {
                     get {
                         List<Player> players = mlbTwitsService.getPlayersByTerm(term)
-                        render json(players.collect { ['label' : it.name]})
+                        render json(players.collect { ['name' : it.name, 'label' : it.namePlain]})
                     }
                 }
             }

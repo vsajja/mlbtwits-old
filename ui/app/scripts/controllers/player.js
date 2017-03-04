@@ -53,7 +53,7 @@ angular.module('mlbTwitsApp')
     $scope.getPlayerTextRaw = function (player) {
       // return '@' + player.label;
       // return '<player playerId="' + player.label + '"' + '>' + player.label + '</player>'
-      return '[~' + player.label + ']';
+      return '[~' + player.name + ']';
     };
 
     $scope.closeAlert = function (index) {

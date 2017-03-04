@@ -22,22 +22,26 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player implements Serializable {
 
-	private static final long serialVersionUID = -397819037;
+	private static final long serialVersionUID = -1279620258;
 
 	private final Integer playerId;
 	private final String  name;
+	private final String  namePlain;
 
 	public Player(Player value) {
 		this.playerId = value.playerId;
 		this.name = value.name;
+		this.namePlain = value.namePlain;
 	}
 
 	public Player(
 		Integer playerId,
-		String  name
+		String  name,
+		String  namePlain
 	) {
 		this.playerId = playerId;
 		this.name = name;
+		this.namePlain = namePlain;
 	}
 
 	public Integer getPlayerId() {
@@ -48,12 +52,17 @@ public class Player implements Serializable {
 		return this.name;
 	}
 
+	public String getNamePlain() {
+		return this.namePlain;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Player (");
 
 		sb.append(playerId);
 		sb.append(", ").append(name);
+		sb.append(", ").append(namePlain);
 
 		sb.append(")");
 		return sb.toString();

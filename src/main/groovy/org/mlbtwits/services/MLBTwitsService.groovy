@@ -32,8 +32,10 @@ class MLBTwitsService {
 
         List<Player> players = context.selectFrom(PLAYER)
                 .where(DSL.lower(PLAYER.NAME).like("%$term%"))
+                .or(DSL.lower(PLAYER.NAME_PLAIN).like("%$term%"))
                 .fetch()
                 .into(Player.class)
+        return players
     }
 
     public Player getPlayer(String playerId) {
@@ -71,7 +73,7 @@ class MLBTwitsService {
         def playerNames = result.collect { it.getAt(1) }
         playerNames.unique().each { String playerName ->
             Record playerRecord = context.selectFrom(PLAYER)
-                    .where(PLAYER.NAME.eq(playerName))
+                    .where(PLAYER.NAME.eq(playerName).or(PLAYER.NAME_PLAIN.eq(playerName)))
                     .fetchOne()
 
             if (playerRecord) {

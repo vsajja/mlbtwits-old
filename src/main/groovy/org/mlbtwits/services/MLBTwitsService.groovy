@@ -2,6 +2,7 @@ package org.mlbtwits.services
 
 import com.google.inject.Inject
 import jooq.generated.tables.pojos.Player
+import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
 import org.jooq.DSLContext
 import org.jooq.Record
@@ -18,6 +19,21 @@ class MLBTwitsService {
     @Inject
     public MLBTwitsService(DataSource dataSource) {
         context = DSL.using(dataSource, SQLDialect.POSTGRES)
+    }
+
+    public List<Team> getTeams() {
+        List<Team> teams = context.selectFrom(TEAM)
+                .fetch()
+                .into(Team.class)
+        return teams
+    }
+
+    public Team getTeam(String teamId) {
+        Team team = context.selectFrom(TEAM)
+                .where(TEAM.TEAM_ID.equal(teamId))
+                .fetchOne()
+                .into(Team.class)
+        return team
     }
 
     public List<Player> getPlayers() {
@@ -109,10 +125,23 @@ class MLBTwitsService {
         return tweet
     }
 
-    def getMLBTwits() {
-        def players = context.selectCount().from(PLAYER).asField('players')
+    public Team addTeam(String name, String code) {
+        Team team = context.insertInto(TEAM)
+            .set(TEAM.NAME, name)
+            .set(TEAM.TEAM_CODE, code)
+            .returning()
+            .fetchOne()
+            .into(Team.class)
+        return team
+    }
 
-        def result = context.select(players).fetchOneMap()
+    def getMLBTwits() {
+        def playerCount = context.selectCount().from(PLAYER).fetchOne(0, int.class)
+        def teamCount = context.selectCount().from(TEAM).fetchOne(0, int.class)
+
+        def result = [:]
+        result.put('players', playerCount)
+        result.put('teams', teamCount)
         result.put('trending', getTrending())
         return result
     }

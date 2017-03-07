@@ -14,6 +14,7 @@ import jooq.generated.Public;
 import jooq.generated.tables.records.PlayerRecord;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player extends TableImpl<PlayerRecord> {
 
-	private static final long serialVersionUID = 58933690;
+	private static final long serialVersionUID = -636745705;
 
 	/**
 	 * The reference instance of <code>public.player</code>
@@ -63,6 +64,11 @@ public class Player extends TableImpl<PlayerRecord> {
 	 * The column <code>public.player.name_plain</code>.
 	 */
 	public final TableField<PlayerRecord, String> NAME_PLAIN = createField("name_plain", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.player.team_id</code>.
+	 */
+	public final TableField<PlayerRecord, Integer> TEAM_ID = createField("team_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>public.player</code> table reference
@@ -108,6 +114,14 @@ public class Player extends TableImpl<PlayerRecord> {
 	@Override
 	public List<UniqueKey<PlayerRecord>> getKeys() {
 		return Arrays.<UniqueKey<PlayerRecord>>asList(Keys.PLAYER_PLAYER_ID_PK);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ForeignKey<PlayerRecord, ?>> getReferences() {
+		return Arrays.<ForeignKey<PlayerRecord, ?>>asList(Keys.PLAYER__PLAYER_TEAM_TEAM_ID_FK);
 	}
 
 	/**

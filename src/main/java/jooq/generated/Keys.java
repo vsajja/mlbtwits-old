@@ -7,8 +7,12 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Player;
+import jooq.generated.tables.Position;
+import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
 import jooq.generated.tables.records.PlayerRecord;
+import jooq.generated.tables.records.PositionRecord;
+import jooq.generated.tables.records.TeamRecord;
 import jooq.generated.tables.records.TweetRecord;
 
 import org.jooq.ForeignKey;
@@ -36,6 +40,8 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<PlayerRecord, Integer> IDENTITY_PLAYER = Identities0.IDENTITY_PLAYER;
+	public static final Identity<PositionRecord, Integer> IDENTITY_POSITION = Identities0.IDENTITY_POSITION;
+	public static final Identity<TeamRecord, Integer> IDENTITY_TEAM = Identities0.IDENTITY_TEAM;
 	public static final Identity<TweetRecord, Integer> IDENTITY_TWEET = Identities0.IDENTITY_TWEET;
 
 	// -------------------------------------------------------------------------
@@ -43,11 +49,14 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = UniqueKeys0.PLAYER_PLAYER_ID_PK;
+	public static final UniqueKey<PositionRecord> POSITION_PKEY = UniqueKeys0.POSITION_PKEY;
+	public static final UniqueKey<TeamRecord> TEAM_PKEY = UniqueKeys0.TEAM_PKEY;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
+	public static final ForeignKey<PlayerRecord, TeamRecord> PLAYER__PLAYER_TEAM_TEAM_ID_FK = ForeignKeys0.PLAYER__PLAYER_TEAM_TEAM_ID_FK;
 	public static final ForeignKey<TweetRecord, PlayerRecord> TWEET__TWEET_PLAYER_PLAYER_ID_FK = ForeignKeys0.TWEET__TWEET_PLAYER_PLAYER_ID_FK;
 
 	// -------------------------------------------------------------------------
@@ -56,14 +65,19 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<PlayerRecord, Integer> IDENTITY_PLAYER = createIdentity(Player.PLAYER, Player.PLAYER.PLAYER_ID);
+		public static Identity<PositionRecord, Integer> IDENTITY_POSITION = createIdentity(Position.POSITION, Position.POSITION.POSITION_D);
+		public static Identity<TeamRecord, Integer> IDENTITY_TEAM = createIdentity(Team.TEAM, Team.TEAM.TEAM_ID);
 		public static Identity<TweetRecord, Integer> IDENTITY_TWEET = createIdentity(Tweet.TWEET, Tweet.TWEET.TWEET_ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {
 		public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = createUniqueKey(Player.PLAYER, Player.PLAYER.PLAYER_ID);
+		public static final UniqueKey<PositionRecord> POSITION_PKEY = createUniqueKey(Position.POSITION, Position.POSITION.POSITION_D);
+		public static final UniqueKey<TeamRecord> TEAM_PKEY = createUniqueKey(Team.TEAM, Team.TEAM.TEAM_ID);
 	}
 
 	private static class ForeignKeys0 extends AbstractKeys {
+		public static final ForeignKey<PlayerRecord, TeamRecord> PLAYER__PLAYER_TEAM_TEAM_ID_FK = createForeignKey(jooq.generated.Keys.TEAM_PKEY, Player.PLAYER, Player.PLAYER.TEAM_ID);
 		public static final ForeignKey<TweetRecord, PlayerRecord> TWEET__TWEET_PLAYER_PLAYER_ID_FK = createForeignKey(jooq.generated.Keys.PLAYER_PLAYER_ID_PK, Tweet.TWEET, Tweet.TWEET.PLAYER_ID);
 	}
 }

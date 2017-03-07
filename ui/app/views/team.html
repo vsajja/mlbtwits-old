@@ -1,0 +1,164 @@
+<div class="row" xmlns="http://www.w3.org/1999/html">
+
+  <div class="col-sm-2">
+  </div>
+
+  <div class="col-sm-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">Team</div>
+      <div class="panel-body" style="height: 125px">
+        <div class="box box-info">
+          <div class="box-body">
+            <!--<div class="col-sm-6">-->
+            <!--</div>-->
+
+            <div class="col-sm-12">
+              <h4 style="color:#00b1b1;">{{team.name}}</h4></span>
+            </div>
+
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Id</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{team.teamId}}</div>
+
+            <div class="col-sm-5 col-xs-6 tital "><strong>Code</strong></div>
+            <div class="col-sm-7 col-xs-6 ">{{team.teamCode}}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Roster</div>
+      <div class="panel-body" style="height: 400px">
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>C</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>1B</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>2B</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>SS</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>3B</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>OF</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>OF</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>OF</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>Util</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+
+        <div class="clearfix"></div>
+        <hr style="margin:5px 0 5px 0;">
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
+
+        <div class="clearfix"></div>
+        <hr style="margin:5px 0 5px 0;">
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>RP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Brian Fuentes</div>
+
+        <div class="col-sm-5 col-xs-6 tital "><strong>RP</strong></div>
+        <div class="col-sm-7 col-xs-6 ">Brian Fuentes</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">Share</div>
+      <div class="panel-body" style="height: 200px">
+
+        <!-- FORM -->
+        <form ng-submit="tweetTeam()">
+          <!-- TWEET -->
+          <div id="tweet" class="form-group">
+            <!--<label>Description</label>-->
+
+            <textarea disabled
+                      style="height:100px; resize: none;" cols="30" rows="10"
+                      name="tweet"
+                      class="form-control"
+                      placeholder="Tweet @{{team.name}}..."
+                      required
+                      type="text"
+                      mentio
+                      mentio-id="'test'"
+                      mentio-typed-text="typedTerm"
+                      ng-model="tweet.message">
+            </textarea>
+
+            <mentio-menu mentio-for="'test'"
+                         mentio-trigger-char="'@'"
+                         mentio-items="players"
+                         mentio-search="searchPlayers(term)"
+                         mentio-select="getPlayerTextRaw(item)">
+            </mentio-menu>
+
+            <span class="help-block"></span>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <button disabled type="submit" class="btn btn-success btn-lg btn-block">
+            Tweet
+          </button>
+        </form>
+
+        <!--<br/>-->
+
+        <!--&lt;!&ndash; SHOW ERROR/SUCCESS MESSAGES &ndash;&gt;-->
+        <!--<div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"-->
+        <!--close="closeAlert($index)">{{alert.msg}}-->
+        <!--</div>-->
+
+        <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
+        <!--class="form-control">{{ tweet }}</textarea>-->
+      </div>
+    </div>
+
+    <!--<ul class="list-group" style="max-height: 650px; overflow-y: auto">-->
+      <!--<li class="list-group-item" ng-repeat="tweet in tweets">-->
+        <!--{{tweet.message}}-->
+        <!--<div>-->
+          <!--<i class="fa fa-reply" style="color: lightgray" aria-hidden="true"></i>-->
+          <!--<i class="fa fa-retweet" style="color: lightgray" aria-hidden="true"></i>-->
+          <!--<i class="fa fa-share-alt" style="color: lightgray" aria-hidden="true"></i>-->
+          <!--<i class="fa fa-heart" style="color: lightgray" aria-hidden="true"></i>-->
+
+          <!--<span am-time-ago="tweet.createdTimestamp" style="float:right;font-size:1em;font-weight:400;color: lightgray"></span>-->
+        <!--</div>-->
+      <!--</li>-->
+    <!--</ul>-->
+  </div>
+
+  <div class="col-sm-2">
+  </div>
+
+</div>

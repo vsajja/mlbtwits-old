@@ -102,9 +102,14 @@ ratpack {
             URI redisURI = new URI(REDIS_URL);
             Jedis jedis = new Jedis(redisURI);
             log.info(jedis.ping())
+
+            /*
             jedis.del("RotoworldFeedGuids")
             assert jedis.smembers("RotoworldFeedGuids").isEmpty()
+            */
+            jedis.srem("RotoworldFeedGuids", "524674")
             jedis.close()
+
             render 'redis'
         }
 
@@ -124,6 +129,25 @@ ratpack {
                     }
                 }
             }
+
+            path('teams') {
+                byMethod {
+                    get {
+                        def teams = mlbTwitsService.getTeams()
+                        render json(teams)
+                    }
+                }
+            }
+            path('teams/:teamId') {
+                def teamId = pathTokens['teamId']
+                byMethod {
+                    get {
+                        def team = mlbTwitsService.getTeam(teamId)
+                        render json(team)
+                    }
+                }
+            }
+
             path('players') {
                 byMethod {
                     get {
@@ -204,6 +228,62 @@ ratpack {
         }
 
         prefix('test/data') {
+
+            get('mlb/prospects/2017') {
+                File mlbProspects2017 = new File('src/ratpack/data/minors.html')
+
+                File minors = new File('src/ratpack/data/minors.txt')
+                minors.createNewFile()
+
+                String playerLine = ''
+
+                String strProspects = mlbProspects2017.text
+
+                Boolean taken = false
+                String strTaken = new File('src/ratpack/data/taken.txt').text
+
+                strProspects.eachLine { String line ->
+                    if(line.contains('number')) {
+                        line -= '<div class="number">'
+                        line -= '</div>'
+//                        log.info(line)
+
+                        playerLine += line.trim()
+                    }
+
+                    if(line.contains('player-name')) {
+                        line -= '<div class="player-name">'
+                        line -= '</div>'
+//                        log.info(line)
+
+                        String playerName = line.trim()
+                        if(strTaken.contains(playerName)) {
+                            taken = true
+                            log.info('TAKEN!')
+                        }
+
+                        playerLine += ' ' + line.trim()
+                    }
+
+                    if(line.contains('player-info')) {
+                        line -= '<div class="player-info">'
+                        line -= '</div>'
+//                        log.info(line)
+                        playerLine += ' ' +  line.trim() + '\n'
+
+                        if(!taken) {
+                            log.info(playerLine)
+                            minors << playerLine
+                        }
+
+                        playerLine = ''
+                        taken = false
+                    }
+                }
+
+                render 'hello'
+            }
+
             path('br/teams/2016') {
                 byMethod {
                     get {
@@ -225,6 +305,8 @@ ratpack {
                             log.info(bTeamCode)
                             log.info(bTeamName)
                             log.info(bTeamUrl)
+
+//                            mlbTwitsService.addTeam(bTeamName, bTeamCode)
                         }
 
                         render mlb2016Teams.text

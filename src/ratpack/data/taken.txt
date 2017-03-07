@@ -1,0 +1,46 @@
+Biando's Heroes: Willy Adames, Mark Appel, Walker Buehler, Grant Holmes, Harold Ramirez, Dillon Tate, Gleyber Torres
+Champagne Supernova: Erick Fedde, Mike Foltynewicz, Alen Hanson, Roman Quinn, Tyler Stephenson, Touki Touissaint, Trea Turner, Alex Verdugo
+Critter II: Franklin Barreto, Jose Berrios, Alex Bregman, Yoan Moncada, Jose Peraza, Luis Severino, Mallex Smith, Jesse Winker
+Melbourne Storm: Orlando Arcia, Clint Frazier, Aaron Judge, Frances Martes, Nomar Mazara, Jameson Taillon, Ramiel Tapia, Nick Williams
+RoyalRumble: Anthony Alford, Albert Amora, Christian Arroyo, Anderson Espinoza, Tyler Kolek, Reynaldo Lopez, Kevin Plawecki, Chance Sisco
+SF Ganjas: Byron Buxton, Carson Fulmer, Casey Gillaspie, Kevin Newman, Kyle Schwarber, Dansby Swanson, Kyle Tucker, Forrest Wall
+Skilletlickers: Ozhaino Albies, Cody Bellinger, Greg Bird, JP Crawford, Ian Happ, Jorge Mateo, Austin Meadows, Blake Swihart,
+Suit Up II: Josh Bell, Andrew Benintendi, Jose De Leon, Rafael Devers, Derek Fisher, Lucas Giolito, Andrew Heaney, Manuel Margot
+Texas Rangers II: Jorge Alfaro, Archie Bradley, Bobby Bradley, Joey Gallo, Ryan McMahon, Blake Snell, Trevor Story
+The Entourage: Kolby Allard, Lewis Brinson, Wilson Contreras, Jacob Nottingham, Nick Plummer, Amed Rosario, Brendan Rogers, Dominic Smith
+VinnyII2: Tim Anderson, Jacob Gatewood, Nick Gordon, Sean Manaea, Trey Mancini, AJ Reed, Hunter Renfroe, Bradley Zimmer
+War Eagle: David Dahl, Michael Fulmer, Tyler Glasnow, Jonathan Gray, Sean Newcomb, Alex Reyes, Victor Robles, Julio Urias
+
+Minor League Cuts Eligible for “Slow” Minor League Draft: Luis Ortiz, Austin Riley, Yusniel Diaz, Cornelius Randolph, Garret Whitley, Bubba Starling, Andrew Knapp, Trent Clark, Nick Wittgren, Javier Guerra, Alex Jackson, Billy McKinney, Brady Aiken, Taylor Guerrieri, Eddy Julio Martinez, Amir Garret, Daz Cameron, Brett Phillips, Kyle Zimmer
+
+Minor League Cuts Eligible for Major League Auction Draft: Cody Reed, Dan Vogelbach, Aaron Blair, Rymer Liriano, Matt Olson, Garin Cecchini, Raul Mondesi, Arismendy Alcantara, Micah Johnson, Wilmer Difo, Mike Olt, Chris Beck, Robert Stephenson
+
+1.1 Champagne Supernova: Nick Senzel
+1.2 Critter 2: Eloy Jimenez
+1.3 Skilletlickers: Corey Ray
+1.4 SF Ganjas: Tyler O'Neill
+1.5 RoyalRumble: Dylan Cozens
+1.6 Suit Up II: Kevin Maitan
+1.7 Melbourne Storm: Ronald Acuna
+1.8 The Entourage: Vladimir Guerrero, Jr
+1.9 Vinny II: Kyle Lewis
+1.10 Biando's Heroes: Michael Kopech
+1.11 War Eagle: Mickey Moniak
+1.12 Texas Rangers II: Blake Rutherford
+
+2.1 Champagne Supernova:  Zack Collins
+2.2 Critter 2: Francisco Mejia
+2.3 Skilletlickers: Leodys Taveras
+2.4 SF Ganjas?: Lourdes Gurriel
+2.5 RoyalRumble: Matt Chapman
+2.6 Suit Up II: Jason Groome
+2.7 Melbourne Storm: Isan Diaz
+2.8 The Entourage: Mitch Keller
+2.9 Vinny II: Lazaro Armenteros
+2.10 Biando’s Heroes: Brent Honeywell
+2.11 War Eagle: Yadier Alvarez
+2.12 Texas Rangers II: Josh Hader
+
+3.1 Champagne Supernova: Riley Pint
+3.2 Critter 2: Jake Bauers
+3.3 Skilletlickers: Juan Soto

@@ -77,4 +77,11 @@ public class PlayerDao extends DAOImpl<PlayerRecord, jooq.generated.tables.pojos
 	public List<jooq.generated.tables.pojos.Player> fetchByNamePlain(String... values) {
 		return fetch(Player.PLAYER.NAME_PLAIN, values);
 	}
+
+	/**
+	 * Fetch records that have <code>team_id IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByTeamId(Integer... values) {
+		return fetch(Player.PLAYER.TEAM_ID, values);
+	}
 }

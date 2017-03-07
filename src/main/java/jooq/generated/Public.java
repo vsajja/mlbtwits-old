@@ -11,6 +11,8 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Player;
+import jooq.generated.tables.Position;
+import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
 
 import org.jooq.Sequence;
@@ -31,7 +33,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = -145769383;
+	private static final long serialVersionUID = -1539648852;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -55,6 +57,8 @@ public class Public extends SchemaImpl {
 	private final List<Sequence<?>> getSequences0() {
 		return Arrays.<Sequence<?>>asList(
 			Sequences.PLAYER_PLAYER_ID_SEQ,
+			Sequences.POSITION_POSITION_D_SEQ,
+			Sequences.TEAM_TEAM_ID_SEQ,
 			Sequences.TWEET_TWEET_ID_SEQ);
 	}
 
@@ -68,6 +72,8 @@ public class Public extends SchemaImpl {
 	private final List<Table<?>> getTables0() {
 		return Arrays.<Table<?>>asList(
 			Player.PLAYER,
+			Position.POSITION,
+			Team.TEAM,
 			Tweet.TWEET);
 	}
 }

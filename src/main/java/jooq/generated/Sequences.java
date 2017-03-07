@@ -29,6 +29,16 @@ public class Sequences {
 	public static final Sequence<Long> PLAYER_PLAYER_ID_SEQ = new SequenceImpl<Long>("player_player_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 
 	/**
+	 * The sequence <code>public.position_position_d_seq</code>
+	 */
+	public static final Sequence<Long> POSITION_POSITION_D_SEQ = new SequenceImpl<Long>("position_position_d_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.team_team_id_seq</code>
+	 */
+	public static final Sequence<Long> TEAM_TEAM_ID_SEQ = new SequenceImpl<Long>("team_team_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
 	 * The sequence <code>public.tweet_tweet_id_seq</code>
 	 */
 	public static final Sequence<Long> TWEET_TWEET_ID_SEQ = new SequenceImpl<Long>("tweet_tweet_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

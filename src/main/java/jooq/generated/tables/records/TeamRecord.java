@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Record3<Integer, String, String> {
 
-	private static final long serialVersionUID = -1757802296;
+	private static final long serialVersionUID = -779081852;
 
 	/**
 	 * Setter for <code>public.team.team_id</code>.
@@ -61,17 +61,17 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	}
 
 	/**
-	 * Setter for <code>public.team.team_code</code>.
+	 * Setter for <code>public.team.mlb_team_code</code>.
 	 */
-	public TeamRecord setTeamCode(String value) {
+	public TeamRecord setMlbTeamCode(String value) {
 		setValue(2, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.team.team_code</code>.
+	 * Getter for <code>public.team.mlb_team_code</code>.
 	 */
-	public String getTeamCode() {
+	public String getMlbTeamCode() {
 		return (String) getValue(2);
 	}
 
@@ -128,7 +128,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public Field<String> field3() {
-		return Team.TEAM.TEAM_CODE;
+		return Team.TEAM.MLB_TEAM_CODE;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public String value3() {
-		return getTeamCode();
+		return getMlbTeamCode();
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public TeamRecord value3(String value) {
-		setTeamCode(value);
+		setMlbTeamCode(value);
 		return this;
 	}
 
@@ -207,11 +207,11 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	/**
 	 * Create a detached, initialised TeamRecord
 	 */
-	public TeamRecord(Integer teamId, String name, String teamCode) {
+	public TeamRecord(Integer teamId, String name, String mlbTeamCode) {
 		super(Team.TEAM);
 
 		setValue(0, teamId);
 		setValue(1, name);
-		setValue(2, teamCode);
+		setValue(2, mlbTeamCode);
 	}
 }

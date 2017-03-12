@@ -72,9 +72,9 @@ public class TeamDao extends DAOImpl<TeamRecord, jooq.generated.tables.pojos.Tea
 	}
 
 	/**
-	 * Fetch records that have <code>team_code IN (values)</code>
+	 * Fetch records that have <code>mlb_team_code IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.Team> fetchByTeamCode(String... values) {
-		return fetch(Team.TEAM.TEAM_CODE, values);
+	public List<jooq.generated.tables.pojos.Team> fetchByMlbTeamCode(String... values) {
+		return fetch(Team.TEAM.MLB_TEAM_CODE, values);
 	}
 }

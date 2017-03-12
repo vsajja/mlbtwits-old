@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Team extends TableImpl<TeamRecord> {
 
-	private static final long serialVersionUID = -979368379;
+	private static final long serialVersionUID = 1329250313;
 
 	/**
 	 * The reference instance of <code>public.team</code>
@@ -60,9 +60,9 @@ public class Team extends TableImpl<TeamRecord> {
 	public final TableField<TeamRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
-	 * The column <code>public.team.team_code</code>.
+	 * The column <code>public.team.mlb_team_code</code>.
 	 */
-	public final TableField<TeamRecord, String> TEAM_CODE = createField("team_code", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+	public final TableField<TeamRecord, String> MLB_TEAM_CODE = createField("mlb_team_code", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
 	 * Create a <code>public.team</code> table reference

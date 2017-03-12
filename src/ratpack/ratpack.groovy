@@ -1,6 +1,7 @@
 import com.zaxxer.hikari.HikariConfig
 import jooq.generated.tables.daos.PlayerDao
 import jooq.generated.tables.pojos.Player
+import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
 import org.apache.commons.lang3.StringUtils
 import org.ccil.cowan.tagsoup.Parser
@@ -34,6 +35,7 @@ import twitter4j.conf.ConfigurationBuilder
 import javax.sql.DataSource
 
 import static jooq.generated.Tables.PLAYER
+import static jooq.generated.Tables.TEAM
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
@@ -71,29 +73,6 @@ ratpack {
 
         get {
             redirect('index.html')
-        }
-
-        get('twitter') {
-            DataSource dataSource = registry.get(DataSource.class)
-            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-            List<Player> players = context.selectFrom(PLAYER)
-                    .fetch()
-                    .into(Player.class)
-
-            players.each { Player player ->
-                String namePlain = StringUtils.stripAccents(player.getName())
-                context.update(PLAYER)
-                    .set(PLAYER.NAME_PLAIN, namePlain)
-                    .where(PLAYER.PLAYER_ID.equal(player.getPlayerId()))
-                    .execute()
-                log.info("updated $namePlain")
-            }
-
-            players = context.selectFrom(PLAYER)
-                    .fetch()
-                    .into(Player.class)
-
-            render players.toString()
         }
 
         get('redis') {
@@ -229,59 +208,115 @@ ratpack {
 
         prefix('test/data') {
 
-            get('mlb/prospects/2017') {
-                File mlbProspects2017 = new File('src/ratpack/data/minors.html')
+            path('mlb/rosters/2017/40man') {
+                DataSource dataSource = registry.get(DataSource.class)
+                DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
-                File minors = new File('src/ratpack/data/minors.txt')
-                minors.createNewFile()
+                def teams = context.selectFrom(TEAM)
+                        .fetchInto(Team.class)
 
-                String playerLine = ''
+                def teamCodes = teams.collect { it.mlbTeamCode.toLowerCase() }
 
-                String strProspects = mlbProspects2017.text
+                HttpClient httpClient = registry.get(HttpClient.class)
 
-                Boolean taken = false
-                String strTaken = new File('src/ratpack/data/taken.txt').text
+                teamCodes.each { String teamCode ->
+                    String strAngelsUrl = "http://m.mlb.com/${teamCode}/roster/40-man"
 
-                strProspects.eachLine { String line ->
-                    if(line.contains('number')) {
-                        line -= '<div class="number">'
-                        line -= '</div>'
-//                        log.info(line)
+                    httpClient.get(new URI(strAngelsUrl)).then {
+                        log.info("$teamCode " + it.body.text.length().toString())
 
-                        playerLine += line.trim()
+//                        File teamFile = new File("C:\\mlb/rosters/2017/${teamCode}.html")
+//                        teamFile.createNewFile()
+//                        teamFile << it.body.text
                     }
+                }
+                render '40 man rosters'
+            }
 
-                    if(line.contains('player-name')) {
-                        line -= '<div class="player-name">'
-                        line -= '</div>'
-//                        log.info(line)
+            path('mlb/playerinfo') {
+                DataSource dataSource = registry.get(DataSource.class)
+                DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
-                        String playerName = line.trim()
-                        if(strTaken.contains(playerName)) {
-                            taken = true
-                            log.info('TAKEN!')
+                def teams = context.selectFrom(TEAM)
+                        .fetchInto(Team.class)
+
+                def teamCodes = teams.collect { it.mlbTeamCode.toLowerCase() }
+
+                File playerMissingFile = new File("C:\\\\mlb\\missing.txt")
+                File playerFoundFile = new File("C:\\\\mlb\\found.txt")
+
+                XmlSlurper slurper = new XmlSlurper(new Parser())
+
+                teamCodes.each { String teamCode ->
+                    // get the team
+                    Team team = context.selectFrom(TEAM)
+                            .where(TEAM.MLB_TEAM_CODE.equal(teamCode.toUpperCase()))
+                            .fetchInto(Team.class)
+
+                    log.info(team.toString())
+
+                    File teamRosterFile = new File("src/ratpack/data/mlb/rosters/2017/preseason/${teamCode}.html")
+
+                    String teamText = teamRosterFile.text
+
+                    def teamRoster = slurper.parseText(teamText)
+
+                    teamRoster.depthFirst().find {
+    //                    it.@class == 'page page-40-man'
+//                        if(it.@class == 'dg-player_headshot') {
+//                            log.info(it.img.@src.toString())
+//                        }
+                        if(it.@class == 'dg-name_display_first_last' && it.name() == 'td') {
+//                            log.info(it.a.@href.toString())
+//                            log.info(it.a.@href.toString().split("/")[2])
+//                            log.info(it.text().trim())
+
+                            String mlbPlayerId = it.a.@href.toString().split("/")[2]
+                            String mlbPlayerName = it.text().trim()
+
+                            log.info(mlbPlayerName)
+
+                            try {
+                                Player player = context.selectFrom(PLAYER)
+                                        .where(PLAYER.NAME_PLAIN.equal(mlbPlayerName))
+                                        .fetchInto(Player.class)
+                                log.info(player.toString())
+
+//                                playerFoundFile << player.toString() + '\n'
+                            } catch (Exception e) {
+                                playerMissingFile << "$mlbPlayerName $mlbPlayerId ${team.getTeamId()} ${team.getMlbTeamCode()} \n"
+                                log.info("${mlbPlayerName} not found")
+                            }
                         }
-
-                        playerLine += ' ' + line.trim()
-                    }
-
-                    if(line.contains('player-info')) {
-                        line -= '<div class="player-info">'
-                        line -= '</div>'
-//                        log.info(line)
-                        playerLine += ' ' +  line.trim() + '\n'
-
-                        if(!taken) {
-                            log.info(playerLine)
-                            minors << playerLine
-                        }
-
-                        playerLine = ''
-                        taken = false
                     }
                 }
 
-                render 'hello'
+//                String teamText = new File('src/ratpack/data/angels.html').text
+//                XmlSlurper slurper = new XmlSlurper(new Parser())
+//                def angels = slurper.parseText(teamText)
+//
+//                angels.depthFirst().find {
+////                    it.@class == 'page page-40-man'
+//                    if(it.@class == 'dg-player_headshot') {
+//                        log.info(it.img.@src.toString())
+//                    }
+//                    if(it.@class == 'dg-name_display_first_last' && it.name() == 'td') {
+//                        log.info(it.a.@href.toString())
+//                        log.info(it.a.@href.toString().split("/")[2])
+//                        log.info(it.text().trim())
+//
+//                        try {
+//                            Player player = context.selectFrom(PLAYER)
+//                                    .where(PLAYER.NAME_PLAIN.equal(it.text().trim()))
+//                                    .fetchInto(Player.class)
+//                            log.info(player.toString())
+//                        } catch (Exception e) {
+//                            log.info("${it.text().trim()} not found")
+//                        }
+//                    }
+//                }
+
+                render 'teamText'
             }
 
             path('br/teams/2016') {

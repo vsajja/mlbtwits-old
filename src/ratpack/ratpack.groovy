@@ -64,7 +64,7 @@ ratpack {
         }
         module SqlModule
 
-//        bind MLBTwitsSchedulingService
+        bind MLBTwitsSchedulingService
         bind MLBTwitsService
 //        bind TwitterStreamService
     }

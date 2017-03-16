@@ -12,7 +12,12 @@
             <div class="col-sm-6">
               <div align="center">
                 <!--<i class="fa fa-futbol-o fa-5x" aria-hidden="true"></i>-->
-                <img height="100px" width="100px" src="images/baseball.jpg">
+                <div ng-if="player.mlbPlayerId">
+                  <img ng-src="http://gdx.mlb.com/images/gameday/mugshots/mlb/{{player.mlbPlayerId}}@2x.jpg">
+                </div>
+                <div ng-if="!player.mlbPlayerId">
+                  <img height="100px" width="100px" src="images/baseball.jpg">
+                </div>
               </div>
               <br>
             </div>

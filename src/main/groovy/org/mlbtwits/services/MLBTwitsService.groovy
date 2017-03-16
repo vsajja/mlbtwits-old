@@ -6,6 +6,7 @@ import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.jooq.RecordMapper
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 
@@ -36,6 +37,14 @@ class MLBTwitsService {
         return team
     }
 
+    public List<Player> getTeamRoster(String teamId) {
+        List<Player> players = context.selectFrom(PLAYER)
+                .where(PLAYER.TEAM_ID.equal(teamId))
+                .fetch()
+                .into(Player.class)
+        return players
+    }
+
     public List<Player> getPlayers() {
         List<Player> players = context.selectFrom(PLAYER)
                 .fetch()
@@ -43,12 +52,19 @@ class MLBTwitsService {
         return players
     }
 
+    def getPlayersWithTeams() {
+        def players = context.select()
+                .from(PLAYER.join(TEAM).on(PLAYER.TEAM_ID.equal(TEAM.TEAM_ID)))
+                .fetch()
+        return players
+    }
+
     public List<Player> getPlayersByTerm(String term) {
         term = term.toLowerCase().trim()
 
         List<Player> players = context.selectFrom(PLAYER)
-                .where(DSL.lower(PLAYER.NAME).like("%$term%"))
-                .or(DSL.lower(PLAYER.NAME_PLAIN).like("%$term%"))
+                .where(DSL.lower(PLAYER.PLAYER_NAME).like("%$term%"))
+                .or(DSL.lower(PLAYER.PLAYER_NAME_PLAIN).like("%$term%"))
                 .fetch()
                 .into(Player.class)
         return players
@@ -89,7 +105,7 @@ class MLBTwitsService {
         def playerNames = result.collect { it.getAt(1) }
         playerNames.unique().each { String playerName ->
             Record playerRecord = context.selectFrom(PLAYER)
-                    .where(PLAYER.NAME.eq(playerName).or(PLAYER.NAME_PLAIN.eq(playerName)))
+                    .where(PLAYER.PLAYER_NAME.eq(playerName).or(PLAYER.PLAYER_NAME_PLAIN.eq(playerName)))
                     .fetchOne()
 
             if (playerRecord) {
@@ -127,11 +143,11 @@ class MLBTwitsService {
 
     public Team addTeam(String name, String code) {
         Team team = context.insertInto(TEAM)
-            .set(TEAM.NAME, name)
-            .set(TEAM.TEAM_CODE, code)
-            .returning()
-            .fetchOne()
-            .into(Team.class)
+                .set(TEAM.TEAM_NAME, name)
+                .set(TEAM.TEAM_CODE_MLB, code)
+                .returning()
+                .fetchOne()
+                .into(Team.class)
         return team
     }
 

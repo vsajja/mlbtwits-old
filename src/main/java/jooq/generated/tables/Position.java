@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Position extends TableImpl<PositionRecord> {
 
-	private static final long serialVersionUID = -1797877014;
+	private static final long serialVersionUID = -234052010;
 
 	/**
 	 * The reference instance of <code>public.position</code>
@@ -55,9 +55,9 @@ public class Position extends TableImpl<PositionRecord> {
 	public final TableField<PositionRecord, Integer> POSITION_D = createField("position_d", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
-	 * The column <code>public.position.name</code>.
+	 * The column <code>public.position.position_name</code>.
 	 */
-	public final TableField<PositionRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+	public final TableField<PositionRecord, String> POSITION_NAME = createField("position_name", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
 	 * Create a <code>public.position</code> table reference

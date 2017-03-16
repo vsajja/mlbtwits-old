@@ -65,9 +65,9 @@ public class PositionDao extends DAOImpl<PositionRecord, jooq.generated.tables.p
 	}
 
 	/**
-	 * Fetch records that have <code>name IN (values)</code>
+	 * Fetch records that have <code>position_name IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.Position> fetchByName(String... values) {
-		return fetch(Position.POSITION.NAME, values);
+	public List<jooq.generated.tables.pojos.Position> fetchByPositionName(String... values) {
+		return fetch(Position.POSITION.POSITION_NAME, values);
 	}
 }

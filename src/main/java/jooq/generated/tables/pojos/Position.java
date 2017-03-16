@@ -22,30 +22,30 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Position implements Serializable {
 
-	private static final long serialVersionUID = 890783014;
+	private static final long serialVersionUID = -17481027;
 
 	private final Integer positionD;
-	private final String  name;
+	private final String  positionName;
 
 	public Position(Position value) {
 		this.positionD = value.positionD;
-		this.name = value.name;
+		this.positionName = value.positionName;
 	}
 
 	public Position(
 		Integer positionD,
-		String  name
+		String  positionName
 	) {
 		this.positionD = positionD;
-		this.name = name;
+		this.positionName = positionName;
 	}
 
 	public Integer getPositionD() {
 		return this.positionD;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getPositionName() {
+		return this.positionName;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class Position implements Serializable {
 		StringBuilder sb = new StringBuilder("Position (");
 
 		sb.append(positionD);
-		sb.append(", ").append(name);
+		sb.append(", ").append(positionName);
 
 		sb.append(")");
 		return sb.toString();

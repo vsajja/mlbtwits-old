@@ -65,17 +65,17 @@ public class PlayerDao extends DAOImpl<PlayerRecord, jooq.generated.tables.pojos
 	}
 
 	/**
-	 * Fetch records that have <code>name IN (values)</code>
+	 * Fetch records that have <code>player_name IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.Player> fetchByName(String... values) {
-		return fetch(Player.PLAYER.NAME, values);
+	public List<jooq.generated.tables.pojos.Player> fetchByPlayerName(String... values) {
+		return fetch(Player.PLAYER.PLAYER_NAME, values);
 	}
 
 	/**
-	 * Fetch records that have <code>name_plain IN (values)</code>
+	 * Fetch records that have <code>player_name_plain IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.Player> fetchByNamePlain(String... values) {
-		return fetch(Player.PLAYER.NAME_PLAIN, values);
+	public List<jooq.generated.tables.pojos.Player> fetchByPlayerNamePlain(String... values) {
+		return fetch(Player.PLAYER.PLAYER_NAME_PLAIN, values);
 	}
 
 	/**
@@ -83,5 +83,12 @@ public class PlayerDao extends DAOImpl<PlayerRecord, jooq.generated.tables.pojos
 	 */
 	public List<jooq.generated.tables.pojos.Player> fetchByTeamId(Integer... values) {
 		return fetch(Player.PLAYER.TEAM_ID, values);
+	}
+
+	/**
+	 * Fetch records that have <code>mlb_player_id IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByMlbPlayerId(String... values) {
+		return fetch(Player.PLAYER.MLB_PLAYER_ID, values);
 	}
 }

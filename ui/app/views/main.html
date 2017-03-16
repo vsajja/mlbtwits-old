@@ -63,7 +63,7 @@
             <textarea style="height:100px; resize: none;" cols="30" rows="10"
                       name="tweet"
                       class="form-control"
-                      placeholder="Tweet @{{player.name}}..."
+                      placeholder="Tweet @..."
                       required
                       type="text"
                       mentio
@@ -122,7 +122,7 @@
       <div class="panel-body">
         <div ng-repeat="player in mlbtwits.trending">
           <a ng-href="#!/players/{{player.playerId}}">
-            <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i> {{ player.name }}
+            <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i> {{ player.playerName }}
             <!--{{$last ? '' : ','}}-->
           </a>
         </div>

@@ -13,7 +13,7 @@
             <!--</div>-->
 
             <div class="col-sm-12">
-              <h4 style="color:#00b1b1;">{{team.name}}</h4></span>
+              <h4 style="color:#00b1b1;">{{team.teamName}}</h4></span>
             </div>
 
             <div class="clearfix"></div>
@@ -23,7 +23,7 @@
             <div class="col-sm-7 col-xs-6 ">{{team.teamId}}</div>
 
             <div class="col-sm-5 col-xs-6 tital "><strong>Code</strong></div>
-            <div class="col-sm-7 col-xs-6 ">{{team.teamCode}}</div>
+            <div class="col-sm-7 col-xs-6 ">{{team.teamCodeMlb}}</div>
           </div>
         </div>
       </div>
@@ -32,61 +32,23 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">Roster</div>
-      <div class="panel-body" style="height: 400px">
+      <div class="panel-body" style="height: 400px; overflow-y: auto">
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>C</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>1B</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+        <div ng-repeat="player in roster">
+          <!--<div class="col-sm-3 col-xs-6 tital"><strong>C</strong></div>-->
+          <div class="col-sm-9 col-xs-6 "><a ng-href="#!/players/{{player.playerId}}">{{player.playerName}}</a></div>
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>2B</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>SS</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+        </div>
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>3B</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
+        <!--<ul class="list-group" style="max-height: 399px; overflow-y: auto">-->
+          <!--<li class="list-group-item" ng-repeat="player in roster">-->
+          <!--</li>-->
+        <!--</ul>-->
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>OF</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>OF</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
 
-        <div class="col-sm-5 col-xs-6 tital "><strong>OF</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>Util</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Mike Trout</div>
-
-        <div class="clearfix"></div>
-        <hr style="margin:5px 0 5px 0;">
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>SP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Ricky Nolasco</div>
-
-        <div class="clearfix"></div>
-        <hr style="margin:5px 0 5px 0;">
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>RP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Brian Fuentes</div>
-
-        <div class="col-sm-5 col-xs-6 tital "><strong>RP</strong></div>
-        <div class="col-sm-7 col-xs-6 ">Brian Fuentes</div>
       </div>
     </div>
   </div>
@@ -106,7 +68,7 @@
                       style="height:100px; resize: none;" cols="30" rows="10"
                       name="tweet"
                       class="form-control"
-                      placeholder="Tweet @{{team.name}}..."
+                      placeholder="Tweet @{{team.teamCodeMlb}}..."
                       required
                       type="text"
                       mentio

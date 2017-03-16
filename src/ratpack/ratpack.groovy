@@ -57,13 +57,14 @@ ratpack {
         bindInstance PostgresConfig, configData.get('/postgres', PostgresConfig)
 
         module HikariModule, { HikariConfig config ->
+            config.setMaximumPoolSize(5)
             config.dataSource =
                     new PostgresModule().dataSource(
                             configData.get('/postgres', PostgresConfig))
         }
         module SqlModule
 
-        bind MLBTwitsSchedulingService
+//        bind MLBTwitsSchedulingService
         bind MLBTwitsService
 //        bind TwitterStreamService
     }
@@ -117,6 +118,7 @@ ratpack {
                     }
                 }
             }
+
             path('teams/:teamId') {
                 def teamId = pathTokens['teamId']
                 byMethod {
@@ -127,6 +129,25 @@ ratpack {
                 }
             }
 
+            path('teams/:teamId/roster') {
+                def teamId = pathTokens['teamId']
+                byMethod {
+                    get {
+                        def teamRoster = mlbTwitsService.getTeamRoster(teamId)
+                        render json(teamRoster)
+                    }
+                }
+            }
+
+//            path('players/info') {
+//                byMethod {
+//                    get {
+//                        def players = mlbTwitsService.getPlayersWithTeams()
+//                        render players.class.toString()
+//                    }
+//                }
+//            }
+
             path('players') {
                 byMethod {
                     get {
@@ -135,6 +156,7 @@ ratpack {
                     }
                 }
             }
+
             path('players/:playerId') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -144,6 +166,7 @@ ratpack {
                     }
                 }
             }
+
             path('players/:playerId/tweets') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -181,7 +204,7 @@ ratpack {
                 byMethod {
                     get {
                         List<Player> players = mlbTwitsService.getPlayersByTerm(term)
-                        render json(players.collect { ['name' : it.name, 'label' : it.namePlain]})
+                        render json(players.collect { ['playerName' : it.playerName, 'label' : it.playerNamePlain]})
                     }
                 }
             }
@@ -208,14 +231,14 @@ ratpack {
 
         prefix('test/data') {
 
-            path('mlb/rosters/2017/40man') {
+            path('mlb/players') {
                 DataSource dataSource = registry.get(DataSource.class)
                 DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
                 def teams = context.selectFrom(TEAM)
                         .fetchInto(Team.class)
 
-                def teamCodes = teams.collect { it.mlbTeamCode.toLowerCase() }
+                def teamCodes = teams.collect { it.teamCodeMlb.toLowerCase() }
 
                 HttpClient httpClient = registry.get(HttpClient.class)
 
@@ -230,10 +253,10 @@ ratpack {
 //                        teamFile << it.body.text
                     }
                 }
-                render '40 man rosters'
+                render 'mlb players from 40 man rosters'
             }
 
-            path('mlb/playerinfo') {
+            path('mlb/players/info') {
                 DataSource dataSource = registry.get(DataSource.class)
                 DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
@@ -250,7 +273,7 @@ ratpack {
                 teamCodes.each { String teamCode ->
                     // get the team
                     Team team = context.selectFrom(TEAM)
-                            .where(TEAM.MLB_TEAM_CODE.equal(teamCode.toUpperCase()))
+                            .where(TEAM.TEAM_CODE_MLB.equal(teamCode.toUpperCase()))
                             .fetchInto(Team.class)
 
                     log.info(team.toString())
@@ -272,19 +295,37 @@ ratpack {
 //                            log.info(it.text().trim())
 
                             String mlbPlayerId = it.a.@href.toString().split("/")[2]
-                            String mlbPlayerName = it.text().trim()
+                            String mlbPlayerName = (it.text() - '(60-day DL)').trim()
 
                             log.info(mlbPlayerName)
 
                             try {
                                 Player player = context.selectFrom(PLAYER)
-                                        .where(PLAYER.NAME_PLAIN.equal(mlbPlayerName))
+                                        .where(PLAYER.PLAYER_NAME_PLAIN.equal(mlbPlayerName))
                                         .fetchInto(Player.class)
-                                log.info(player.toString())
 
+//                                context.update(PLAYER)
+//                                    .set(PLAYER.TEAM_ID, team.getTeamId())
+//                                    .set(PLAYER.MLB_PLAYER_ID, mlbPlayerId)
+//                                    .where(PLAYER.PLAYER_ID.eq(player.getPlayerId()))
+//                                    .execute()
+//
+//                                player = context.selectFrom(PLAYER)
+//                                        .where(PLAYER.PLAYER_NAME_PLAIN.equal(mlbPlayerName))
+//                                        .fetchInto(Player.class)
+
+                                log.info(player.toString())
 //                                playerFoundFile << player.toString() + '\n'
                             } catch (Exception e) {
-                                playerMissingFile << "$mlbPlayerName $mlbPlayerId ${team.getTeamId()} ${team.getMlbTeamCode()} \n"
+//                                playerMissingFile << "$mlbPlayerName $mlbPlayerId ${team.getTeamId()} ${team.getTeamCodeMlb()} \n"
+
+//                                context.insertInto(PLAYER)
+//                                    .set(PLAYER.PLAYER_NAME, mlbPlayerName)
+//                                    .set(PLAYER.PLAYER_NAME_PLAIN, mlbPlayerName)
+//                                    .set(PLAYER.TEAM_ID, team.getTeamId())
+//                                    .set(PLAYER.MLB_PLAYER_ID, mlbPlayerId)
+//                                    .execute()
+
                                 log.info("${mlbPlayerName} not found")
                             }
                         }
@@ -410,7 +451,7 @@ ratpack {
                                         log.info("Inserting player: $name")
 
 //                                        context.insertInto(PLAYER)
-//                                            .set(PLAYER.NAME, name.trim())
+//                                            .set(PLAYER.PLAYER_NAME, name.trim())
 //                                            .execute()
                                     }
                                 }

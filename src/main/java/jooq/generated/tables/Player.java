@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player extends TableImpl<PlayerRecord> {
 
-	private static final long serialVersionUID = -636745705;
+	private static final long serialVersionUID = -349839679;
 
 	/**
 	 * The reference instance of <code>public.player</code>
@@ -56,19 +56,24 @@ public class Player extends TableImpl<PlayerRecord> {
 	public final TableField<PlayerRecord, Integer> PLAYER_ID = createField("player_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
-	 * The column <code>public.player.name</code>.
+	 * The column <code>public.player.player_name</code>.
 	 */
-	public final TableField<PlayerRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+	public final TableField<PlayerRecord, String> PLAYER_NAME = createField("player_name", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
-	 * The column <code>public.player.name_plain</code>.
+	 * The column <code>public.player.player_name_plain</code>.
 	 */
-	public final TableField<PlayerRecord, String> NAME_PLAIN = createField("name_plain", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+	public final TableField<PlayerRecord, String> PLAYER_NAME_PLAIN = createField("player_name_plain", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
 	 * The column <code>public.player.team_id</code>.
 	 */
 	public final TableField<PlayerRecord, Integer> TEAM_ID = createField("team_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player.mlb_player_id</code>.
+	 */
+	public final TableField<PlayerRecord, String> MLB_PLAYER_ID = createField("mlb_player_id", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
 	 * Create a <code>public.player</code> table reference

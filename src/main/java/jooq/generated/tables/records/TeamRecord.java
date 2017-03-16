@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Record3<Integer, String, String> {
 
-	private static final long serialVersionUID = -779081852;
+	private static final long serialVersionUID = 1119377902;
 
 	/**
 	 * Setter for <code>public.team.team_id</code>.
@@ -46,32 +46,32 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	}
 
 	/**
-	 * Setter for <code>public.team.name</code>.
+	 * Setter for <code>public.team.team_name</code>.
 	 */
-	public TeamRecord setName(String value) {
+	public TeamRecord setTeamName(String value) {
 		setValue(1, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.team.name</code>.
+	 * Getter for <code>public.team.team_name</code>.
 	 */
-	public String getName() {
+	public String getTeamName() {
 		return (String) getValue(1);
 	}
 
 	/**
-	 * Setter for <code>public.team.mlb_team_code</code>.
+	 * Setter for <code>public.team.team_code_mlb</code>.
 	 */
-	public TeamRecord setMlbTeamCode(String value) {
+	public TeamRecord setTeamCodeMlb(String value) {
 		setValue(2, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.team.mlb_team_code</code>.
+	 * Getter for <code>public.team.team_code_mlb</code>.
 	 */
-	public String getMlbTeamCode() {
+	public String getTeamCodeMlb() {
 		return (String) getValue(2);
 	}
 
@@ -120,7 +120,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public Field<String> field2() {
-		return Team.TEAM.NAME;
+		return Team.TEAM.TEAM_NAME;
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public Field<String> field3() {
-		return Team.TEAM.MLB_TEAM_CODE;
+		return Team.TEAM.TEAM_CODE_MLB;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public String value2() {
-		return getName();
+		return getTeamName();
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public String value3() {
-		return getMlbTeamCode();
+		return getTeamCodeMlb();
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public TeamRecord value2(String value) {
-		setName(value);
+		setTeamName(value);
 		return this;
 	}
 
@@ -178,7 +178,7 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	 */
 	@Override
 	public TeamRecord value3(String value) {
-		setMlbTeamCode(value);
+		setTeamCodeMlb(value);
 		return this;
 	}
 
@@ -207,11 +207,11 @@ public class TeamRecord extends UpdatableRecordImpl<TeamRecord> implements Recor
 	/**
 	 * Create a detached, initialised TeamRecord
 	 */
-	public TeamRecord(Integer teamId, String name, String mlbTeamCode) {
+	public TeamRecord(Integer teamId, String teamName, String teamCodeMlb) {
 		super(Team.TEAM);
 
 		setValue(0, teamId);
-		setValue(1, name);
-		setValue(2, mlbTeamCode);
+		setValue(1, teamName);
+		setValue(2, teamCodeMlb);
 	}
 }

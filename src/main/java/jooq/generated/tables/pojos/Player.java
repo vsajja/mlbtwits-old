@@ -22,46 +22,54 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player implements Serializable {
 
-	private static final long serialVersionUID = -830703681;
+	private static final long serialVersionUID = 387083678;
 
 	private final Integer playerId;
-	private final String  name;
-	private final String  namePlain;
+	private final String  playerName;
+	private final String  playerNamePlain;
 	private final Integer teamId;
+	private final String  mlbPlayerId;
 
 	public Player(Player value) {
 		this.playerId = value.playerId;
-		this.name = value.name;
-		this.namePlain = value.namePlain;
+		this.playerName = value.playerName;
+		this.playerNamePlain = value.playerNamePlain;
 		this.teamId = value.teamId;
+		this.mlbPlayerId = value.mlbPlayerId;
 	}
 
 	public Player(
 		Integer playerId,
-		String  name,
-		String  namePlain,
-		Integer teamId
+		String  playerName,
+		String  playerNamePlain,
+		Integer teamId,
+		String  mlbPlayerId
 	) {
 		this.playerId = playerId;
-		this.name = name;
-		this.namePlain = namePlain;
+		this.playerName = playerName;
+		this.playerNamePlain = playerNamePlain;
 		this.teamId = teamId;
+		this.mlbPlayerId = mlbPlayerId;
 	}
 
 	public Integer getPlayerId() {
 		return this.playerId;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getPlayerName() {
+		return this.playerName;
 	}
 
-	public String getNamePlain() {
-		return this.namePlain;
+	public String getPlayerNamePlain() {
+		return this.playerNamePlain;
 	}
 
 	public Integer getTeamId() {
 		return this.teamId;
+	}
+
+	public String getMlbPlayerId() {
+		return this.mlbPlayerId;
 	}
 
 	@Override
@@ -69,9 +77,10 @@ public class Player implements Serializable {
 		StringBuilder sb = new StringBuilder("Player (");
 
 		sb.append(playerId);
-		sb.append(", ").append(name);
-		sb.append(", ").append(namePlain);
+		sb.append(", ").append(playerName);
+		sb.append(", ").append(playerNamePlain);
 		sb.append(", ").append(teamId);
+		sb.append(", ").append(mlbPlayerId);
 
 		sb.append(")");
 		return sb.toString();

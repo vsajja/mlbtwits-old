@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PositionRecord extends UpdatableRecordImpl<PositionRecord> implements Record2<Integer, String> {
 
-	private static final long serialVersionUID = 160976488;
+	private static final long serialVersionUID = -643646204;
 
 	/**
 	 * Setter for <code>public.position.position_d</code>.
@@ -46,17 +46,17 @@ public class PositionRecord extends UpdatableRecordImpl<PositionRecord> implemen
 	}
 
 	/**
-	 * Setter for <code>public.position.name</code>.
+	 * Setter for <code>public.position.position_name</code>.
 	 */
-	public PositionRecord setName(String value) {
+	public PositionRecord setPositionName(String value) {
 		setValue(1, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.position.name</code>.
+	 * Getter for <code>public.position.position_name</code>.
 	 */
-	public String getName() {
+	public String getPositionName() {
 		return (String) getValue(1);
 	}
 
@@ -105,7 +105,7 @@ public class PositionRecord extends UpdatableRecordImpl<PositionRecord> implemen
 	 */
 	@Override
 	public Field<String> field2() {
-		return Position.POSITION.NAME;
+		return Position.POSITION.POSITION_NAME;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class PositionRecord extends UpdatableRecordImpl<PositionRecord> implemen
 	 */
 	@Override
 	public String value2() {
-		return getName();
+		return getPositionName();
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class PositionRecord extends UpdatableRecordImpl<PositionRecord> implemen
 	 */
 	@Override
 	public PositionRecord value2(String value) {
-		setName(value);
+		setPositionName(value);
 		return this;
 	}
 
@@ -166,10 +166,10 @@ public class PositionRecord extends UpdatableRecordImpl<PositionRecord> implemen
 	/**
 	 * Create a detached, initialised PositionRecord
 	 */
-	public PositionRecord(Integer positionD, String name) {
+	public PositionRecord(Integer positionD, String positionName) {
 		super(Position.POSITION);
 
 		setValue(0, positionD);
-		setValue(1, name);
+		setValue(1, positionName);
 	}
 }

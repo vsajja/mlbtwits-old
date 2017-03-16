@@ -22,38 +22,38 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Team implements Serializable {
 
-	private static final long serialVersionUID = 1500091084;
+	private static final long serialVersionUID = 1736476763;
 
 	private final Integer teamId;
-	private final String  name;
-	private final String  mlbTeamCode;
+	private final String  teamName;
+	private final String  teamCodeMlb;
 
 	public Team(Team value) {
 		this.teamId = value.teamId;
-		this.name = value.name;
-		this.mlbTeamCode = value.mlbTeamCode;
+		this.teamName = value.teamName;
+		this.teamCodeMlb = value.teamCodeMlb;
 	}
 
 	public Team(
 		Integer teamId,
-		String  name,
-		String  mlbTeamCode
+		String  teamName,
+		String  teamCodeMlb
 	) {
 		this.teamId = teamId;
-		this.name = name;
-		this.mlbTeamCode = mlbTeamCode;
+		this.teamName = teamName;
+		this.teamCodeMlb = teamCodeMlb;
 	}
 
 	public Integer getTeamId() {
 		return this.teamId;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getTeamName() {
+		return this.teamName;
 	}
 
-	public String getMlbTeamCode() {
-		return this.mlbTeamCode;
+	public String getTeamCodeMlb() {
+		return this.teamCodeMlb;
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class Team implements Serializable {
 		StringBuilder sb = new StringBuilder("Team (");
 
 		sb.append(teamId);
-		sb.append(", ").append(name);
-		sb.append(", ").append(mlbTeamCode);
+		sb.append(", ").append(teamName);
+		sb.append(", ").append(teamCodeMlb);
 
 		sb.append(")");
 		return sb.toString();

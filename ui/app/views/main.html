@@ -30,23 +30,9 @@
           </a>
         </form>
 
-
-        <!--<br/>-->
-
-        <!--<form class="form-inline ng-pristine ng-valid">-->
-          <!--<input disabled="" size="20"-->
-                 <!--style="height: 40px; font-family: Calibri; color: blue; font-size: 150%;"-->
-                 <!--type="text" class="form-control"-->
-                 <!--placeholder="Players, Tweets...">-->
-          <!--<a href="#/results">-->
-            <!--<button style="border: none; background: none; color: black"><p><i class="fa fa-search fa-2x"-->
-                                                                               <!--aria-hidden="true"></i></p>-->
-            <!--</button>-->
-          <!--</a>-->
-        <!--</form>-->
+        <!--<a href="#!/closers">Closers</a>-->
       </div>
     </div>
-
   </div>
 
   <div class="col-sm-5">
@@ -118,13 +104,28 @@
 
   <div class="col-sm-2">
    <div class="panel panel-default">
-      <div class="panel-heading"><strong>TRENDING</strong></div>
+      <div class="panel-heading" style="text-align: center"><strong>TRENDING</strong></div>
       <div class="panel-body">
         <div ng-repeat="player in mlbtwits.trending">
           <a ng-href="#!/players/{{player.playerId}}">
             <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i> {{ player.playerName }}
             <!--{{$last ? '' : ','}}-->
           </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading" style="text-align: center"><strong>TRANSACTION TRENDS (YAHOO)</strong></div>
+      <div class="panel-body">
+        <div ng-repeat="player in mlbtwits.trendingYahoo">
+          <!--<a ng-href="#!/players/{{player.name}}">-->
+            <div>
+              <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i> {{ player.playerName }}
+              ({{ player.transactions }})
+            </div>
+            <!--{{$last ? '' : ','}}-->
+          <!--</a>-->
         </div>
       </div>
     </div>

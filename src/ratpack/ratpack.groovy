@@ -1,4 +1,5 @@
 import com.zaxxer.hikari.HikariConfig
+import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.daos.PlayerDao
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
@@ -139,14 +140,14 @@ ratpack {
                 }
             }
 
-//            path('players/info') {
-//                byMethod {
-//                    get {
-//                        def players = mlbTwitsService.getPlayersWithTeams()
-//                        render players.class.toString()
-//                    }
-//                }
-//            }
+            path('players/info') {
+                byMethod {
+                    get {
+                        def players = mlbTwitsService.getPlayersWithTeams()
+                        render json(players)
+                    }
+                }
+            }
 
             path('players') {
                 byMethod {
@@ -225,6 +226,45 @@ ratpack {
                             render json(insertedRecords)
                         }
                     }
+                }
+            }
+        }
+
+        prefix('test') {
+            get('trending/yahoo') {
+                String trendingUrl = "https://baseball.fantasysports.yahoo.com/b1/buzzindex?bimtab=ALL&pos=ALL"
+                HttpClient httpClient = registry.get(HttpClient.class)
+
+                XmlSlurper slurper = new XmlSlurper(new Parser())
+                httpClient.get(new URI(trendingUrl)).then {
+                    GPathResult trendingContent = slurper.parseText(it.body.text)
+
+                    List trendingPlayers = []
+
+                    String name
+                    String transactions
+
+                    def topFiveTrending = trendingContent.depthFirst().findAll {
+                        if(it.@class.toString().contains('ysf-player-name')) {
+//                            log.info(it.a.text())
+                            name = it.a.text()
+                        }
+
+                        if(it.@class.toString() == 'Alt Last Ta-end Selected') {
+                            transactions = it.div.text()
+
+                            def tPlayer = ['name' : name, 'transactions' : transactions]
+
+                            trendingPlayers.add(tPlayer)
+                        }
+                    }
+
+                    trendingPlayers.take(10).each { tPlayer ->
+                        log.info(tPlayer.name)
+                        log.info(tPlayer.transactions.toString())
+                    }
+
+                    render json(trendingPlayers)
                 }
             }
         }

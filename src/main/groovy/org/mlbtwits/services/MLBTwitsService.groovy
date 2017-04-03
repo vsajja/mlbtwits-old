@@ -1,18 +1,23 @@
 package org.mlbtwits.services
 
 import com.google.inject.Inject
+import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
+import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.RecordMapper
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import ratpack.http.client.HttpClient
 
 import static jooq.generated.Tables.*;
 
 import javax.sql.DataSource
+
+import static ratpack.jackson.Jackson.json
 
 class MLBTwitsService {
     DSLContext context
@@ -53,10 +58,34 @@ class MLBTwitsService {
     }
 
     def getPlayersWithTeams() {
-        def players = context.select()
+        def sql = context.select()
                 .from(PLAYER.join(TEAM).on(PLAYER.TEAM_ID.equal(TEAM.TEAM_ID)))
-                .fetch()
-        return players
+//                .fetch()
+//                .into(Team.class)
+
+//        Player player = PLAYER.as('p')
+//        Team team = TEAM.as('t')
+
+//        context.select()
+//                .from(player)
+//                .join(team)
+//                .on(player.)
+//                .fetch()
+//                .into(Team.class)
+
+//        Box b = BOX.as("b");
+//        Support s = SUPPORT.as("s");
+//
+//        SelectSeekStep1<Integer, Integer> sql = query.select(b.ID, s.ID /* other columns */)
+//                .from(b)
+//                .join(s)
+//                .on(s.ID.eq(b.SUPPORT_ID))
+//                .where(s.ID.eq("XXXX"))
+//                .orderBy(b.ID)
+//        ;
+
+        List<Team> teams = []
+        return teams
     }
 
     public List<Player> getPlayersByTerm(String term) {
@@ -159,6 +188,7 @@ class MLBTwitsService {
         result.put('players', playerCount)
         result.put('teams', teamCount)
         result.put('trending', getTrending())
+        result.put('trendingYahoo', getTrendingYahoo())
         return result
     }
 
@@ -188,5 +218,33 @@ class MLBTwitsService {
                 .into(Player.class)
 
         return trending
+    }
+
+
+    def getTrendingYahoo() {
+        def trendingContentStr = "https://baseball.fantasysports.yahoo.com/b1/buzzindex?bimtab=ALL&pos=ALL".toURL().text.trim()
+        XmlSlurper slurper = new XmlSlurper(new Parser())
+
+        List trendingPlayers = []
+
+        String name
+        String transactions
+
+        GPathResult trendingContent = slurper.parseText(trendingContentStr)
+        trendingContent.depthFirst().findAll {
+            if (it.@class.toString().contains('ysf-player-name')) {
+                name = it.a.text()
+            }
+
+            if (it.@class.toString() == 'Alt Last Ta-end Selected') {
+                transactions = it.div.text()
+                def trendingPlayer = ['playerName': name, 'transactions': transactions]
+
+//                    println trendingPlayer.toString()
+                trendingPlayers.add(trendingPlayer)
+            }
+        }
+
+        return trendingPlayers.take(10)
     }
 }

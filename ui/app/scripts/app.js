@@ -60,6 +60,11 @@ var mlbTwitsApp = angular
         controller: 'TeamCtrl',
         controllerAs: 'team'
       })
+      .when('/closers', {
+        templateUrl: 'views/closers.html',
+        controller: 'ClosersCtrl',
+        controllerAs: 'closers'
+      })
       .otherwise({
         redirectTo: '/'
       });

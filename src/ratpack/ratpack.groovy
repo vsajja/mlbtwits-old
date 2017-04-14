@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
 import ratpack.config.ConfigDataBuilder
 import ratpack.groovy.sql.SqlModule
+import ratpack.groovy.template.TextTemplateModule
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
 import ratpack.http.client.HttpClient
@@ -37,6 +38,7 @@ import javax.sql.DataSource
 
 import static jooq.generated.Tables.PLAYER
 import static jooq.generated.Tables.TEAM
+import static ratpack.groovy.Groovy.groovyTemplate
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
@@ -68,13 +70,15 @@ ratpack {
         bind MLBTwitsSchedulingService
         bind MLBTwitsService
 //        bind TwitterStreamService
+
+        bind TextTemplateModule
     }
 
     handlers { MLBTwitsService mlbTwitsService ->
         all RequestLogger.ncsa(log)
 
         get {
-            redirect('index.html')
+            response.contentType('text/html').send new File('src/ratpack/dist/index.html').text
         }
 
         get('redis') {
@@ -548,5 +552,6 @@ ratpack {
         files {
             dir 'dist'
         }
+//        files('dist', 'index.html')
     }
 }

@@ -11,7 +11,10 @@ import org.jooq.Record
 import org.jooq.RecordMapper
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import ratpack.http.client.HttpClient
+import redis.clients.jedis.Jedis
 
 import static jooq.generated.Tables.*;
 
@@ -20,6 +23,8 @@ import javax.sql.DataSource
 import static ratpack.jackson.Jackson.json
 
 class MLBTwitsService {
+    final Logger log = LoggerFactory.getLogger(this.class)
+
     DSLContext context
 
     @Inject
@@ -188,7 +193,6 @@ class MLBTwitsService {
         result.put('players', playerCount)
         result.put('teams', teamCount)
         result.put('trending', getTrending())
-        result.put('trendingYahoo', getTrendingYahoo())
         return result
     }
 
@@ -221,11 +225,12 @@ class MLBTwitsService {
     }
 
 
+    /*
     def getTrendingYahoo() {
+        List trendingPlayers = []
+
         def trendingContentStr = "https://baseball.fantasysports.yahoo.com/b1/buzzindex?bimtab=ALL&pos=ALL".toURL().text.trim()
         XmlSlurper slurper = new XmlSlurper(new Parser())
-
-        List trendingPlayers = []
 
         String name
         String transactions
@@ -244,7 +249,7 @@ class MLBTwitsService {
                 trendingPlayers.add(trendingPlayer)
             }
         }
-
         return trendingPlayers.take(10)
     }
+    */
 }

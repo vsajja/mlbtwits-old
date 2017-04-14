@@ -77,8 +77,12 @@ ratpack {
     handlers { MLBTwitsService mlbTwitsService ->
         all RequestLogger.ncsa(log)
 
+//        get {
+//            response.contentType('text/html').send new File('src/ratpack/dist/index.html').text
+//        }
+
         get {
-            response.contentType('text/html').send new File('src/ratpack/dist/index.html').text
+            redirect('index.html')
         }
 
         get('redis') {

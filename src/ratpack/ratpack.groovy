@@ -77,13 +77,16 @@ ratpack {
     handlers { MLBTwitsService mlbTwitsService ->
         all RequestLogger.ncsa(log)
 
-//        get {
-//            response.contentType('text/html').send new File('src/ratpack/dist/index.html').text
-//        }
 
-//        get {
-//            redirect('index.html')
-//        }
+        all {
+            String forwardedProto = 'X-Forwarded-Proto'
+            if (request.headers.contains(forwardedProto)
+                    && request.headers.get(forwardedProto) != 'https') {
+                redirect(301, "https://${request.headers.get('Host')}${request.rawUri}")
+            } else {
+                next()
+            }
+        }
 
         get('redis') {
             String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
@@ -105,7 +108,7 @@ ratpack {
         prefix('api/v1') {
             all {
                 response.headers.add('Access-Control-Allow-Origin', '*')
-                response.headers.add('Access-Control-Allow-Headers', 'origin, x-requested-with, content-type')
+                response.headers.add('Access-Control-Allow-Headers', 'Authorization, origin, x-requested-with, content-type')
                 response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                 next()
             }

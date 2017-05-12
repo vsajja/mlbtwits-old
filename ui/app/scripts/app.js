@@ -105,7 +105,6 @@ mlbTwitsApp.run(function ($rootScope, $location, $cookieStore, $http, editableOp
   }
 
   $rootScope.$on('$locationChangeStart', function () {
-    console.log('test');
     // redirect to login page if not logged in and trying to access a restricted page
     var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
 

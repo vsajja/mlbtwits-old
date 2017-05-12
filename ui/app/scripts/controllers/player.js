@@ -19,6 +19,7 @@ angular.module('mlbTwitsApp')
 
     var playerId = $routeParams.playerId;
     var player = Restangular.one('players', playerId);
+    var playerLabels = Restangular.all('playerLabels');
 
     // This will query /players/:playerId and return a promise.
     $scope.getPlayer = function () {
@@ -34,6 +35,12 @@ angular.module('mlbTwitsApp')
       });
     };
 
+    $scope.getPlayerLabels = function () {
+      playerLabels.customGET().then(function (playerLabels) {
+        $scope.playerLabels = playerLabels;
+      });
+    };
+
     $scope.tweetPlayer = function () {
       player.post('tweets', $scope.tweet).then(function (newTweet) {
         $scope.getPlayerTweets();
@@ -44,10 +51,10 @@ angular.module('mlbTwitsApp')
     };
 
     $scope.searchPlayers = function (term) {
-      var lables = Restangular.one('labels', term);
-      lables.customGET().then(function (labels) {
-        $scope.players = labels;
+      var labels = $scope.playerLabels.filter(function (playerLabel) {
+        return playerLabel.label.toLowerCase().indexOf(term.toLowerCase()) >= 0;
       });
+      $scope.players = labels;
     };
 
     $scope.getPlayerTextRaw = function (player) {
@@ -60,6 +67,11 @@ angular.module('mlbTwitsApp')
       $scope.alerts.splice(index, 1);
     };
 
-    $scope.getPlayer();
-    $scope.getPlayerTweets();
+    function initController() {
+      $scope.getPlayer();
+      $scope.getPlayerTweets();
+      $scope.getPlayerLabels();
+    }
+
+    initController();
   }]);

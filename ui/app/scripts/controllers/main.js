@@ -19,6 +19,7 @@ angular.module('mlbTwitsApp')
 
     var mlbtwits = Restangular.all('mlbtwits');
     var tweets = Restangular.all('tweets');
+    var playerLabels = Restangular.all('playerLabels');
 
     $scope.getMLBTwits = function () {
       mlbtwits.customGET().then(function (mlbtwits) {
@@ -32,6 +33,12 @@ angular.module('mlbTwitsApp')
       });
     };
 
+    $scope.getPlayerLabels = function () {
+      playerLabels.customGET().then(function (playerLabels) {
+        $scope.playerLabels = playerLabels;
+      });
+    };
+
     $scope.tweetPlayer = function () {
       tweets.post($scope.tweet).then(function (newTweet) {
         $scope.getTweets();
@@ -42,13 +49,6 @@ angular.module('mlbTwitsApp')
       });
     };
 
-    $scope.searchPeople = function (term) {
-      var lables = Restangular.one('labels', term);
-      lables.customGET().then(function (labels) {
-        $scope.people = labels;
-      });
-    };
-
     $scope.getPeopleText = function (player) {
       // return '@' + player.label;
       // return '<player playerId="' + player.label + '"' + '>' + player.label + '</player>'
@@ -56,10 +56,10 @@ angular.module('mlbTwitsApp')
     };
 
     $scope.searchPlayers = function (term) {
-      var lables = Restangular.one('labels', term);
-      lables.customGET().then(function (labels) {
-        $scope.players = labels;
+      var labels = $scope.playerLabels.filter(function (playerLabel) {
+        return playerLabel.label.toLowerCase().indexOf(term.toLowerCase()) >= 0;
       });
+      $scope.players = labels;
     };
 
     $scope.getPlayerTextRaw = function (player) {
@@ -71,20 +71,6 @@ angular.module('mlbTwitsApp')
     $scope.closeAlert = function (index) {
       $scope.alerts.splice(index, 1);
     };
-
-    $scope.getMLBTwits();
-    $scope.getTweets();
-
-    function initController() {
-      // var loggedIn = $rootScope.globals.currentUser;
-      // if(!loggedIn) {
-      //   $location.path('/login');
-      // }
-      // else {
-        loadCurrentUser();
-        loadAllUsers();
-      // }
-    }
 
     function loadCurrentUser() {
       UserService.GetByUsername($rootScope.globals.currentUser.username)
@@ -112,6 +98,15 @@ angular.module('mlbTwitsApp')
     vm.user = null;
     vm.allUsers = [];
     vm.deleteUser = deleteUser;
+
+    function initController() {
+      loadCurrentUser();
+      loadAllUsers();
+
+      $scope.getMLBTwits();
+      $scope.getTweets();
+      $scope.getPlayerLabels();
+    }
 
     initController();
   }]);

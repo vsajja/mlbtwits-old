@@ -203,23 +203,15 @@ ratpack {
                 }
             }
 
-            path('labels') {
+            path('playerLabels') {
                 byMethod {
                     get {
-                        List<Player> players = []
-                        render json(players)
-                    }
-                }
-            }
-            path('labels/:term') {
-                def term = pathTokens['term']
-                byMethod {
-                    get {
-                        List<Player> players = mlbTwitsService.getPlayersByTerm(term)
+                        def players = mlbTwitsService.getPlayers()
                         render json(players.collect { ['playerName' : it.playerName, 'label' : it.playerNamePlain]})
                     }
                 }
             }
+
             path('tweets') {
                 byMethod {
                     get {

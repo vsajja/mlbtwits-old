@@ -8,12 +8,12 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('MainCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', ['$scope', 'Restangular', 'UserService', '$rootScope', function ($scope, Restangular, UserService, $rootScope) {
+    // this.awesomeThings = [
+    //   'HTML5 Boilerplate',
+    //   'AngularJS',
+    //   'Karma'
+    // ];
 
     $scope.alerts = [];
 
@@ -74,4 +74,44 @@ angular.module('mlbTwitsApp')
 
     $scope.getMLBTwits();
     $scope.getTweets();
+
+    function initController() {
+      // var loggedIn = $rootScope.globals.currentUser;
+      // if(!loggedIn) {
+      //   $location.path('/login');
+      // }
+      // else {
+        loadCurrentUser();
+        loadAllUsers();
+      // }
+    }
+
+    function loadCurrentUser() {
+      UserService.GetByUsername($rootScope.globals.currentUser.username)
+        .then(function (user) {
+          vm.user = user;
+        });
+    }
+
+    function loadAllUsers() {
+      UserService.GetAll()
+        .then(function (users) {
+          vm.allUsers = users;
+        });
+    }
+
+    function deleteUser(id) {
+      UserService.Delete(id)
+        .then(function () {
+          loadAllUsers();
+        });
+    }
+
+    var vm = this;
+
+    vm.user = null;
+    vm.allUsers = [];
+    vm.deleteUser = deleteUser;
+
+    initController();
   }]);

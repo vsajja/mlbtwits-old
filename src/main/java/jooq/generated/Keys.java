@@ -10,10 +10,12 @@ import jooq.generated.tables.Player;
 import jooq.generated.tables.Position;
 import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
+import jooq.generated.tables.User;
 import jooq.generated.tables.records.PlayerRecord;
 import jooq.generated.tables.records.PositionRecord;
 import jooq.generated.tables.records.TeamRecord;
 import jooq.generated.tables.records.TweetRecord;
+import jooq.generated.tables.records.UserRecord;
 
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -51,6 +53,7 @@ public class Keys {
 	public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = UniqueKeys0.PLAYER_PLAYER_ID_PK;
 	public static final UniqueKey<PositionRecord> POSITION_PKEY = UniqueKeys0.POSITION_PKEY;
 	public static final UniqueKey<TeamRecord> TEAM_PKEY = UniqueKeys0.TEAM_PKEY;
+	public static final UniqueKey<UserRecord> USER_PKEY = UniqueKeys0.USER_PKEY;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
@@ -74,6 +77,7 @@ public class Keys {
 		public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = createUniqueKey(Player.PLAYER, Player.PLAYER.PLAYER_ID);
 		public static final UniqueKey<PositionRecord> POSITION_PKEY = createUniqueKey(Position.POSITION, Position.POSITION.POSITION_D);
 		public static final UniqueKey<TeamRecord> TEAM_PKEY = createUniqueKey(Team.TEAM, Team.TEAM.TEAM_ID);
+		public static final UniqueKey<UserRecord> USER_PKEY = createUniqueKey(User.USER, User.USER.USER_ID);
 	}
 
 	private static class ForeignKeys0 extends AbstractKeys {

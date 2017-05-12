@@ -14,6 +14,7 @@ import jooq.generated.tables.Player;
 import jooq.generated.tables.Position;
 import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
+import jooq.generated.tables.User;
 
 import org.jooq.Sequence;
 import org.jooq.Table;
@@ -33,7 +34,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = -1539648852;
+	private static final long serialVersionUID = -2092601719;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -74,6 +75,7 @@ public class Public extends SchemaImpl {
 			Player.PLAYER,
 			Position.POSITION,
 			Team.TEAM,
-			Tweet.TWEET);
+			Tweet.TWEET,
+			User.USER);
 	}
 }

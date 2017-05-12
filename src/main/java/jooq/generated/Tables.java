@@ -10,6 +10,7 @@ import jooq.generated.tables.Player;
 import jooq.generated.tables.Position;
 import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
+import jooq.generated.tables.User;
 
 
 /**
@@ -44,4 +45,9 @@ public class Tables {
 	 * The table public.tweet
 	 */
 	public static final Tweet TWEET = jooq.generated.tables.Tweet.TWEET;
+
+	/**
+	 * The table public.user
+	 */
+	public static final User USER = jooq.generated.tables.User.USER;
 }

@@ -21,14 +21,18 @@ var mlbTwitsApp = angular
     'restangular',
     'xeditable',
     'angularMoment',
-    'mentio'
+    'mentio',
+    'base64'
   ])
   .config(function ($routeProvider, $compileProvider, $locationProvider, RestangularProvider) {
     $routeProvider
       .when('/', {
+        // templateUrl: 'views/login.html',
+        // controller: 'LoginCtrl',
+        // controllerAs: 'vm'
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'main'
+        controllerAs: 'vm'
       })
       .when('/player', {
         templateUrl: 'views/player.html',
@@ -65,8 +69,18 @@ var mlbTwitsApp = angular
         controller: 'ClosersCtrl',
         controllerAs: 'closers'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl',
+        controllerAs: 'vm'
+      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
 
     $locationProvider.html5Mode(false);
@@ -80,6 +94,24 @@ var mlbTwitsApp = angular
     RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
   });
 
-mlbTwitsApp.run(function (editableOptions) {
+// mlbTwitsApp.run(function (editableOptions, $cookieStore, $rootScope) {
+mlbTwitsApp.run(function ($rootScope, $location, $cookieStore, $http, editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+
+  // keep user logged in after page refresh
+  $rootScope.globals = $cookieStore.get('globals') || {};
+  if ($rootScope.globals.currentUser) {
+    $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+  }
+
+  $rootScope.$on('$locationChangeStart', function () {
+    console.log('test');
+    // redirect to login page if not logged in and trying to access a restricted page
+    var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+
+    var loggedIn = $rootScope.globals.currentUser;
+    if (restrictedPage && !loggedIn) {
+      $location.path('/login');
+    }
+  });
 });

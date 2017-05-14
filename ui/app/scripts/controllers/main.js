@@ -8,7 +8,7 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('MainCtrl', ['$scope', 'Restangular', 'UserService', '$rootScope', function ($scope, Restangular, UserService, $rootScope) {
+  .controller('MainCtrl', ['$scope', 'Restangular', 'UserService', function ($scope, Restangular, UserService) {
     // this.awesomeThings = [
     //   'HTML5 Boilerplate',
     //   'AngularJS',
@@ -21,7 +21,7 @@ angular.module('mlbTwitsApp')
     var tweets = Restangular.all('tweets');
     var playerLabels = Restangular.all('playerLabels');
 
-    $scope.getMLBTwits = function () {
+    $scope.getMLBTwits = function getMLBTwits() {
       mlbtwits.customGET().then(function (mlbtwits) {
         $scope.mlbtwits = mlbtwits;
       });
@@ -56,6 +56,11 @@ angular.module('mlbTwitsApp')
     };
 
     $scope.searchPlayers = function (term) {
+      if(!term) {
+        $scope.players = null;
+        return;
+      }
+
       var labels = $scope.playerLabels.filter(function (playerLabel) {
         return playerLabel.label.toLowerCase().indexOf(term.toLowerCase()) >= 0;
       });
@@ -72,40 +77,26 @@ angular.module('mlbTwitsApp')
       $scope.alerts.splice(index, 1);
     };
 
-    function loadCurrentUser() {
-      UserService.GetByUsername($rootScope.globals.currentUser.username)
-        .then(function (user) {
-          vm.user = user;
-        });
-    }
-
-    function loadAllUsers() {
-      UserService.GetAll()
-        .then(function (users) {
-          vm.allUsers = users;
-        });
-    }
-
-    function deleteUser(id) {
+    $scope.deleteUser = function deleteUser(id) {
       UserService.Delete(id)
         .then(function () {
           loadAllUsers();
         });
+    };
+
+    function loadAllUsers() {
+      UserService.GetAll()
+        .then(function (users) {
+          $scope.allUsers = users;
+        });
     }
 
-    var vm = this;
-
-    vm.user = null;
-    vm.allUsers = [];
-    vm.deleteUser = deleteUser;
-
     function initController() {
-      loadCurrentUser();
-      loadAllUsers();
-
       $scope.getMLBTwits();
       $scope.getTweets();
       $scope.getPlayerLabels();
+
+      loadAllUsers();
     }
 
     initController();

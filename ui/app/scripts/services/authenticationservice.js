@@ -35,7 +35,6 @@ angular.module('mlbTwitsApp')
       //    .success(function (response) {
       //        callback(response);
       //    });
-
     }
 
     function SetCredentials(username, password) {
@@ -70,13 +69,4 @@ angular.module('mlbTwitsApp')
     service.ClearCredentials = ClearCredentials;
 
     return service;
-
-    // var meaningOfLife = 42;
-    //
-    // // Public API here
-    // return {
-    //   someMethod: function () {
-    //     return meaningOfLife;
-    //   }
-    // };
   });

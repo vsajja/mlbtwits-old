@@ -27,12 +27,8 @@ var mlbTwitsApp = angular
   .config(function ($routeProvider, $compileProvider, $locationProvider, RestangularProvider) {
     $routeProvider
       .when('/', {
-        // templateUrl: 'views/login.html',
-        // controller: 'LoginCtrl',
-        // controllerAs: 'vm'
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'vm'
+        controller: 'MainCtrl'
       })
       .when('/player', {
         templateUrl: 'views/player.html',
@@ -71,13 +67,11 @@ var mlbTwitsApp = angular
       })
       .when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
-        controllerAs: 'vm'
+        controller: 'LoginCtrl'
       })
       .when('/register', {
         templateUrl: 'views/register.html',
-        controller: 'RegisterCtrl',
-        controllerAs: 'vm'
+        controller: 'RegisterCtrl'
       })
       .otherwise({
         redirectTo: '/login'
@@ -94,7 +88,6 @@ var mlbTwitsApp = angular
     RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
   });
 
-// mlbTwitsApp.run(function (editableOptions, $cookieStore, $rootScope) {
 mlbTwitsApp.run(function ($rootScope, $location, $cookieStore, $http, editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 
@@ -107,8 +100,8 @@ mlbTwitsApp.run(function ($rootScope, $location, $cookieStore, $http, editableOp
   $rootScope.$on('$locationChangeStart', function () {
     // redirect to login page if not logged in and trying to access a restricted page
     var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
-
     var loggedIn = $rootScope.globals.currentUser;
+
     if (restrictedPage && !loggedIn) {
       $location.path('/login');
     }

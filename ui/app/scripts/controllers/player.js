@@ -51,6 +51,11 @@ angular.module('mlbTwitsApp')
     };
 
     $scope.searchPlayers = function (term) {
+      if(!term) {
+        $scope.players = null;
+        return;
+      }
+
       var labels = $scope.playerLabels.filter(function (playerLabel) {
         return playerLabel.label.toLowerCase().indexOf(term.toLowerCase()) >= 0;
       });

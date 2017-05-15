@@ -42,4 +42,9 @@ public class Sequences {
 	 * The sequence <code>public.tweet_tweet_id_seq</code>
 	 */
 	public static final Sequence<Long> TWEET_TWEET_ID_SEQ = new SequenceImpl<Long>("tweet_tweet_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.user_user_id_seq</code>
+	 */
+	public static final Sequence<Long> USER_USER_ID_SEQ = new SequenceImpl<Long>("user_user_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 }

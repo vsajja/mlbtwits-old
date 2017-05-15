@@ -4,6 +4,7 @@ import jooq.generated.tables.daos.PlayerDao
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
+import jooq.generated.tables.pojos.User
 import org.apache.commons.lang3.StringUtils
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
@@ -35,6 +36,7 @@ import twitter4j.conf.Configuration
 import twitter4j.conf.ConfigurationBuilder
 
 import javax.sql.DataSource
+import java.text.SimpleDateFormat
 
 import static jooq.generated.Tables.PLAYER
 import static jooq.generated.Tables.TEAM
@@ -75,10 +77,9 @@ ratpack {
     }
 
     handlers { MLBTwitsService mlbTwitsService ->
-        all RequestLogger.ncsa(log)
-
-
         all {
+            RequestLogger.ncsa(log)
+
             String forwardedProto = 'X-Forwarded-Proto'
             if (request.headers.contains(forwardedProto)
                     && request.headers.get(forwardedProto) != 'https') {
@@ -111,6 +112,51 @@ ratpack {
                 response.headers.add('Access-Control-Allow-Headers', 'Authorization, origin, x-requested-with, content-type')
                 response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                 next()
+            }
+
+            path('users') {
+                byMethod {
+                    get {
+                        def users = mlbTwitsService.getUsers()
+                        render json(users)
+                    }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+//                            log.info(params.toString())
+                            def username = params.get('username')?.textValue()
+//                            def password = params.get('password')?.textValue()
+                            def firstName = params.get('firstName')?.textValue()
+                            def lastName = params.get('lastName')?.textValue()
+                            def emailAddress = params.get('emailAddress')?.textValue()
+
+                            assert username
+                            def password = '123456'
+                            assert emailAddress
+                            assert firstName
+                            assert lastName
+
+                            mlbTwitsService.registerUser(username, password, emailAddress, firstName, lastName)
+                        }.onError { Throwable e ->
+                            if(e.message.contains('unique constraint')) {
+                                clientError(409)
+                            }
+                        }.then { User user ->
+//                            log.info("Registered user with id: " + user.getUserId())
+                            render json(user)
+                        }
+                    }
+                }
+            }
+
+            path('users/:username') {
+                def username = pathTokens['username']
+                byMethod {
+                    get {
+                        def user = mlbTwitsService.getUser(username)
+                        render json(user)
+                    }
+                }
             }
 
             path('mlbtwits') {

@@ -5,6 +5,7 @@ import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
+import jooq.generated.tables.pojos.User
 import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.Record
@@ -13,6 +14,7 @@ import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ratpack.exec.Blocking
 import ratpack.http.client.HttpClient
 import redis.clients.jedis.Jedis
 
@@ -30,6 +32,37 @@ class MLBTwitsService {
     @Inject
     public MLBTwitsService(DataSource dataSource) {
         context = DSL.using(dataSource, SQLDialect.POSTGRES)
+    }
+
+    public List<User> getUsers() {
+        List<User> users = context.selectFrom(USER)
+                .fetch()
+                .into(User.class)
+        return users
+    }
+
+    public User getUser(String username) {
+        User user = context.selectFrom(USER)
+                .where(USER.USERNAME.equal(username))
+                .fetchOne()
+                .into(User.class)
+        return user
+    }
+
+    public User registerUser(String username, String password, String emailAddress, String firstName, String lastName) {
+        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+
+         def user = context.insertInto(USER)
+                    .set(USER.USERNAME, username)
+//                .set(USER.PASSWORD, password)
+                    .set(USER.EMAIL_ADDRESS, emailAddress)
+                    .set(USER.FIRST_NAME, firstName)
+                    .set(USER.LAST_NAME, lastName)
+//                .set(USER.CREATED_TIMESTAMP, createdTimestamp)
+                    .returning()
+                    .fetchOne()
+                    .into(User.class)
+        return user
     }
 
     public List<Team> getTeams() {

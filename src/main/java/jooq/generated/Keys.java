@@ -45,6 +45,7 @@ public class Keys {
 	public static final Identity<PositionRecord, Integer> IDENTITY_POSITION = Identities0.IDENTITY_POSITION;
 	public static final Identity<TeamRecord, Integer> IDENTITY_TEAM = Identities0.IDENTITY_TEAM;
 	public static final Identity<TweetRecord, Integer> IDENTITY_TWEET = Identities0.IDENTITY_TWEET;
+	public static final Identity<UserRecord, Integer> IDENTITY_USER = Identities0.IDENTITY_USER;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
@@ -71,6 +72,7 @@ public class Keys {
 		public static Identity<PositionRecord, Integer> IDENTITY_POSITION = createIdentity(Position.POSITION, Position.POSITION.POSITION_D);
 		public static Identity<TeamRecord, Integer> IDENTITY_TEAM = createIdentity(Team.TEAM, Team.TEAM.TEAM_ID);
 		public static Identity<TweetRecord, Integer> IDENTITY_TWEET = createIdentity(Tweet.TWEET, Tweet.TWEET.TWEET_ID);
+		public static Identity<UserRecord, Integer> IDENTITY_USER = createIdentity(User.USER, User.USER.USER_ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {

@@ -12,6 +12,7 @@ import org.jooq.Record
 import org.jooq.RecordMapper
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.mindrot.jbcrypt.BCrypt
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.exec.Blocking
@@ -53,15 +54,14 @@ class MLBTwitsService {
     }
 
     public User registerUser(String username, String password, String emailAddress) {
-        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
-
+//        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+        int BCRYPT_LOG_ROUNDS = 6
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
         def user = context.insertInto(USER)
                 .set(USER.USERNAME, username)
-                .set(USER.PASSWORD, password)
+                .set(USER.PASSWORD, hashedPassword)
                 .set(USER.EMAIL_ADDRESS, emailAddress)
-//                    .set(USER.FIRST_NAME, firstName)
-//                    .set(USER.LAST_NAME, lastName)
-//                .set(USER.CREATED_TIMESTAMP, creatdTimestamp)
+                .set(USER.ACCOUNT_LOCKED, false)
                 .returning()
                 .fetchOne()
                 .into(User.class)

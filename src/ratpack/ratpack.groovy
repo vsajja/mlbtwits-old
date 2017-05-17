@@ -11,6 +11,7 @@ import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.mindrot.jbcrypt.BCrypt
 import org.mlbtwits.services.MLBTwitsService
 import org.mlbtwits.services.MLBTwitsSchedulingService
 import org.mlbtwits.services.TwitterStreamService
@@ -142,6 +143,7 @@ ratpack {
                             if(e.message.contains('unique constraint')) {
                                 clientError(409)
                             }
+                            throw e
                         }.then { User user ->
 //                            log.info("Registered user with id: " + user.getUserId())
                             render json(user)
@@ -164,7 +166,8 @@ ratpack {
 
                             def user = mlbTwitsService.getUser(username)
                             if(user) {
-                                boolean passwordMatches = password.equals(user.getPassword())
+
+                                boolean passwordMatches = BCrypt.checkpw(password, user.getPassword())
                                 if(passwordMatches) {
                                     return user
                                 }

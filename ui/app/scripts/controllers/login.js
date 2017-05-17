@@ -35,7 +35,7 @@ angular.module('mlbTwitsApp')
             $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login, user does not exist!'});
           }
           else if (error.status === 401) {
-            $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login, check credentials!'});
+            $scope.alerts.push({type: 'danger', msg: 'Error! Invalid username or password'});
           }
           else {
             $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login due to unknown reason!'});

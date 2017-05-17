@@ -252,7 +252,7 @@ class MLBTwitsService {
             it.key != null
         }.keySet().toList()
                 .take(5)
-        println playerIds.toString()
+//        println playerIds.toString()
 
         def trending = context.selectFrom(PLAYER)
                 .where(PLAYER.PLAYER_ID.in(playerIds))

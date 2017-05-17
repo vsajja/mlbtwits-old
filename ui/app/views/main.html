@@ -118,7 +118,7 @@
       <div class="panel-body">
         <div ng-repeat="player in mlbtwits.trending">
           <a ng-href="#/players/{{player.playerId}}">
-            <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i> {{ player.playerName }}
+            <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i><strong>{{player.playerName}}</strong>
             <!--{{$last ? '' : ','}}-->
           </a>
         </div>

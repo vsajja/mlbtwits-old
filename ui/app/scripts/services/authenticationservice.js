@@ -8,38 +8,15 @@
  * Factory in the mlbTwitsApp.
  */
 angular.module('mlbTwitsApp')
-  .factory('AuthenticationService', function ($http, $cookies, $base64, $rootScope, $timeout, UserService) {
+  .factory('AuthenticationService', function ($http, $cookies, $base64, $rootScope) {
     // Service logic
     // ...
 
-    function Login(username, password, callback) {
-
-      /* Dummy authentication for testing, uses $timeout to simulate api call
-       ----------------------------------------------*/
-      $timeout(function () {
-        var response;
-        UserService.GetByUsername(username)
-          .then(function (user) {
-            if (user !== null && user.password === password) {
-              response = { success: true };
-            } else {
-              response = { success: false, message: 'Username or password is incorrect' };
-            }
-            callback(response);
-          });
-      }, 1000);
-
-      /* Use this for real authentication
-       ----------------------------------------------*/
-      //$http.post('/api/authenticate', { username: username, password: password })
-      //    .success(function (response) {
-      //        callback(response);
-      //    });
-    }
-
     function SetCredentials(username, password) {
+      console.log(username);
+      console.log(password);
       var authdata = $base64.encode(username + ':' + password);
-
+      console.log(authdata);
       $rootScope.globals = {
         currentUser: {
           username: username,
@@ -64,7 +41,6 @@ angular.module('mlbTwitsApp')
 
     var service = {};
 
-    service.Login = Login;
     service.SetCredentials = SetCredentials;
     service.ClearCredentials = ClearCredentials;
 

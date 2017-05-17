@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-	private static final long serialVersionUID = 1276613257;
+	private static final long serialVersionUID = -1978540465;
 
 	/**
 	 * The reference instance of <code>public.user</code>
@@ -78,6 +78,11 @@ public class User extends TableImpl<UserRecord> {
 	 * The column <code>public.user.account_locked</code>.
 	 */
 	public final TableField<UserRecord, Boolean> ACCOUNT_LOCKED = createField("account_locked", org.jooq.impl.SQLDataType.BOOLEAN, this, "");
+
+	/**
+	 * The column <code>public.user.password</code>.
+	 */
+	public final TableField<UserRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
 	 * Create a <code>public.user</code> table reference

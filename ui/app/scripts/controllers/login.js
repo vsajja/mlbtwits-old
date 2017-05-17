@@ -8,7 +8,7 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('LoginCtrl', function ($scope, $location, AuthenticationService) {
+  .controller('LoginCtrl', function ($scope, $location, AuthenticationService, Restangular) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -18,22 +18,46 @@ angular.module('mlbTwitsApp')
     // reset login status
     AuthenticationService.ClearCredentials();
 
-    $scope.login = function login() {
-      $scope.dataLoading = true;
-      AuthenticationService.Login($scope.username, $scope.password, function (response) {
-        if (response.success) {
-          AuthenticationService.SetCredentials($scope.username, $scope.password);
-          $location.path('/');
-        } else {
-          $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login, check credentials.'});
-          $scope.dataLoading = false;
-        }
-      });
-    };
-
     $scope.alerts = [];
 
     $scope.closeAlert = function (index) {
       $scope.alerts.splice(index, 1);
+    };
+
+    $scope.login = function login() {
+      var userAuth = Restangular.all('users/auth');
+      userAuth.post($scope.user)
+        .then(function () {
+          AuthenticationService.SetCredentials($scope.user.username, $scope.user.password);
+          $location.path('/');
+        }, function (error) {
+          if (error.status === 404) {
+            $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login, user does not exist!'});
+          }
+          else if (error.status === 401) {
+            $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login, check credentials!'});
+          }
+          else {
+            $scope.alerts.push({type: 'danger', msg: 'Error! Unable to login due to unknown reason!'});
+          }
+        });
+    };
+
+    // TODO: Move register logic out to UserService
+    $scope.register = function () {
+      var users = Restangular.all('users');
+
+      users.post($scope.newUser).then(function (registeredUser) {
+        $scope.alerts.push({type: 'success', msg: 'Success! Registered user! Name: ' + registeredUser.username});
+        $location.path('/login');
+      }, function (error) {
+        // conflict
+        if (error.status === 409) {
+          $scope.alerts.push({type: 'danger', msg: 'Error! Username ' + $scope.newUser.username + ' already exists!'});
+        }
+        else {
+          $scope.alerts.push({type: 'danger', msg: 'Error! Unable to register user.'});
+        }
+      });
     };
   });

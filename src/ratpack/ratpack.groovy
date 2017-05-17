@@ -1,5 +1,6 @@
 import com.zaxxer.hikari.HikariConfig
 import groovy.util.slurpersupport.GPathResult
+import javassist.NotFoundException
 import jooq.generated.tables.daos.PlayerDao
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
@@ -125,18 +126,18 @@ ratpack {
                         parse(jsonNode()).map { params ->
 //                            log.info(params.toString())
                             def username = params.get('username')?.textValue()
-//                            def password = params.get('password')?.textValue()
-                            def firstName = params.get('firstName')?.textValue()
-                            def lastName = params.get('lastName')?.textValue()
+                            def password = params.get('password')?.textValue()
+//                            def firstName = params.get('firstName')?.textValue()
+//                            def lastName = params.get('lastName')?.textValue()
                             def emailAddress = params.get('emailAddress')?.textValue()
 
                             assert username
-                            def password = '123456'
+                            assert password
                             assert emailAddress
-                            assert firstName
-                            assert lastName
+//                            assert firstName
+//                            assert lastName
 
-                            mlbTwitsService.registerUser(username, password, emailAddress, firstName, lastName)
+                            mlbTwitsService.registerUser(username, password, emailAddress)
                         }.onError { Throwable e ->
                             if(e.message.contains('unique constraint')) {
                                 clientError(409)
@@ -144,6 +145,44 @@ ratpack {
                         }.then { User user ->
 //                            log.info("Registered user with id: " + user.getUserId())
                             render json(user)
+                        }
+                    }
+                }
+            }
+
+            path('users/auth') {
+                byMethod {
+                    post {
+                        parse(jsonNode()).map { params ->
+                            log.info(params.toString())
+
+                            def username = params.get('username')?.textValue()
+                            def password = params.get('password')?.textValue()
+
+                            assert username
+                            assert password
+
+                            def user = mlbTwitsService.getUser(username)
+                            if(user) {
+                                boolean passwordMatches = password.equals(user.getPassword())
+                                if(passwordMatches) {
+                                    return user
+                                }
+                                else {
+                                    throw new IllegalArgumentException()
+                                }
+                            }
+                        }.onError { Throwable e ->
+                            if(e instanceof IllegalArgumentException) {
+                                clientError(401)
+                            }
+                        }.then { User user ->
+                            if(user) {
+                                render json(user)
+                            }
+                            else {
+                                clientError(404)
+                            }
                         }
                     }
                 }

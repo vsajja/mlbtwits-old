@@ -30,13 +30,17 @@
           </a>
         </form>
 
-        <h3>Users:</h3>
-        <ul>
-          <li ng-repeat="user in allUsers">
-            {{user.username}} ({{user.firstName}} {{user.lastName}})
-            - <a ng-click="deleteUser(user.id)">Delete</a>
-          </li>
-        </ul>
+        <form class="form-inline ng-pristine ng-valid" align="center">
+          <input disabled="" size="20"
+                 style="height: 40px; font-family: Calibri; color: black; font-size: 150%; width: 100%"
+                 type="text" class="form-control"
+                 placeholder="{{mlbtwits.users}} Users...">
+          <a ng-href="#/users">
+            <button style="border: none; background: none; color: black"><p><i class="fa fa-search fa-2x"
+                                                                               aria-hidden="true"></i></p>
+            </button>
+          </a>
+        </form>
       </div>
     </div>
   </div>

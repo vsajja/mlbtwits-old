@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User implements Serializable {
 
-	private static final long serialVersionUID = -234281556;
+	private static final long serialVersionUID = -439555727;
 
 	private final Integer userId;
 	private final String  username;
@@ -30,6 +30,7 @@ public class User implements Serializable {
 	private final String  firstName;
 	private final String  lastName;
 	private final Boolean accountLocked;
+	private final String  password;
 
 	public User(User value) {
 		this.userId = value.userId;
@@ -38,6 +39,7 @@ public class User implements Serializable {
 		this.firstName = value.firstName;
 		this.lastName = value.lastName;
 		this.accountLocked = value.accountLocked;
+		this.password = value.password;
 	}
 
 	public User(
@@ -46,7 +48,8 @@ public class User implements Serializable {
 		String  emailAddress,
 		String  firstName,
 		String  lastName,
-		Boolean accountLocked
+		Boolean accountLocked,
+		String  password
 	) {
 		this.userId = userId;
 		this.username = username;
@@ -54,6 +57,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountLocked = accountLocked;
+		this.password = password;
 	}
 
 	public Integer getUserId() {
@@ -80,6 +84,10 @@ public class User implements Serializable {
 		return this.accountLocked;
 	}
 
+	public String getPassword() {
+		return this.password;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("User (");
@@ -90,6 +98,7 @@ public class User implements Serializable {
 		sb.append(", ").append(firstName);
 		sb.append(", ").append(lastName);
 		sb.append(", ").append(accountLocked);
+		sb.append(", ").append(password);
 
 		sb.append(")");
 		return sb.toString();

@@ -73,6 +73,16 @@ var mlbTwitsApp = angular
         templateUrl: 'views/register.html',
         controller: 'RegisterCtrl'
       })
+      .when('/users', {
+        templateUrl: 'views/users.html',
+        controller: 'UsersCtrl',
+        controllerAs: 'users'
+      })
+      .when('/users/:username', {
+        templateUrl: 'views/user.html',
+        controller: 'UserCtrl',
+        controllerAs: 'user'
+      })
       .otherwise({
         redirectTo: '/login'
       });

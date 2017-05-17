@@ -8,7 +8,7 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('MainCtrl', ['$scope', 'Restangular', 'UserService', function ($scope, Restangular, UserService) {
+  .controller('MainCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
     // this.awesomeThings = [
     //   'HTML5 Boilerplate',
     //   'AngularJS',
@@ -77,26 +77,10 @@ angular.module('mlbTwitsApp')
       $scope.alerts.splice(index, 1);
     };
 
-    $scope.deleteUser = function deleteUser(id) {
-      UserService.Delete(id)
-        .then(function () {
-          loadAllUsers();
-        });
-    };
-
-    function loadAllUsers() {
-      UserService.GetAll()
-        .then(function (users) {
-          $scope.allUsers = users;
-        });
-    }
-
     function initController() {
       $scope.getMLBTwits();
       $scope.getTweets();
       $scope.getPlayerLabels();
-
-      loadAllUsers();
     }
 
     initController();

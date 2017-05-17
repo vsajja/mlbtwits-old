@@ -42,26 +42,29 @@ class MLBTwitsService {
     }
 
     public User getUser(String username) {
-        User user = context.selectFrom(USER)
+        User user = null
+        def userData = context.selectFrom(USER)
                 .where(USER.USERNAME.equal(username))
                 .fetchOne()
-                .into(User.class)
+        if(userData) {
+            user = userData.into(User.class)
+        }
         return user
     }
 
-    public User registerUser(String username, String password, String emailAddress, String firstName, String lastName) {
+    public User registerUser(String username, String password, String emailAddress) {
         def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
 
-         def user = context.insertInto(USER)
-                    .set(USER.USERNAME, username)
-//                .set(USER.PASSWORD, password)
-                    .set(USER.EMAIL_ADDRESS, emailAddress)
-                    .set(USER.FIRST_NAME, firstName)
-                    .set(USER.LAST_NAME, lastName)
-//                .set(USER.CREATED_TIMESTAMP, createdTimestamp)
-                    .returning()
-                    .fetchOne()
-                    .into(User.class)
+        def user = context.insertInto(USER)
+                .set(USER.USERNAME, username)
+                .set(USER.PASSWORD, password)
+                .set(USER.EMAIL_ADDRESS, emailAddress)
+//                    .set(USER.FIRST_NAME, firstName)
+//                    .set(USER.LAST_NAME, lastName)
+//                .set(USER.CREATED_TIMESTAMP, creatdTimestamp)
+                .returning()
+                .fetchOne()
+                .into(User.class)
         return user
     }
 
@@ -221,10 +224,12 @@ class MLBTwitsService {
     def getMLBTwits() {
         def playerCount = context.selectCount().from(PLAYER).fetchOne(0, int.class)
         def teamCount = context.selectCount().from(TEAM).fetchOne(0, int.class)
+        def userCount = context.selectCount().from(USER).fetchOne(0, int.class)
 
         def result = [:]
         result.put('players', playerCount)
         result.put('teams', teamCount)
+        result.put('users', userCount)
         result.put('trending', getTrending())
         return result
     }

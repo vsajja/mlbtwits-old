@@ -98,4 +98,11 @@ public class UserDao extends DAOImpl<UserRecord, jooq.generated.tables.pojos.Use
 	public List<jooq.generated.tables.pojos.User> fetchByAccountLocked(Boolean... values) {
 		return fetch(User.USER.ACCOUNT_LOCKED, values);
 	}
+
+	/**
+	 * Fetch records that have <code>password IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.User> fetchByPassword(String... values) {
+		return fetch(User.USER.PASSWORD, values);
+	}
 }

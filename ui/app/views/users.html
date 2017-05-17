@@ -1,0 +1,30 @@
+<table st-table="userCollection" st-safe-src="userList" class="table table-striped">
+  <tr>
+    <th colspan="10"><input st-search="" class="form-control" placeholder="Filter results..."
+                            type="text"/></th>
+  </tr>
+  <thead>
+  <tr>
+    <th></th>
+    <th st-sort="userId" class="st-sort-ascent">User Id</th>
+    <th st-sort="getters.username" class="st-sort-ascent">Username</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="user in userCollection">
+    <td>
+      <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+    </td>
+    <td>{{user.userId}}</td>
+    <td><a ng-href="#/users/{{user.username}}">{{user.username}}</a></td>
+  </tbody>
+
+  <tfoot>
+  <tr>
+    <td class="text-center" st-pagination="" st-items-by-page="30" colspan="10">
+    </td>
+  </tr>
+  </tfoot>
+</table>
+
+

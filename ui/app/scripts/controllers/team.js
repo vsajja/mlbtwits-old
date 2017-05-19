@@ -25,5 +25,4 @@ angular.module('mlbTwitsApp')
     team.getList('roster').then(function (roster) {
       $scope.roster = roster;
     });
-
   }]);

@@ -62,6 +62,7 @@ public class Keys {
 
 	public static final ForeignKey<PlayerRecord, TeamRecord> PLAYER__PLAYER_TEAM_TEAM_ID_FK = ForeignKeys0.PLAYER__PLAYER_TEAM_TEAM_ID_FK;
 	public static final ForeignKey<TweetRecord, PlayerRecord> TWEET__TWEET_PLAYER_PLAYER_ID_FK = ForeignKeys0.TWEET__TWEET_PLAYER_PLAYER_ID_FK;
+	public static final ForeignKey<TweetRecord, UserRecord> TWEET__TWEET_USER_USER_ID_FK = ForeignKeys0.TWEET__TWEET_USER_USER_ID_FK;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -85,5 +86,6 @@ public class Keys {
 	private static class ForeignKeys0 extends AbstractKeys {
 		public static final ForeignKey<PlayerRecord, TeamRecord> PLAYER__PLAYER_TEAM_TEAM_ID_FK = createForeignKey(jooq.generated.Keys.TEAM_PKEY, Player.PLAYER, Player.PLAYER.TEAM_ID);
 		public static final ForeignKey<TweetRecord, PlayerRecord> TWEET__TWEET_PLAYER_PLAYER_ID_FK = createForeignKey(jooq.generated.Keys.PLAYER_PLAYER_ID_PK, Tweet.TWEET, Tweet.TWEET.PLAYER_ID);
+		public static final ForeignKey<TweetRecord, UserRecord> TWEET__TWEET_USER_USER_ID_FK = createForeignKey(jooq.generated.Keys.USER_PKEY, Tweet.TWEET, Tweet.TWEET.USER_ID);
 	}
 }

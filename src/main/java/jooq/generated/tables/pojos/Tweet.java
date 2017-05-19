@@ -23,30 +23,34 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tweet implements Serializable {
 
-	private static final long serialVersionUID = -155735251;
+	private static final long serialVersionUID = 1407134902;
 
 	private final Integer   tweetId;
 	private final String    message;
 	private final Timestamp createdTimestamp;
 	private final Integer   playerId;
+	private final Integer   userId;
 
 	public Tweet(Tweet value) {
 		this.tweetId = value.tweetId;
 		this.message = value.message;
 		this.createdTimestamp = value.createdTimestamp;
 		this.playerId = value.playerId;
+		this.userId = value.userId;
 	}
 
 	public Tweet(
 		Integer   tweetId,
 		String    message,
 		Timestamp createdTimestamp,
-		Integer   playerId
+		Integer   playerId,
+		Integer   userId
 	) {
 		this.tweetId = tweetId;
 		this.message = message;
 		this.createdTimestamp = createdTimestamp;
 		this.playerId = playerId;
+		this.userId = userId;
 	}
 
 	public Integer getTweetId() {
@@ -65,6 +69,10 @@ public class Tweet implements Serializable {
 		return this.playerId;
 	}
 
+	public Integer getUserId() {
+		return this.userId;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Tweet (");
@@ -73,6 +81,7 @@ public class Tweet implements Serializable {
 		sb.append(", ").append(message);
 		sb.append(", ").append(createdTimestamp);
 		sb.append(", ").append(playerId);
+		sb.append(", ").append(userId);
 
 		sb.append(")");
 		return sb.toString();

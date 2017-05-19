@@ -55,7 +55,9 @@
             <!--<i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>-->
             <strong>TRENDING</strong>
             &nbsp;
-            <span ng-repeat="player in mlbtwits.trending"><a ng-href="#/players/{{player.playerId}}">{{player.playerName }}</a> &nbsp;</span>
+            <span ng-repeat="player in mlbtwits.trending">
+              <a ng-href="#/players/{{player.playerId}}">{{player.playerName }}</a> &nbsp;
+            </span>
           </div>
         </div>
       </div>

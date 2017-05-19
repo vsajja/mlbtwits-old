@@ -26,6 +26,7 @@ angular.module('mlbTwitsApp')
 
       // set default auth header for http requests
       $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
+      // Restangular.setDefaultHeaders('Authorization', 'Basic ' + $rootScope.globals.currentUser.authdata);
 
       // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
       var cookieExp = new Date();
@@ -36,7 +37,8 @@ angular.module('mlbTwitsApp')
     function ClearCredentials() {
       $rootScope.globals = {};
       $cookies.remove('globals');
-      $http.defaults.headers.common.Authorization = 'Basic';
+      // $http.defaults.headers.common.Authorization = 'Basic';
+      // RestangularProvider.setDefaultHeaders({'Authorization': 'Basic'});
     }
 
     var service = {};

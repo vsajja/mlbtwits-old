@@ -1,6 +1,7 @@
 package org.mlbtwits.services
 
 import com.google.inject.Inject
+import com.google.inject.Singleton
 import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
@@ -10,20 +11,18 @@ import org.ccil.cowan.tagsoup.Parser
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.RecordMapper
+import org.jooq.RecordMapperProvider
+import org.jooq.RecordType
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.jooq.impl.DefaultConfiguration
+import org.jooq.impl.DefaultRecordMapper
 import org.mindrot.jbcrypt.BCrypt
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ratpack.exec.Blocking
-import ratpack.http.client.HttpClient
-import redis.clients.jedis.Jedis
-
 import static jooq.generated.Tables.*;
 
 import javax.sql.DataSource
-
-import static ratpack.jackson.Jackson.json
 
 class MLBTwitsService {
     final Logger log = LoggerFactory.getLogger(this.class)
@@ -33,6 +32,29 @@ class MLBTwitsService {
     @Inject
     public MLBTwitsService(DataSource dataSource) {
         context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+//        context = DSL.using(new DefaultConfiguration()
+//                .set(dataSource)
+//                .set(SQLDialect.POSTGRES)
+//                .set(new RecordMapperProvider() {
+//            @Override
+//            def <R extends Record, E> RecordMapper<R, E> provide(RecordType<R> recordType, Class<? extends E> type) {
+////                if(type == Tweet.class) {
+////                    log.info("TESTING!");
+////                    return new RecordMapper<R, E>() {
+////                        @Override
+////                        E map(R record) {
+////                            return null
+////                        }
+////                    }
+////                }
+//
+//                // Fall back to jOOQ's DefaultRecordMapper, which maps records onto
+//                // POJOs using reflection.
+//                return new DefaultRecordMapper(recordType, type);
+//            }
+//        })
+//        )
     }
 
     public List<User> getUsers() {
@@ -159,6 +181,16 @@ class MLBTwitsService {
     public List<Tweet> getTweets(String playerId) {
         List<Tweet> tweets = context.selectFrom(TWEET)
                 .where(TWEET.PLAYER_ID.equal(playerId))
+                .orderBy(TWEET.CREATED_TIMESTAMP.desc())
+                .fetch()
+                .into(Tweet.class)
+        return tweets
+    }
+
+    public List<Tweet> getTweetsByUser(User user) {
+        String userId = user.getUserId().toString()
+        List<Tweet> tweets = context.selectFrom(TWEET)
+                .where(TWEET.USER_ID.equal(userId))
                 .orderBy(TWEET.CREATED_TIMESTAMP.desc())
                 .fetch()
                 .into(Tweet.class)

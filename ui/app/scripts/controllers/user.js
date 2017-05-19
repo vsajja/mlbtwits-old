@@ -26,9 +26,17 @@ angular.module('mlbTwitsApp')
       });
     };
 
+
+    // This will query /users/:userId/tweets and return a promise.
+    $scope.getUserTweets = function () {
+      user.getList('tweets').then(function (tweets) {
+        $scope.tweets = tweets;
+      });
+    };
+
     function initController() {
       $scope.getUser();
-      // $scope.getUserTweets();
+      $scope.getUserTweets();
     }
 
     initController();

@@ -98,7 +98,7 @@
     </div>
     <ul class="list-group" style="max-height: 500px; overflow-y: auto">
       <li class="list-group-item" ng-repeat="tweet in tweets">
-        {{tweet.message}}
+        <strong>{{tweet.username}}</strong> {{tweet.message}}
         <br/>
         <div>
           <i class="fa fa-reply" style="color: lightgray" aria-hidden="true"></i>
@@ -113,17 +113,17 @@
   </div>
 
   <div class="col-sm-2">
-   <!--<div class="panel panel-default">-->
-      <!--<div class="panel-heading" style="text-align: center"><strong>TRENDING</strong></div>-->
-      <!--<div class="panel-body">-->
-        <!--<div ng-repeat="player in mlbtwits.trending">-->
-          <!--<a ng-href="#/players/{{player.playerId}}">-->
-            <!--<i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>{{player.playerName}}-->
-            <!--&lt;!&ndash;{{$last ? '' : ','}}&ndash;&gt;-->
-          <!--</a>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+   <div class="panel panel-default">
+      <div class="panel-heading" style="text-align: center"><strong>TRENDING</strong></div>
+      <div class="panel-body">
+        <div ng-repeat="player in mlbtwits.trending">
+          <a ng-href="#/players/{{player.playerId}}">
+            <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>{{player.playerName}}
+            <!--{{$last ? '' : ','}}-->
+          </a>
+        </div>
+      </div>
+    </div>
 
     <!--<div class="panel panel-default">-->
       <!--<div class="panel-heading" style="text-align: center"><strong>TRANSACTION TRENDS (YAHOO)</strong></div>-->

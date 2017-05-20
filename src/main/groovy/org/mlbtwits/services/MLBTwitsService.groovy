@@ -2,6 +2,7 @@ package org.mlbtwits.services
 
 import com.google.inject.Inject
 import com.google.inject.Singleton
+import groovy.transform.CompileStatic
 import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.Team
@@ -18,6 +19,8 @@ import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.impl.DefaultRecordMapper
 import org.mindrot.jbcrypt.BCrypt
+import org.mlbtwits.jooq.MLBTwitsRecordMapperProvider
+import org.mlbtwits.pojos.UserTweet
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import static jooq.generated.Tables.*;
@@ -31,30 +34,30 @@ class MLBTwitsService {
 
     @Inject
     public MLBTwitsService(DataSource dataSource) {
-        context = DSL.using(dataSource, SQLDialect.POSTGRES)
+//        context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
-//        context = DSL.using(new DefaultConfiguration()
-//                .set(dataSource)
-//                .set(SQLDialect.POSTGRES)
+        context = DSL.using(new DefaultConfiguration()
+                .set(dataSource)
+                .set(SQLDialect.POSTGRES)
+                .set(new MLBTwitsRecordMapperProvider())
 //                .set(new RecordMapperProvider() {
 //            @Override
 //            def <R extends Record, E> RecordMapper<R, E> provide(RecordType<R> recordType, Class<? extends E> type) {
-////                if(type == Tweet.class) {
-////                    log.info("TESTING!");
-////                    return new RecordMapper<R, E>() {
-////                        @Override
-////                        E map(R record) {
-////                            return null
-////                        }
-////                    }
-////                }
+//                if (type == UserTweet.class) {
+//                    return new RecordMapper<R, E>() {
+//                        @Override
+//                        E map(R record) {
+//                            return null
+//                        }
+//                    }
+//                }
 //
 //                // Fall back to jOOQ's DefaultRecordMapper, which maps records onto
 //                // POJOs using reflection.
 //                return new DefaultRecordMapper(recordType, type);
 //            }
 //        })
-//        )
+        )
     }
 
     public List<User> getUsers() {
@@ -170,11 +173,14 @@ class MLBTwitsService {
         return player
     }
 
-    public List<Tweet> getTweets() {
-        List<Tweet> tweets = context.selectFrom(TWEET)
+    public List<UserTweet> getTweets() {
+        def tweets = context.select()
+                .from(TWEET)
+                .join(USER)
+                .on(USER.USER_ID.eq(TWEET.USER_ID))
                 .orderBy(TWEET.CREATED_TIMESTAMP.desc())
                 .fetch()
-                .into(Tweet.class)
+                .into(UserTweet.class)
         return tweets
     }
 
@@ -197,7 +203,7 @@ class MLBTwitsService {
         return tweets
     }
 
-    public List<Tweet> tweet(String message) {
+    public List<Tweet> tweet(String userId, String message) {
         def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
 
         List<Tweet> insertedRecords = []
@@ -217,6 +223,7 @@ class MLBTwitsService {
                         .insertInto(TWEET)
                         .set(TWEET.MESSAGE, message)
                         .set(TWEET.PLAYER_ID, player.playerId)
+                        .set(TWEET.USER_ID, userId)
                         .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
                         .returning()
                         .fetchOne()
@@ -229,7 +236,7 @@ class MLBTwitsService {
         return insertedRecords
     }
 
-    public Tweet tweet(String playerId, String message) {
+    public Tweet tweet(String playerId, String userId, String message) {
         def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
 
         Tweet tweet = context
@@ -237,6 +244,7 @@ class MLBTwitsService {
                 .set(TWEET.MESSAGE, message)
                 .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
                 .set(TWEET.PLAYER_ID, playerId)
+                .set(TWEET.USER_ID, userId)
                 .returning()
                 .fetchOne()
                 .into(Tweet.class)

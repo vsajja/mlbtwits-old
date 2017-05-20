@@ -8,7 +8,7 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('LoginCtrl', function ($scope, $location, AuthenticationService, Restangular) {
+  .controller('LoginCtrl', function ($scope, $location, AuthenticationService, $http, Restangular) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -25,8 +25,7 @@ angular.module('mlbTwitsApp')
     };
 
     $scope.login = function login() {
-      var userAuth = Restangular.all('users/auth');
-      userAuth.post($scope.user)
+      Restangular.one('login').customPOST($scope.user)
         .then(function () {
           AuthenticationService.SetCredentials($scope.user.username, $scope.user.password);
           $location.path('/');
@@ -45,9 +44,7 @@ angular.module('mlbTwitsApp')
 
     // TODO: Move register logic out to UserService
     $scope.register = function () {
-      var users = Restangular.all('users');
-
-      users.post($scope.newUser).then(function (registeredUser) {
+      Restangular.one('register').customPOST($scope.newUser).then(function (registeredUser) {
         $scope.alerts.push({type: 'success', msg: 'Success! Registered user! Name: ' + registeredUser.username});
         $location.path('/login');
       }, function (error) {

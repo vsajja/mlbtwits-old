@@ -90,8 +90,8 @@ ratpack {
             }
         }
 
-//        all RatpackPac4j.authenticator(new DirectBasicAuthClient(new SimpleTestUsernamePasswordAuthenticator()))
         all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
+
 
         prefix('api/v1') {
             all {
@@ -101,16 +101,7 @@ ratpack {
                 next()
             }
 
-            path('mlbtwits') {
-                byMethod {
-                    get {
-                        def result = mlbTwitsService.getMLBTwits()
-                        render json(result)
-                    }
-                }
-            }
-
-            path('users/auth') {
+            path('login') {
                 byMethod {
                     post {
                         parse(jsonNode()).map { params ->
@@ -147,38 +138,38 @@ ratpack {
                 }
             }
 
-            path('users') {
-                byMethod {
-                    get {
-                        def users = mlbTwitsService.getUsers()
-                        render json(users)
-                    }
-
-                    post {
-                        parse(jsonNode()).map { params ->
+            post('register') {
+                parse(jsonNode()).map { params ->
 //                            log.info(params.toString())
-                            def username = params.get('username')?.textValue()
-                            def password = params.get('password')?.textValue()
+                    def username = params.get('username')?.textValue()
+                    def password = params.get('password')?.textValue()
 //                            def firstName = params.get('firstName')?.textValue()
 //                            def lastName = params.get('lastName')?.textValue()
-                            def emailAddress = params.get('emailAddress')?.textValue()
+                    def emailAddress = params.get('emailAddress')?.textValue()
 
-                            assert username
-                            assert password
-                            assert emailAddress
+                    assert username
+                    assert password
+                    assert emailAddress
 //                            assert firstName
 //                            assert lastName
 
-                            mlbTwitsService.registerUser(username, password, emailAddress)
-                        }.onError { Throwable e ->
-                            if(e.message.contains('unique constraint')) {
-                                clientError(409)
-                            }
-                            throw e
-                        }.then { User user ->
+                    mlbTwitsService.registerUser(username, password, emailAddress)
+                }.onError { Throwable e ->
+                    if(e.message.contains('unique constraint')) {
+                        clientError(409)
+                    }
+                    throw e
+                }.then { User user ->
 //                            log.info("Registered user with id: " + user.getUserId())
-                            render json(user)
-                        }
+                    render json(user)
+                }
+            }
+
+            path('mlbtwits') {
+                byMethod {
+                    get {
+                        def result = mlbTwitsService.getMLBTwits()
+                        render json(result)
                     }
                 }
             }
@@ -194,6 +185,15 @@ ratpack {
             }
 
             all RatpackPac4j.requireAuth(DirectBasicAuthClient)
+
+            path('users') {
+                byMethod {
+                    get {
+                        def users = mlbTwitsService.getUsers()
+                        render json(users)
+                    }
+                }
+            }
 
             path('users/:username') {
                 def username = pathTokens['username']

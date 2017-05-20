@@ -35,7 +35,7 @@ public class RotoworldFeed implements org.quartz.Job {
             String shortNews = title.substring(0,title.lastIndexOf('-')).trim()
             String news = item.description
 
-            String message = "[~$player] ${StringEscapeUtils.unescapeHtml4(news)} (Rotoworld.com)"
+            String message = "[~$player] ${StringEscapeUtils.unescapeHtml4(news)}"
 
             newsMap.put(item.guid.toString(), message)
         }
@@ -48,13 +48,15 @@ public class RotoworldFeed implements org.quartz.Job {
 
 //        log.info(jedis.smembers("RotoworldFeedGuids").toString())
 
+        def user = mlbTwitsService.getUser('BOT_Rotoworld')
+
         newsMap.each { key, value ->
             log.info(key.toString())
             log.info(value.toString())
 
             if (!jedis.smembers("RotoworldFeedGuids").contains(key)) {
                 jedis.sadd("RotoworldFeedGuids", key)
-                mlbTwitsService.tweet(value)
+                mlbTwitsService.tweet(user.getUserId().toString(), value)
             }
         }
 

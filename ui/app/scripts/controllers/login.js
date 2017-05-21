@@ -26,8 +26,8 @@ angular.module('mlbTwitsApp')
 
     $scope.login = function login() {
       Restangular.one('login').customPOST($scope.user)
-        .then(function () {
-          AuthenticationService.SetCredentials($scope.user.username, $scope.user.password);
+        .then(function (user) {
+          AuthenticationService.SetCredentials($scope.user.username, $scope.user.password, user.userId);
           $location.path('/');
         }, function (error) {
           if (error.status === 404) {

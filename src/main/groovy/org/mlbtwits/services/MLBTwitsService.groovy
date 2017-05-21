@@ -184,22 +184,28 @@ class MLBTwitsService {
         return tweets
     }
 
-    public List<Tweet> getTweets(String playerId) {
-        List<Tweet> tweets = context.selectFrom(TWEET)
+    public List<UserTweet> getTweets(String playerId) {
+        List<UserTweet> tweets = context.select()
+                .from(TWEET)
+                .join(USER)
+                .on(USER.USER_ID.eq(TWEET.USER_ID))
                 .where(TWEET.PLAYER_ID.equal(playerId))
                 .orderBy(TWEET.CREATED_TIMESTAMP.desc())
                 .fetch()
-                .into(Tweet.class)
+                .into(UserTweet.class)
         return tweets
     }
 
-    public List<Tweet> getTweetsByUser(User user) {
+    public List<UserTweet> getTweetsByUser(User user) {
         String userId = user.getUserId().toString()
-        List<Tweet> tweets = context.selectFrom(TWEET)
+        List<UserTweet> tweets = context.select()
+                .from(TWEET)
+                .join(USER)
+                .on(USER.USER_ID.eq(TWEET.USER_ID))
                 .where(TWEET.USER_ID.equal(userId))
                 .orderBy(TWEET.CREATED_TIMESTAMP.desc())
                 .fetch()
-                .into(Tweet.class)
+                .into(UserTweet.class)
         return tweets
     }
 
@@ -238,6 +244,10 @@ class MLBTwitsService {
 
     public Tweet tweet(String playerId, String userId, String message) {
         def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+
+        log.info(playerId)
+        log.info(userId)
+        log.info(message)
 
         Tweet tweet = context
                 .insertInto(TWEET)

@@ -8,7 +8,7 @@
  * Controller of the mlbTwitsApp
  */
 angular.module('mlbTwitsApp')
-  .controller('MainCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  .controller('MainCtrl', ['$scope', '$rootScope', 'Restangular', function ($scope, $rootScope, Restangular) {
     // this.awesomeThings = [
     //   'HTML5 Boilerplate',
     //   'AngularJS',
@@ -39,7 +39,8 @@ angular.module('mlbTwitsApp')
       });
     };
 
-    $scope.tweetPlayer = function () {
+    $scope.tweetPlayer = function (userId) {
+      $scope.tweet.userId = userId;
       tweets.post($scope.tweet).then(function (newTweet) {
         $scope.getTweets();
         $scope.getMLBTwits();

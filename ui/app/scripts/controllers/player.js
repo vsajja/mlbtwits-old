@@ -41,7 +41,8 @@ angular.module('mlbTwitsApp')
       });
     };
 
-    $scope.tweetPlayer = function () {
+    $scope.tweetPlayer = function (userId) {
+      $scope.tweet.userId = userId;
       player.post('tweets', $scope.tweet).then(function (newTweet) {
         $scope.getPlayerTweets();
         $scope.alerts.push({type: 'success', msg: 'Success! Tweet Id: ' + newTweet.tweetId});

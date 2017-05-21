@@ -51,11 +51,9 @@
       <div class="panel-body" style="height: 200px">
 
         <!-- FORM -->
-        <form ng-submit="tweetPlayer()">
+        <form ng-submit="tweetPlayer(globals.currentUser.userId)">
           <!-- TWEET -->
           <div id="tweet" class="form-group">
-            <!--<label>Description</label>-->
-
             <textarea style="height:100px; resize: none;" cols="30" rows="10"
                       name="tweet"
                       class="form-control"

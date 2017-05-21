@@ -24,8 +24,6 @@ class DatabaseUsernamePasswordAuthenticator implements UsernamePasswordAuthentic
 
     @Override
     void validate(UsernamePasswordCredentials credentials) {
-//        throwsException('Invalid username or password')
-
         if (credentials == null) {
             throwsException('No credential');
         }
@@ -52,7 +50,7 @@ class DatabaseUsernamePasswordAuthenticator implements UsernamePasswordAuthentic
 
         final HttpProfile profile = new HttpProfile();
         profile.setId(username);
-        profile.addAttribute(CommonProfile.USERNAME, username);
+        profile.addAttribute('user', user)
         credentials.setUserProfile(profile);
     }
 

@@ -1,42 +1,28 @@
-import com.google.inject.Scopes
 import com.zaxxer.hikari.HikariConfig
-import groovy.util.slurpersupport.GPathResult
-import jooq.generated.tables.pojos.Player
-import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
 import jooq.generated.tables.pojos.User
-import org.ccil.cowan.tagsoup.Parser
-import org.jooq.DSLContext
-import org.jooq.SQLDialect
-import org.jooq.impl.DSL
 import org.mindrot.jbcrypt.BCrypt
 import org.mlbtwits.auth.DatabaseUsernamePasswordAuthenticator
+import org.mlbtwits.auth.MLBTwitsProfile
 import org.mlbtwits.services.MLBTwitsService
 import org.mlbtwits.services.MLBTwitsSchedulingService
+import org.pac4j.core.profile.CommonProfile
 import org.pac4j.core.profile.UserProfile
 import org.pac4j.http.client.direct.DirectBasicAuthClient
-import org.pac4j.http.credentials.authenticator.UsernamePasswordAuthenticator
-import org.pac4j.http.credentials.authenticator.test.SimpleTestUsernamePasswordAuthenticator
+import org.pac4j.http.profile.HttpProfile
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ratpack.config.ConfigData
 import ratpack.config.ConfigDataBuilder
 import ratpack.groovy.sql.SqlModule
 import ratpack.groovy.template.TextTemplateModule
+import ratpack.handling.Context
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
-import ratpack.http.HttpMethod
 import ratpack.pac4j.RatpackPac4j
 import ratpack.session.SessionModule
-import ratpack.http.client.HttpClient
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
-import redis.clients.jedis.Jedis
-
-import javax.sql.DataSource
-
-import static jooq.generated.Tables.PLAYER
-import static jooq.generated.Tables.TEAM
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
@@ -77,7 +63,6 @@ ratpack {
 
 
     handlers { MLBTwitsService mlbTwitsService, DatabaseUsernamePasswordAuthenticator dbAuthenticator ->
-
         all RequestLogger.ncsa(log)
 
         all {
@@ -91,7 +76,6 @@ ratpack {
         }
 
         all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
-
 
         prefix('api/v1') {
             all {
@@ -175,7 +159,7 @@ ratpack {
             }
 
             all {
-                // TODO: preflight CORS OPTIONS calls do not supply an Authentication header
+                // TODO: Find a better way, preflight CORS OPTIONS calls do not supply an Authentication header
                 if(request.method.isOptions()) {
                     response.send()
                 }
@@ -214,20 +198,21 @@ ratpack {
                         render json(tweets)
                     }
 
-//                    post {
-//                        parse(jsonNode()).map { params ->
-//                            log.info(params.toString())
-//                            def message = params.get('message')?.textValue()
-//
-//                            assert message
-//
-//                            mlbTwitsService.tweet(playerId, message)
-//
-//                        }.then { Tweet tweet ->
-//                            println "created tweet with id: " + tweet.getTweetId()
-//                            render json(tweet)
-//                        }
-//                    }
+                    post {
+                        parse(jsonNode()).map { params ->
+                            log.info(params.toString())
+                            def message = params.get('message')?.textValue()
+                            def userId = params.get('userId')?.intValue()
+
+                            assert message
+                            assert userId
+
+                            mlbTwitsService.tweet(userId.toString(), message)
+                        }.then { Tweet tweet ->
+                            println "created tweet with id: " + tweet.getTweetId()
+                            render json(tweet)
+                        }
+                    }
                 }
             }
 
@@ -297,13 +282,13 @@ ratpack {
                     }
                     post {
                         parse(jsonNode()).map { params ->
-                            log.info(params.toString())
                             def message = params.get('message')?.textValue()
+                            def userId = params.get('userId')?.intValue()\
 
                             assert message
+                            assert userId
 
-                            mlbTwitsService.tweet(playerId, message)
-
+                            mlbTwitsService.tweet(playerId, userId.toString(), message)
                         }.then { Tweet tweet ->
                             println "created tweet with id: " + tweet.getTweetId()
                             render json(tweet)
@@ -331,9 +316,11 @@ ratpack {
                     post {
                         parse(jsonNode()).map { params ->
                             def message = params.get('message')?.textValue()
+                            def userId = params.get('userId')?.intValue()
                             assert message
+                            assert userId
 
-                            List<Tweet> insertedRecords = mlbTwitsService.tweet(message)
+                            List<Tweet> insertedRecords = mlbTwitsService.tweet(userId.toString(), message)
                         }.then { List<Tweet> insertedRecords ->
                             render json(insertedRecords)
                         }

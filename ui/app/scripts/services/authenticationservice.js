@@ -12,14 +12,13 @@ angular.module('mlbTwitsApp')
     // Service logic
     // ...
 
-    function SetCredentials(username, password) {
-      console.log(username);
-      console.log(password);
+    function SetCredentials(username, password, userId) {
+
       var authdata = $base64.encode(username + ':' + password);
-      console.log(authdata);
       $rootScope.globals = {
         currentUser: {
           username: username,
+          userId: userId,
           authdata: authdata
         }
       };

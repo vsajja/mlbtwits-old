@@ -52,7 +52,7 @@
       <div class="panel-body" style="height: 200px">
 
         <!-- FORM -->
-        <form ng-submit="tweetPlayer()">
+        <form ng-submit="tweetPlayer(globals.currentUser.userId)">
           <!-- TWEET -->
           <div id="tweet" class="form-group">
             <!--<label>Description</label>-->
@@ -99,7 +99,7 @@
 
     <ul class="list-group" style="max-height: 650px; overflow-y: auto">
       <li class="list-group-item" ng-repeat="tweet in tweets">
-        {{tweet.message}}
+        <strong>{{tweet.username}}</strong> {{tweet.message}}
         <div>
           <i class="fa fa-reply" style="color: lightgray" aria-hidden="true"></i>
           <i class="fa fa-retweet" style="color: lightgray" aria-hidden="true"></i>

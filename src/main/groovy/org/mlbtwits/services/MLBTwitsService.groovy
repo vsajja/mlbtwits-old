@@ -179,6 +179,7 @@ class MLBTwitsService {
                 .join(USER)
                 .on(USER.USER_ID.eq(TWEET.USER_ID))
                 .orderBy(TWEET.CREATED_TIMESTAMP.desc())
+                .limit(50)
                 .fetch()
                 .into(UserTweet.class)
         return tweets

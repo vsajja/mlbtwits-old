@@ -34,6 +34,10 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  tweetPlayer() {
+    console.log('TODO: tweet player!');
+  }
+
   search = (text$: Observable<string>) =>
     text$
       .debounceTime(100)

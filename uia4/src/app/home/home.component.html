@@ -10,13 +10,19 @@
         {{ r.playerName}}
       </ng-template>
 
-      <label for="typeahead-template">Search for a state:</label>
-      <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
-             [inputFormatter]="formatter" />
+      <input
+             class="tweet-input"
+             [(ngModel)]="model"
+             [ngbTypeahead]="search"
+             [resultTemplate]="rt"
+             [inputFormatter]="formatter"
+             placeholder="What's on your mind?"
+      />
+
       <hr>
       <pre>Model: {{ model | json }}</pre>
 
-      <button type="submit" class="btn btn-success btn-lg btn-block">
+      <button type="submit" class="btn btn-success btn-lg btn-block" (click)="tweetPlayer()">
         <i class="fa fa-twitter" aria-hidden="true"></i>
         Share
       </button>

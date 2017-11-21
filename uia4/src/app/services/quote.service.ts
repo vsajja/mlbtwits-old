@@ -26,4 +26,15 @@ export class QuoteService {
       .catch(() => Observable.of('Error, could not load joke :-('));
   }
 
+  getMlbTwits() {
+    return this.http.get('/mlbtwits', { cache: true })
+      .map((res: Response) => res.json())
+      .catch(() => Observable.of('Error, could not trending players'));
+  }
+
+  getPlayerLabels() {
+    return this.http.get('/playerLabels', { cache: true })
+      .map((res: Response) => res.json())
+      .catch(() => Observable.of('Error, could not trending players'));
+  }
 }

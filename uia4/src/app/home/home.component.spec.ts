@@ -4,7 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home.component';
-import { QuoteService } from './quote.service';
+import { QuoteService } from '../services/quote.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

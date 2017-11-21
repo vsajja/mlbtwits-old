@@ -1,10 +1,75 @@
-<div class="container-fluid">
-  <div class="jumbotron text-center">
-    <h1>
-      <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo"/>
-      <span translate>Hello world !</span>
-    </h1>
-    <app-loader [isLoading]="isLoading"></app-loader>
-    <q [hidden]="isLoading">{{quote}}</q>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <app-trending></app-trending>
+    </div>
+
+    <div class="col-md-9">
+      <ng-template #rt let-r="result" let-t="term">
+        <!--<img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" width="16">-->
+        {{ r.playerName}}
+      </ng-template>
+
+      <label for="typeahead-template">Search for a state:</label>
+      <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+             [inputFormatter]="formatter" />
+      <hr>
+      <pre>Model: {{ model | json }}</pre>
+
+      <button type="submit" class="btn btn-success btn-lg btn-block">
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        Share
+      </button>
+
+      <!--<div class="panel panel-default">-->
+        <!--<div class="panel-body" style="height: 200px">-->
+          <!--&lt;!&ndash; FORM &ndash;&gt;-->
+          <!--<form ng-submit="tweetPlayer(globals.currentUser.userId)">-->
+              <!--&lt;!&ndash; TWEET &ndash;&gt;-->
+              <!--<div id="tweet" class="form-group">-->
+              <!--<textarea style="height:100px; resize: none;"-->
+                        <!--cols="30"-->
+                        <!--rows="10"-->
+                        <!--name="tweet"-->
+                        <!--class="form-control"-->
+                        <!--placeholder="Tweet @..."-->
+                        <!--required-->
+                        <!--type="text"-->
+                        <!--ng-model="tweet.message">-->
+              <!--</textarea>-->
+
+              <!--<span class="help-block"></span>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; SUBMIT BUTTON &ndash;&gt;-->
+            <!--<button type="submit" class="btn btn-success btn-lg btn-block">-->
+              <!--<i class="fa fa-twitter" aria-hidden="true"></i>-->
+              <!--Share-->
+            <!--</button>-->
+          <!--</form>-->
+          <!--<br/>-->
+          <!--&lt;!&ndash;&lt;!&ndash; SHOW ERROR/SUCCESS MESSAGES &ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;<div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"&ndash;&gt;-->
+          <!--&lt;!&ndash;close="closeAlert($index)">{{alert.msg}}&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+          <!--&lt;!&ndash;<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"&ndash;&gt;-->
+          <!--&lt;!&ndash;class="form-control">{{ tweet }}</textarea>&ndash;&gt;-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<ul class="list-group" style="max-height: 500px; overflow-y: auto">-->
+        <!--<li class="list-group-item" ng-repeat="tweet in tweets">-->
+          <!--<strong>{{tweet.username}}</strong> {{tweet.message}}-->
+          <!--<br/>-->
+          <!--<div>-->
+            <!--<i class="fa fa-reply" style="color: lightgray" aria-hidden="true"></i>-->
+            <!--<i class="fa fa-retweet" style="color: lightgray" aria-hidden="true"></i>-->
+            <!--<i class="fa fa-share-alt" style="color: lightgray" aria-hidden="true"></i>-->
+            <!--<i class="fa fa-heart" style="color: lightgray" aria-hidden="true"></i>-->
+
+            <!--<span am-time-ago="tweet.createdTimestamp" style="float:right;font-size:1em;font-weight:600;color: darkgrey"></span>-->
+          <!--</div>-->
+        <!--</li>-->
+      <!--</ul>-->
+    </div>
   </div>
 </div>

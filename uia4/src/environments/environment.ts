@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   version: '(dev)',
-  serverUrl: '/api',
+  serverUrl: 'https://www.mlbtwits.com/api/v1',
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',

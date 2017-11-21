@@ -6,11 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '../../authentication/authentication.service';
 import { MockAuthenticationService } from '../../authentication/authentication.service.mock';
 import { I18nService } from '../../i18n.service';
-import { HeaderComponent } from './header.component';
+import { FooterComponent } from './footer.component';
 
 describe('FooterComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+  let component: FooterComponent;
+  let fixture: ComponentFixture<FooterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,7 +19,7 @@ describe('FooterComponent', () => {
         NgbModule.forRoot(),
         TranslateModule.forRoot()
       ],
-      declarations: [HeaderComponent],
+      declarations: [FooterComponent],
       providers: [
         { provide: AuthenticationService, useClass: MockAuthenticationService },
         I18nService
@@ -29,7 +29,7 @@ describe('FooterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

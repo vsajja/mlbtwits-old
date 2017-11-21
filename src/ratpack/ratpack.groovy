@@ -75,7 +75,7 @@ ratpack {
             }
         }
 
-        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
+//        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
 
         prefix('api/v1') {
             all {
@@ -168,7 +168,7 @@ ratpack {
                 }
             }
 
-            all RatpackPac4j.requireAuth(DirectBasicAuthClient)
+//            all RatpackPac4j.requireAuth(DirectBasicAuthClient)
 
             path('users') {
                 byMethod {

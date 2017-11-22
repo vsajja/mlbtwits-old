@@ -23,8 +23,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule
   ],
   declarations: [
-    HomeComponent,
-    TrendingComponent
+    HomeComponent, TrendingComponent
   ],
   providers: [
     QuoteService

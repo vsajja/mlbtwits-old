@@ -4,10 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {HomeModule} from './home/home.module';
@@ -19,6 +17,7 @@ import {TeamComponent} from './team/team.component';
 import {UserComponent} from './user/user.component';
 import {UsersComponent} from './users/users.component';
 import {PlayerModule} from "./player/player.module";
+import {PlayersModule} from "./players/players.module";
 
 @NgModule({
   imports: [
@@ -32,6 +31,7 @@ import {PlayerModule} from "./player/player.module";
     HomeModule,
     LoginModule,
     PlayerModule,
+    PlayersModule,
     AppRoutingModule
   ],
   declarations: [AppComponent, PlayerComponent, PlayersComponent, TeamsComponent, TeamComponent, UserComponent, UsersComponent],

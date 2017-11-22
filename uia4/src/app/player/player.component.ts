@@ -9,34 +9,29 @@ import {QuoteService} from "../services/quote.service";
 })
 export class PlayerComponent implements OnInit {
   playerId: string;
-
   player : any;
-
-  teamId : string;
-  mlbPlayerId : string;
-  playerName : string;
-  playerNamePlain : string;
   mugshotUrl : string;
+  playerTweets : any;
 
   constructor(private route: ActivatedRoute, private quoteService: QuoteService) {
   }
 
   ngOnInit() {
     this.playerId = this.route.snapshot.paramMap.get('playerId');
+
+    // get player details
     this.quoteService.getPlayer(this.playerId).subscribe(
       (res: Response) => {
-        let player = res.json();
-        // FIXME: setting the player variable only works through a setter?
-        this.setPlayer(player);
+        this.player = res.json();
+        this.mugshotUrl = "http://gdx.mlb.com/images/gameday/mugshots/mlb/" + this.player.mlbPlayerId + "@4x.jpg";
       }
     );
-  }
 
-  public setPlayer(player : any) {
-    this.playerName = player.playerName;
-    this.playerNamePlain = player.playerNamePlain;
-    this.teamId = player.teamId;
-    this.mlbPlayerId = player.mlbPlayerId;
-    this.mugshotUrl = "http://gdx.mlb.com/images/gameday/mugshots/mlb/" + this.mlbPlayerId + "@4x.jpg";
+    // get player tweets
+    this.quoteService.getPlayerTweets(this.playerId).subscribe(
+      (res: Response) => {
+        this.playerTweets = res.json();
+      }
+    );
   }
 }

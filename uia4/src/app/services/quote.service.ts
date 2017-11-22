@@ -23,7 +23,15 @@ export class QuoteService {
   }
 
   getPlayer(playerId: string): any {
-    return this.http.get('/players/' + playerId, {cache: true})
+    return this.http.get('/players/' + playerId, {cache: true});
+  }
+
+  getPlayers(): any {
+    return this.http.get('/players', {cache: true});
+  }
+
+  getPlayerTweets(playerId: string): any {
+    return this.http.get('/players/' + playerId + '/tweets', {cache: true});
   }
 
   getPlayerLabels() {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {QuoteService} from "../services/quote.service";
 
 @Component({
   selector: 'app-players',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit {
+  players: any;
 
-  constructor() { }
+  constructor(private quoteService: QuoteService) { }
 
   ngOnInit() {
+    this.quoteService.getPlayers()
+      .subscribe((res: Response) => {
+        this.players = res.json();
+      }
+    );
   }
-
 }

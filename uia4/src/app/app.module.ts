@@ -12,13 +12,13 @@ import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {HomeModule} from './home/home.module';
 import {LoginModule} from './login/login.module';
-import {TimeAgoPipeModule} from "time-ago-pipe/index";
 import {PlayerComponent} from './player/player.component';
 import {PlayersComponent} from './players/players.component';
 import {TeamsComponent} from './teams/teams.component';
 import {TeamComponent} from './team/team.component';
 import {UserComponent} from './user/user.component';
 import {UsersComponent} from './users/users.component';
+import {PlayerModule} from "./player/player.module";
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import {UsersComponent} from './users/users.component';
     SharedModule,
     HomeModule,
     LoginModule,
-    TimeAgoPipeModule,
+    PlayerModule,
     AppRoutingModule
   ],
   declarations: [AppComponent, PlayerComponent, PlayersComponent, TeamsComponent, TeamComponent, UserComponent, UsersComponent],

@@ -15,20 +15,23 @@
         </div>
         <div class="navbar-nav ml-auto">
           <div class="nav-item" ngbDropdown placement="bottom-right">
-            <a id="language-dropdown" class="nav-link" ngbDropdownToggle>{{currentLanguage}}</a>
-            <div ngbDropdownMenu aria-labelledby="language-dropdown">
-              <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
-                {{language}}
-              </button>
-            </div>
+            <!--<a id="language-dropdown" class="nav-link" ngbDropdownToggle>{{currentLanguage}}</a>-->
+            <!--<div ngbDropdownMenu aria-labelledby="language-dropdown">-->
+              <!--<button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">-->
+                <!--{{language}}-->
+              <!--</button>-->
+            <!--</div>-->
           </div>
           <div class="nav-item" ngbDropdown placement="bottom-right">
             <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
-              <i class="fa fa-user-circle"></i>
+              <!--<i class="fa fa-user-circle"></i>-->
+              <span translate>Logged in as</span> <b>{{username}}</b>
             </a>
             <div ngbDropdownMenu aria-labelledby="user-dropdown">
               <h6 class="dropdown-header">
-                <span translate>Logged in as</span> <b>{{username}}</b></h6>
+                <!--<span translate>Logged in as</span> <b>{{username}}</b>-->
+                <a href="/player">Profile</a>
+              </h6>
               <div class="dropdown-divider"></div>
               <button class="dropdown-item" (click)="logout()" translate>Logout</button>
             </div>

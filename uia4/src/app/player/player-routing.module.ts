@@ -2,12 +2,10 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 import {Route} from '../core/route.service';
-import {extract} from '../core/i18n.service';
-import {HomeComponent} from './home.component';
+import {PlayerComponent} from "./player.component";
 
 const routes: Routes = Route.withShell([
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent, data: {title: extract('Home')}}
+  {path: 'players/:playerId', component: PlayerComponent, data: {title: 'Player'}}
 ]);
 
 @NgModule({
@@ -15,5 +13,5 @@ const routes: Routes = Route.withShell([
   exports: [RouterModule],
   providers: []
 })
-export class HomeRoutingModule {
+export class PlayerRoutingModule {
 }

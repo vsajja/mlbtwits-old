@@ -7,8 +7,6 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class QuoteService {
-  player : any;
-
   constructor(private http: Http) {
   }
 

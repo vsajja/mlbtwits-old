@@ -9,6 +9,9 @@ import {QuoteService} from "../services/quote.service";
 })
 export class PlayerComponent implements OnInit {
   playerId: string;
+
+  player : any;
+
   teamId : string;
   mlbPlayerId : string;
   playerName : string;
@@ -23,12 +26,17 @@ export class PlayerComponent implements OnInit {
     this.quoteService.getPlayer(this.playerId).subscribe(
       (res: Response) => {
         let player = res.json();
-        this.playerName = player.playerName;
-        this.playerNamePlain = player.playerNamePlain;
-        this.teamId = player.teamId;
-        this.mlbPlayerId = player.mlbPlayerId;
-        this.mugshotUrl = "http://gdx.mlb.com/images/gameday/mugshots/mlb/" + this.mlbPlayerId + "@2x.jpg";
+        // FIXME: setting the player variable only works through a setter?
+        this.setPlayer(player);
       }
     );
+  }
+
+  public setPlayer(player : any) {
+    this.playerName = player.playerName;
+    this.playerNamePlain = player.playerNamePlain;
+    this.teamId = player.teamId;
+    this.mlbPlayerId = player.mlbPlayerId;
+    this.mugshotUrl = "http://gdx.mlb.com/images/gameday/mugshots/mlb/" + this.mlbPlayerId + "@4x.jpg";
   }
 }

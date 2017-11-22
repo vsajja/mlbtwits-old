@@ -12,6 +12,8 @@ import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {HomeModule} from './home/home.module';
 import {LoginModule} from './login/login.module';
+import {TimeAgoPipe} from "time-ago-pipe";
+import {TimeAgoPipeModule} from "time-ago-pipe/index";
 
 @NgModule({
   imports: [
@@ -24,9 +26,10 @@ import {LoginModule} from './login/login.module';
     SharedModule,
     HomeModule,
     LoginModule,
+    TimeAgoPipeModule,
     AppRoutingModule
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, TimeAgoPipe],
   providers: [],
   bootstrap: [AppComponent]
 })

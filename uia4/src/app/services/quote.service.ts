@@ -29,12 +29,18 @@ export class QuoteService {
   getMlbTwits() {
     return this.http.get('/mlbtwits', { cache: true })
       .map((res: Response) => res.json())
-      .catch(() => Observable.of('Error, could not trending players'));
+      .catch(() => Observable.of('Error, could not load trending players'));
+  }
+
+  getTweets() {
+    return this.http.get('/tweets', { cache: true })
+      .map((res: Response) => res.json())
+      .catch(() => Observable.of('Error, could not load tweets.'));
   }
 
   getPlayerLabels() {
     return this.http.get('/playerLabels', { cache: true })
       .map((res: Response) => res.json())
-      .catch(() => Observable.of('Error, could not trending players'));
+      .catch(() => Observable.of('Error, could not load player labels'));
   }
 }

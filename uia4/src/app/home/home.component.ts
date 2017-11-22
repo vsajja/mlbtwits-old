@@ -14,6 +14,7 @@ import {QuoteService} from '../services/quote.service';
 export class HomeComponent implements OnInit {
   model: any;
   playerLabels: any;
+  tweets: any;
   isLoading: boolean;
 
   constructor(private quoteService: QuoteService) {
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getPlayerLabels()
+    this.getTweets()
   }
 
   getPlayerLabels() {
@@ -31,6 +33,17 @@ export class HomeComponent implements OnInit {
       })
       .subscribe((labels: any) => {
         this.playerLabels = labels;
+      });
+  }
+
+  getTweets() {
+    this.isLoading = true;
+    this.quoteService.getTweets()
+      .finally(() => {
+        this.isLoading = false;
+      })
+      .subscribe((tweets: any) => {
+        this.tweets = tweets;
       });
   }
 

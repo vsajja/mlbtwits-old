@@ -12,8 +12,13 @@ import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {HomeModule} from './home/home.module';
 import {LoginModule} from './login/login.module';
-import {TimeAgoPipe} from "time-ago-pipe";
 import {TimeAgoPipeModule} from "time-ago-pipe/index";
+import {PlayerComponent} from './player/player.component';
+import {PlayersComponent} from './players/players.component';
+import {TeamsComponent} from './teams/teams.component';
+import {TeamComponent} from './team/team.component';
+import {UserComponent} from './user/user.component';
+import {UsersComponent} from './users/users.component';
 
 @NgModule({
   imports: [
@@ -29,7 +34,7 @@ import {TimeAgoPipeModule} from "time-ago-pipe/index";
     TimeAgoPipeModule,
     AppRoutingModule
   ],
-  declarations: [AppComponent, TimeAgoPipe],
+  declarations: [AppComponent, PlayerComponent, PlayersComponent, TeamsComponent, TeamComponent, UserComponent, UsersComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

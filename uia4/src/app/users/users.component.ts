@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {QuoteService} from "../services/quote.service";
 
 @Component({
@@ -7,7 +7,7 @@ import {QuoteService} from "../services/quote.service";
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  users : any;
+  users: any;
 
   constructor(private quoteService: QuoteService) {
   }

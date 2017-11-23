@@ -4,7 +4,7 @@ import {Route} from '../core/route.service';
 import {UserComponent} from "./user.component";
 
 const routes: Routes = Route.withShell([
-  {path: 'users/:userId', component: UserComponent, data: {title: 'User'}}
+  {path: 'users/:username', component: UserComponent, data: {title: 'User'}}
 ]);
 
 @NgModule({

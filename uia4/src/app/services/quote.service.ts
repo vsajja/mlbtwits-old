@@ -48,12 +48,12 @@ export class QuoteService {
     return this.http.get('/users', {cache: true});
   }
 
-  getUser(userId: string): any {
-    return this.http.get('/users/' + userId, {cache: true});
+  getUser(username: string): any {
+    return this.http.get('/users/' + username, {cache: true});
   }
 
-  getUserTweets(userId: string): any {
-    return this.http.get('/users/' + userId + '/tweets', {cache: true});
+  getUserTweets(username: string): any {
+    return this.http.get('/users/' + username + '/tweets', {cache: true});
   }
 
   getPlayerTweets(playerId: string): any {

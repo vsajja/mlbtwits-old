@@ -9,22 +9,22 @@ import {AuthenticationService} from "../core/authentication/authentication.servi
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  userId: any;
+  username : any;
   user: any;
   userTweets : any;
 
   constructor(private route: ActivatedRoute,
               private quoteService: QuoteService,
               private authenticationService: AuthenticationService) {
-    this.userId = this.route.snapshot.paramMap.get('userId');
+    this.username = this.route.snapshot.paramMap.get('username');
 
-    this.quoteService.getUser(this.userId).subscribe(
+    this.quoteService.getUser(this.username).subscribe(
       (res: Response) => {
         this.user = res.json();
       }
     );
 
-    this.quoteService.getUserTweets(this.userId).subscribe(
+    this.quoteService.getUserTweets(this.username).subscribe(
       (res: Response) => {
          this.userTweets = res.json();
       })

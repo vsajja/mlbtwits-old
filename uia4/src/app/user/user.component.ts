@@ -12,8 +12,11 @@ export class UserComponent implements OnInit {
   userId: any;
   user: any;
   username: any;
+  userTweets : any;
 
-  constructor(private route: ActivatedRoute, private quoteService: QuoteService, private authenticationService: AuthenticationService) {
+  constructor(private route: ActivatedRoute,
+              private quoteService: QuoteService,
+              private authenticationService: AuthenticationService) {
     this.userId = this.route.snapshot.paramMap.get('userId');
     this.username = authenticationService.credentials.username;
 
@@ -22,6 +25,11 @@ export class UserComponent implements OnInit {
         this.user = res.json();
       }
     );
+
+    this.quoteService.getUserTweets(this.username).subscribe(
+      (res: Response) => {
+         this.userTweets = res.json();
+      })
   }
 
   ngOnInit() {

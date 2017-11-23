@@ -1,26 +1,27 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <label>Username</label> {{user?.username}}
-      <label>Email</label> {{user?.emailAddress}}
-      <label>accountLocked</label> {{user?.accountLocked}}
-
-
+      <div class="card">
+        <div class="card-block">
+          <h4 class="card-title">{{user?.username}}</h4>
+          <p class="card-text">{{user?.emailAddress}}</p>
+        </div>
+      </div>
     </div>
     <div class="col-md-1">
     </div>
-    <!--<div class="col-md-8">-->
-      <!--<div >-->
-        <!--<ul class="list-group" style="max-height: 500px; overflow-y: auto">-->
-          <!--<li class="list-group-item" *ngFor="let tweet of playerTweets">-->
-            <!--<strong>{{tweet.username}}</strong> {{tweet.message}}-->
-            <!--<br/>-->
-            <!--<div>-->
-              <!--<span style="float:right;font-size:1em;font-weight:600;color: darkgrey">{{tweet.createdTimestamp}}</span>-->
-            <!--</div>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="col-md-8">
+      <div >
+        <ul class="list-group" style="max-height: 500px; overflow-y: auto">
+          <li class="list-group-item" *ngFor="let tweet of userTweets">
+            <strong>{{tweet?.username}}</strong> {{tweet?.message}}
+            <br/>
+            <div>
+              <span style="float:right;font-size:1em;font-weight:600;color: darkgrey">{{tweet?.createdTimestamp}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

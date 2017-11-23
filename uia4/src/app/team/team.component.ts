@@ -10,6 +10,7 @@ import {QuoteService} from "../services/quote.service";
 export class TeamComponent implements OnInit {
   teamId: any;
   team: any;
+  roster: any;
 
   constructor(private route: ActivatedRoute, private quoteService: QuoteService) {
   }
@@ -20,6 +21,12 @@ export class TeamComponent implements OnInit {
     this.quoteService.getTeam(this.teamId).subscribe(
       (res: Response) => {
         this.team = res.json();
+      }
+    );
+
+    this.quoteService.getTeamRoster(this.teamId).subscribe(
+      (res: Response) => {
+        this.roster = res.json();
       }
     );
   }

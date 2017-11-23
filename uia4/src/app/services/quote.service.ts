@@ -44,6 +44,10 @@ export class QuoteService {
     return this.http.get('/teams/' + teamId, {cache: true});
   }
 
+  getTeamRoster(teamId: string): any {
+    return this.http.get('/teams/' + teamId + '/roster', {cache: true});
+  }
+
   getUsers(): any {
     return this.http.get('/users', {cache: true});
   }

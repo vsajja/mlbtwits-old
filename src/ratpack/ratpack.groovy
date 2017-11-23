@@ -76,12 +76,18 @@ ratpack {
         }
 
         get('**') {
+
+        }
+
+
+        all {
             files {
                 dir 'dist'
                 indexFiles 'index.html'
             }
-        }
 
+            next()
+        }
 //        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
 
         prefix('api/v1') {

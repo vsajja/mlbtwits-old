@@ -75,7 +75,21 @@ ratpack {
             }
         }
 
-        all {
+        get('login') {
+            files {
+                dir 'dist'
+                indexFiles 'index.html'
+            }
+        }
+
+        get('teams') {
+            files {
+                dir 'dist'
+                indexFiles 'index.html'
+            }
+        }
+
+        get('teams') {
             files {
                 dir 'dist'
                 indexFiles 'index.html'

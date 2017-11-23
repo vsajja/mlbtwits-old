@@ -75,21 +75,7 @@ ratpack {
             }
         }
 
-        get('login') {
-            files {
-                dir 'dist'
-                indexFiles 'index.html'
-            }
-        }
-
-        get('teams') {
-            files {
-                dir 'dist'
-                indexFiles 'index.html'
-            }
-        }
-
-        get('teams') {
+        get('**') {
             files {
                 dir 'dist'
                 indexFiles 'index.html'

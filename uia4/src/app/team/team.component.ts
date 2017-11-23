@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {QuoteService} from "../services/quote.service";
 
 @Component({
   selector: 'app-team',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
+  teamId: any;
+  team: any;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private route: ActivatedRoute, private quoteService: QuoteService) {
   }
 
+  ngOnInit() {
+    this.teamId = this.route.snapshot.paramMap.get('teamId');
+
+    this.quoteService.getTeam(this.teamId).subscribe(
+      (res: Response) => {
+        this.team = res.json();
+      }
+    );
+  }
 }

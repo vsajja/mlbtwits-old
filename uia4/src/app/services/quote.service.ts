@@ -16,6 +16,12 @@ export class QuoteService {
       .catch(() => Observable.of('Error, could not load trending players'));
   }
 
+  getPlayerLabels() {
+    return this.http.get('/playerLabels', {cache: true})
+      .map(res => res.json())
+      .catch(() => Observable.of('Error, could not load player labels'));
+  }
+
   getTweets() {
     return this.http.get('/tweets', {cache: true})
       .map(res => res.json())
@@ -30,13 +36,23 @@ export class QuoteService {
     return this.http.get('/players', {cache: true});
   }
 
-  getPlayerTweets(playerId: string): any {
-    return this.http.get('/players/' + playerId + '/tweets', {cache: true});
+  getTeams(): any {
+    return this.http.get('/teams', {cache: true});
   }
 
-  getPlayerLabels() {
-    return this.http.get('/playerLabels', {cache: true})
-      .map(res => res.json())
-      .catch(() => Observable.of('Error, could not load player labels'));
+  getTeam(teamId: string): any {
+    return this.http.get('/teams/' + teamId, {cache: true});
+  }
+
+  getUsers(): any {
+    return this.http.get('/users', {cache: true});
+  }
+
+  getUser(username: string): any {
+    return this.http.get('/users/' + username, {cache: true});
+  }
+
+  getPlayerTweets(playerId: string): any {
+    return this.http.get('/players/' + playerId + '/tweets', {cache: true});
   }
 }

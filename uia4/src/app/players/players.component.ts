@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {QuoteService} from "../services/quote.service";
-import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-players',

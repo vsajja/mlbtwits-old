@@ -1,3 +1,20 @@
-<p>
-  teams works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div>
+        <input placeholder="filter teams..." #term (keyup)="searchTeams(term.value)" />
+        <span class="input-group-btn">
+              <button class="btn btn-info btn-lg" type="button" (click)="searchTeams(term.value)">
+                  <i class="fa fa-search"></i>
+              </button>
+          </span>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div *ngFor="let team of teams">
+        <a href="/teams/{{team.teamId}}">{{team.teamName}}</a>
+      </div>
+    </div>
+  </div>
+</div>

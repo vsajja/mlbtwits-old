@@ -18,6 +18,10 @@ import {UserComponent} from './user/user.component';
 import {UsersComponent} from './users/users.component';
 import {PlayerModule} from "./player/player.module";
 import {PlayersModule} from "./players/players.module";
+import {TeamsModule} from "./teams/teams.module";
+import {TeamModule} from "./team/team.module";
+import {UsersModule} from "./users/users.module";
+import {UserModule} from "./user/user.module";
 
 @NgModule({
   imports: [
@@ -32,6 +36,10 @@ import {PlayersModule} from "./players/players.module";
     LoginModule,
     PlayerModule,
     PlayersModule,
+    TeamModule,
+    TeamsModule,
+    UserModule,
+    UsersModule,
     AppRoutingModule
   ],
   declarations: [AppComponent, PlayerComponent, PlayersComponent, TeamsComponent, TeamComponent, UserComponent, UsersComponent],

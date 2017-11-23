@@ -1,13 +1,13 @@
 import 'rxjs/add/operator/finally';
 
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-import { environment } from '../../environments/environment';
-import { Logger } from '../core/logger.service';
-import { I18nService } from '../core/i18n.service';
-import { AuthenticationService } from '../core/authentication/authentication.service';
+import {environment} from '../../environments/environment';
+import {Logger} from '../core/logger.service';
+import {I18nService} from '../core/i18n.service';
+import {AuthenticationService} from '../core/authentication/authentication.service';
 
 const log = new Logger('Login');
 
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   login() {
     this.isLoading = true;
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
       })
       .subscribe(credentials => {
         log.debug(`${credentials.username} successfully logged in`);
-        this.router.navigate(['/'], { replaceUrl: true });
+        this.router.navigate(['/'], {replaceUrl: true});
       }, error => {
         log.debug(`Login error: ${error}`);
         this.error = error;

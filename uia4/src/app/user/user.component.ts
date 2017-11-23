@@ -11,22 +11,20 @@ import {AuthenticationService} from "../core/authentication/authentication.servi
 export class UserComponent implements OnInit {
   userId: any;
   user: any;
-  username: any;
   userTweets : any;
 
   constructor(private route: ActivatedRoute,
               private quoteService: QuoteService,
               private authenticationService: AuthenticationService) {
     this.userId = this.route.snapshot.paramMap.get('userId');
-    this.username = authenticationService.credentials.username;
 
-    this.quoteService.getUser(this.username).subscribe(
+    this.quoteService.getUser(this.userId).subscribe(
       (res: Response) => {
         this.user = res.json();
       }
     );
 
-    this.quoteService.getUserTweets(this.username).subscribe(
+    this.quoteService.getUserTweets(this.userId).subscribe(
       (res: Response) => {
          this.userTweets = res.json();
       })

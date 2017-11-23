@@ -79,6 +79,10 @@ ratpack {
             render('index.html')
         }
 
+        get("home") {
+            render('index.html')
+        }
+
 //        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
 
         prefix('api/v1') {

@@ -4,7 +4,7 @@ import * as env from './.env.json';
 export const environment = {
   production: true,
   version: env.npm_package_version,
-  serverUrl: 'https://api.chucknorris.io',
+  serverUrl: 'https://www.mlbtwits.com/api/v1',
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',

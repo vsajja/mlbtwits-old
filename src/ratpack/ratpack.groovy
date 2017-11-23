@@ -76,8 +76,9 @@ ratpack {
         }
 
         all {
-            files { f ->
-                f.dir("public").indexFiles("index.html")
+            files {
+                dir 'dist'
+                indexFiles 'index.html'
             }
         }
 

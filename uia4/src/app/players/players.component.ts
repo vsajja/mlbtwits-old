@@ -21,7 +21,7 @@ export class PlayersComponent implements OnInit {
     this.refreshPlayers();
     if(term) {
       this.players = this.players.filter(
-        (player: any) => player.playerName.toLowerCase().indexOf(term.toLowerCase()) > -1
+        (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) > -1
       )
     }
   }

@@ -90,7 +90,7 @@ ratpack {
          'settings',
          'player',
          'players',
-         'players:playerId',
+         'players/:playerId',
          'user',
          'users',
          'users/:userId',

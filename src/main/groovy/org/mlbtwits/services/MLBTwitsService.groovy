@@ -136,8 +136,6 @@ class MLBTwitsService {
                 .fetch()
                 .into(PlayerPitchingStatline.class)
 
-
-
         return [ 'hittingStats' : hittingStats, 'pitchingStats' : pitchingStats]
     }
 

@@ -84,12 +84,23 @@ ratpack {
             }
         }
 
-        get("/") {
-            render('index.html')
-        }
-
-        get("home") {
-            render('index.html')
+        ['login',
+         'home',
+         'profile',
+         'settings',
+         'player',
+         'players',
+         'players:playerId',
+         'user',
+         'users',
+         'users/:userId',
+         'team',
+         'teams',
+         'teams/:teamId'
+        ].each { path ->
+            get(path) {
+                response.contentType('text/html').send new File('build/resources/main/dist/index.html').text
+            }
         }
 
         // http://localhost:5050/stats?mlbPlayerId=592450
@@ -118,7 +129,7 @@ ratpack {
                     println 'PROCESSING: ' + mlbPlayerId
 
                     def hittingResult = new JsonSlurper().parseText(mlbHittersAPI.toURL().getText())
-                    def hittingStats = hittingResult.sport_hitting_composed.sport_hitting_tm.queryResults.row
+                    def hittingStats = hittingResult?.sport_hitting_composed?.sport_hitting_tm?.queryResults?.row
 
                     try {
                         println '--- HITTING ---'
@@ -176,7 +187,7 @@ ratpack {
                     }
 
                     def pitchingResult = new JsonSlurper().parseText(mlbPitchingAPI.toURL().getText())
-                    def pitchingStats = pitchingResult.sport_pitching_composed.sport_pitching_agg.queryResults.row
+                    def pitchingStats = pitchingResult?.sport_pitching_composed?.sport_pitching_agg?.queryResults?.row
 
                     try {
                         println '--- PITCHING ---'
@@ -184,7 +195,7 @@ ratpack {
                         if(pitchingStats instanceof Map) {
                             def year = Integer.parseInt(pitchingStats.season)
                             def innings = Double.parseDouble(pitchingStats.ip)
-                            def wins = Integer.parseDouble(pitchingStats.w)
+                            def wins = Integer.parseInt(pitchingStats.w)
                             def era = Double.parseDouble(pitchingStats.era)
                             def whip = Double.parseDouble(pitchingStats.whip)
                             def strike_outs = Integer.parseInt(pitchingStats.so)

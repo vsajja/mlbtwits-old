@@ -99,12 +99,12 @@ ratpack {
          'teams/:teamId'
         ].each { path ->
             get(path) {
-                response.contentType('text/html').send new File('src/main/ratpack/dist/index.html').text
+                response.contentType('text/html').send new File('src/ratpack/dist/index.html').text
             }
         }
 
         // http://localhost:5050/stats?mlbPlayerId=592450
-        get('stats') {
+        get('careful') {
 //            def mlbPlayerId = request.queryParams['mlbPlayerId']
 
 //            def url = "http://m.mlb.com/player/$mlbPlayerId"

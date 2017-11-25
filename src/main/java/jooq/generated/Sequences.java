@@ -24,6 +24,16 @@ import org.jooq.impl.SequenceImpl;
 public class Sequences {
 
 	/**
+	 * The sequence <code>public.player_hitting_statline_hitting_statline_id_seq</code>
+	 */
+	public static final Sequence<Long> PLAYER_HITTING_STATLINE_HITTING_STATLINE_ID_SEQ = new SequenceImpl<Long>("player_hitting_statline_hitting_statline_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.player_pitching_statline_pitching_statline_id_seq</code>
+	 */
+	public static final Sequence<Long> PLAYER_PITCHING_STATLINE_PITCHING_STATLINE_ID_SEQ = new SequenceImpl<Long>("player_pitching_statline_pitching_statline_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
 	 * The sequence <code>public.player_player_id_seq</code>
 	 */
 	public static final Sequence<Long> PLAYER_PLAYER_ID_SEQ = new SequenceImpl<Long>("player_player_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

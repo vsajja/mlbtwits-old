@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tweet extends TableImpl<TweetRecord> {
 
-	private static final long serialVersionUID = -2044049540;
+	private static final long serialVersionUID = 215292925;
 
 	/**
 	 * The reference instance of <code>public.tweet</code>
@@ -73,7 +73,7 @@ public class Tweet extends TableImpl<TweetRecord> {
 	/**
 	 * The column <code>public.tweet.user_id</code>.
 	 */
-	public final TableField<TweetRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<TweetRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * Create a <code>public.tweet</code> table reference

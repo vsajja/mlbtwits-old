@@ -1,6 +1,12 @@
 import com.zaxxer.hikari.HikariConfig
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+import jooq.generated.tables.pojos.PlayerHittingStatline
 import jooq.generated.tables.pojos.Tweet
 import jooq.generated.tables.pojos.User
+import org.jooq.DSLContext
+import org.jooq.SQLDialect
+import org.jooq.impl.DSL
 import org.mindrot.jbcrypt.BCrypt
 import org.mlbtwits.auth.DatabaseUsernamePasswordAuthenticator
 import org.mlbtwits.auth.MLBTwitsProfile
@@ -23,11 +29,14 @@ import ratpack.pac4j.RatpackPac4j
 import ratpack.session.SessionModule
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
+
+import javax.sql.DataSource
+
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
 
-
+import static jooq.generated.Tables.*;
 
 final Logger log = LoggerFactory.getLogger(this.class)
 
@@ -83,6 +92,69 @@ ratpack {
             render('index.html')
         }
 
+        // http://localhost:5050/stats?mlbPlayerId=592450
+        get('stats') {
+//            def mlbPlayerId = request.queryParams['mlbPlayerId']
+
+//            def url = "http://m.mlb.com/player/$mlbPlayerId"
+//            def doc = new XmlParser(new org.ccil.cowan.tagsoup.Parser()).parse(url)
+//            def result = doc.'**'.find {
+//                it instanceof Node &&
+////                it.name() == 'div' &&
+//                        it.@id == 'careerPanel'
+//            }
+
+
+            DataSource dataSource = registry.get(DataSource.class)
+            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
+
+            mlbTwitsService.getPlayers().each { player ->
+                if (player.getMlbPlayerId()) {
+                    def mlbPlayerId = player.getMlbPlayerId()
+
+                    def mlbHittersAPI = "http://m.mlb.com/lookup/json/named.sport_hitting_composed.bam?game_type=%27R%27&league_list_id=%27mlb_hist%27&sort_by=%27season_asc%27&player_id=$mlbPlayerId"
+                    def mlbPitchingAPI = "http://m.mlb.com/lookup/json/named.sport_pitching_composed.bam?game_type=%27R%27&league_list_id=%27mlb_hist%27&sort_by=%27season_asc%27&player_id=$mlbPlayerId"
+
+                    println 'PROCESSING: ' + mlbPlayerId
+
+                    def hittingResult = new JsonSlurper().parseText(mlbHittersAPI.toURL().getText())
+                    def hittingStats = hittingResult.sport_hitting_composed.sport_hitting_tm.queryResults.row
+
+                    try {
+                        println '--- HITTING ---'
+                        hittingStats.each { statLine ->
+                            println "${statLine.season} ${statLine.team_abbrev} ${statLine.ab}ab ${statLine.r}runs ${statLine.hr}hr ${statLine.rbi}rbi ${statLine.sb}sb"
+
+//                        context.insertInto(PLAYER_HITTING_STATLINE)
+//                                .set(PLAYER_HITTING_STATLINE.YEAR, (Integer) statLine.year)
+//                                .set(PLAYER_HITTING_STATLINE.ATBATS, (Integer) statLine.ab)
+//                                .set(PLAYER_HITTING_STATLINE.RUNS, (Integer) statLine.r)
+//                                .set(PLAYER_HITTING_STATLINE.HOME_RUNS, (Integer) statLine.hr)
+//                                .set(PLAYER_HITTING_STATLINE.RBIS, (Integer) statLine.rbi)
+//                                .set(PLAYER_HITTING_STATLINE.STOLEN_BASES, (Integer) statLine.sb)
+//                                .execute()
+                        }
+                    }
+                    catch(error) {
+                        println error.message
+                    }
+
+                    def pitchingResult = new JsonSlurper().parseText(mlbPitchingAPI.toURL().getText())
+                    def pitchingStats = pitchingResult.sport_pitching_composed.sport_pitching_agg.queryResults.row
+
+                    try {
+                        println '--- PITCHING ---'
+                        pitchingStats.each { statLine ->
+                            println "${statLine.season} ${statLine.ip}ip ${statLine.w}w ${statLine.era}era ${statLine.whip}whip ${statLine.so}k ${statLine.sv}sv"
+                        }
+                    }
+                    catch (error) {
+                        println error.message
+                    }
+                }
+            }
+        }
+
 //        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
 
         prefix('api/v1') {
@@ -104,25 +176,23 @@ ratpack {
                             assert password
 
                             def user = mlbTwitsService.getUser(username)
-                            if(user) {
+                            if (user) {
 
                                 boolean passwordMatches = BCrypt.checkpw(password, user.getPassword())
-                                if(passwordMatches) {
+                                if (passwordMatches) {
                                     return user
-                                }
-                                else {
+                                } else {
                                     throw new IllegalArgumentException()
                                 }
                             }
                         }.onError { Throwable e ->
-                            if(e instanceof IllegalArgumentException) {
+                            if (e instanceof IllegalArgumentException) {
                                 clientError(401)
                             }
                         }.then { User user ->
-                            if(user) {
+                            if (user) {
                                 render json(user)
-                            }
-                            else {
+                            } else {
                                 clientError(404)
                             }
                         }
@@ -147,7 +217,7 @@ ratpack {
 
                     mlbTwitsService.registerUser(username, password, emailAddress)
                 }.onError { Throwable e ->
-                    if(e.message.contains('unique constraint')) {
+                    if (e.message.contains('unique constraint')) {
                         clientError(409)
                     }
                     throw e
@@ -168,10 +238,9 @@ ratpack {
 
             all {
                 // TODO: Find a better way, preflight CORS OPTIONS calls do not supply an Authentication header
-                if(request.method.isOptions()) {
+                if (request.method.isOptions()) {
                     response.send()
-                }
-                else {
+                } else {
                     next()
                 }
             }
@@ -291,9 +360,11 @@ ratpack {
                     post {
                         parse(jsonNode()).map { params ->
                             def message = params.get('message')?.textValue()
-                            def userId = params.get('userId')?.intValue()\
+                            def userId = params.get('userId')?.intValue()
 
-                            assert message
+                                                            \
+
+ assert message
                             assert userId
 
                             mlbTwitsService.tweet(playerId, userId.toString(), message)
@@ -309,7 +380,7 @@ ratpack {
                 byMethod {
                     get {
                         def players = mlbTwitsService.getPlayers()
-                        render json(players.collect { ['playerName' : it.playerName, 'label' : it.playerNamePlain]})
+                        render json(players.collect { ['playerName': it.playerName, 'label': it.playerNamePlain] })
                     }
                 }
             }

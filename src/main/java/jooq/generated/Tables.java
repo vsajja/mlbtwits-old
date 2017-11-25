@@ -7,6 +7,8 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Player;
+import jooq.generated.tables.PlayerHittingStatline;
+import jooq.generated.tables.PlayerPitchingStatline;
 import jooq.generated.tables.Position;
 import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
@@ -30,6 +32,16 @@ public class Tables {
 	 * The table public.player
 	 */
 	public static final Player PLAYER = jooq.generated.tables.Player.PLAYER;
+
+	/**
+	 * The table public.player_hitting_statline
+	 */
+	public static final PlayerHittingStatline PLAYER_HITTING_STATLINE = jooq.generated.tables.PlayerHittingStatline.PLAYER_HITTING_STATLINE;
+
+	/**
+	 * The table public.player_pitching_statline
+	 */
+	public static final PlayerPitchingStatline PLAYER_PITCHING_STATLINE = jooq.generated.tables.PlayerPitchingStatline.PLAYER_PITCHING_STATLINE;
 
 	/**
 	 * The table public.position

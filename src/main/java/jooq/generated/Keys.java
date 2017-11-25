@@ -7,10 +7,14 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Player;
+import jooq.generated.tables.PlayerHittingStatline;
+import jooq.generated.tables.PlayerPitchingStatline;
 import jooq.generated.tables.Position;
 import jooq.generated.tables.Team;
 import jooq.generated.tables.Tweet;
 import jooq.generated.tables.User;
+import jooq.generated.tables.records.PlayerHittingStatlineRecord;
+import jooq.generated.tables.records.PlayerPitchingStatlineRecord;
 import jooq.generated.tables.records.PlayerRecord;
 import jooq.generated.tables.records.PositionRecord;
 import jooq.generated.tables.records.TeamRecord;
@@ -42,6 +46,8 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<PlayerRecord, Integer> IDENTITY_PLAYER = Identities0.IDENTITY_PLAYER;
+	public static final Identity<PlayerHittingStatlineRecord, Integer> IDENTITY_PLAYER_HITTING_STATLINE = Identities0.IDENTITY_PLAYER_HITTING_STATLINE;
+	public static final Identity<PlayerPitchingStatlineRecord, Integer> IDENTITY_PLAYER_PITCHING_STATLINE = Identities0.IDENTITY_PLAYER_PITCHING_STATLINE;
 	public static final Identity<PositionRecord, Integer> IDENTITY_POSITION = Identities0.IDENTITY_POSITION;
 	public static final Identity<TeamRecord, Integer> IDENTITY_TEAM = Identities0.IDENTITY_TEAM;
 	public static final Identity<TweetRecord, Integer> IDENTITY_TWEET = Identities0.IDENTITY_TWEET;
@@ -52,6 +58,8 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = UniqueKeys0.PLAYER_PLAYER_ID_PK;
+	public static final UniqueKey<PlayerHittingStatlineRecord> PLAYER_HITTING_STATLINE_PKEY = UniqueKeys0.PLAYER_HITTING_STATLINE_PKEY;
+	public static final UniqueKey<PlayerPitchingStatlineRecord> PLAYER_PITCHING_STATLINE_PKEY = UniqueKeys0.PLAYER_PITCHING_STATLINE_PKEY;
 	public static final UniqueKey<PositionRecord> POSITION_PKEY = UniqueKeys0.POSITION_PKEY;
 	public static final UniqueKey<TeamRecord> TEAM_PKEY = UniqueKeys0.TEAM_PKEY;
 	public static final UniqueKey<UserRecord> USER_PKEY = UniqueKeys0.USER_PKEY;
@@ -70,6 +78,8 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<PlayerRecord, Integer> IDENTITY_PLAYER = createIdentity(Player.PLAYER, Player.PLAYER.PLAYER_ID);
+		public static Identity<PlayerHittingStatlineRecord, Integer> IDENTITY_PLAYER_HITTING_STATLINE = createIdentity(PlayerHittingStatline.PLAYER_HITTING_STATLINE, PlayerHittingStatline.PLAYER_HITTING_STATLINE.HITTING_STATLINE_ID);
+		public static Identity<PlayerPitchingStatlineRecord, Integer> IDENTITY_PLAYER_PITCHING_STATLINE = createIdentity(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE, PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.PITCHING_STATLINE_ID);
 		public static Identity<PositionRecord, Integer> IDENTITY_POSITION = createIdentity(Position.POSITION, Position.POSITION.POSITION_D);
 		public static Identity<TeamRecord, Integer> IDENTITY_TEAM = createIdentity(Team.TEAM, Team.TEAM.TEAM_ID);
 		public static Identity<TweetRecord, Integer> IDENTITY_TWEET = createIdentity(Tweet.TWEET, Tweet.TWEET.TWEET_ID);
@@ -78,6 +88,8 @@ public class Keys {
 
 	private static class UniqueKeys0 extends AbstractKeys {
 		public static final UniqueKey<PlayerRecord> PLAYER_PLAYER_ID_PK = createUniqueKey(Player.PLAYER, Player.PLAYER.PLAYER_ID);
+		public static final UniqueKey<PlayerHittingStatlineRecord> PLAYER_HITTING_STATLINE_PKEY = createUniqueKey(PlayerHittingStatline.PLAYER_HITTING_STATLINE, PlayerHittingStatline.PLAYER_HITTING_STATLINE.HITTING_STATLINE_ID);
+		public static final UniqueKey<PlayerPitchingStatlineRecord> PLAYER_PITCHING_STATLINE_PKEY = createUniqueKey(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE, PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.PITCHING_STATLINE_ID);
 		public static final UniqueKey<PositionRecord> POSITION_PKEY = createUniqueKey(Position.POSITION, Position.POSITION.POSITION_D);
 		public static final UniqueKey<TeamRecord> TEAM_PKEY = createUniqueKey(Team.TEAM, Team.TEAM.TEAM_ID);
 		public static final UniqueKey<UserRecord> USER_PKEY = createUniqueKey(User.USER, User.USER.USER_ID);

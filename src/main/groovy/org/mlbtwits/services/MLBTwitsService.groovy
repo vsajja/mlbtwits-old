@@ -5,6 +5,8 @@ import com.google.inject.Singleton
 import groovy.transform.CompileStatic
 import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.pojos.Player
+import jooq.generated.tables.pojos.PlayerHittingStatline
+import jooq.generated.tables.pojos.PlayerPitchingStatline
 import jooq.generated.tables.pojos.Team
 import jooq.generated.tables.pojos.Tweet
 import jooq.generated.tables.pojos.User
@@ -121,6 +123,22 @@ class MLBTwitsService {
                 .fetch()
                 .into(Player.class)
         return players
+    }
+
+    def getPlayerStats(String playerId) {
+        List<PlayerHittingStatline> hittingStats = context.selectFrom(PLAYER_HITTING_STATLINE)
+                .where(PLAYER_HITTING_STATLINE.PLAYER_ID.eq(playerId))
+                .fetch()
+                .into(PlayerHittingStatline.class)
+
+        List<PlayerPitchingStatline> pitchingStats = context.selectFrom(PLAYER_PITCHING_STATLINE)
+                .where(PLAYER_PITCHING_STATLINE.PLAYER_ID.eq(playerId))
+                .fetch()
+                .into(PlayerPitchingStatline.class)
+
+
+
+        return [ 'hittingStats' : hittingStats, 'pitchingStats' : pitchingStats]
     }
 
     def getPlayersWithTeams() {

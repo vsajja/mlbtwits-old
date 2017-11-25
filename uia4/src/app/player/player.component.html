@@ -1,21 +1,54 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="card">
         <img class="card-img-top" src="{{player?.mugshotUrl}}">
         <div class="card-block">
           <h4 class="card-title">{{player?.playerName}}</h4>
           <p class="card-text">plays for team {{player?.teamId}}</p>
-          <p class="card-text">{{player?.mlbPlayerId}}</p>
-          <label>Rank 1</label>
+          <!--<p class="card-text">{{player?.mlbPlayerId}}</p>-->
+
+          <ngb-tabset [justify]="currentJustify">
+            <ngb-tab title="Hitting">
+              <ng-template ngbTabContent>
+                <table>
+                  <tbody>
+                  <tr *ngFor="let statLine of playerStats.hittingStats">
+                    <td><strong>{{statLine.year}}</strong></td>
+                    <td>{{statLine.runs}} runs</td>
+                    <td>{{statLine.homeRuns}} hr</td>
+                    <td>{{statLine.rbis}} rbi</td>
+                    <td>{{statLine.stolenBases}} sb</td>
+                    <td>{{statLine.average}} avg</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Pitching">
+              <ng-template ngbTabContent>
+                <table>
+                  <tbody>
+                  <tr *ngFor="let statLine of playerStats.pitchingStats">
+                    <td><strong>{{statLine.year}}</strong></td>
+                    <td>{{statLine.innings}} ip</td>
+                    <td>{{statLine.wins}} wins</td>
+                    <td>{{statLine.era}} era </td>
+                    <td>{{statLine.whipo}} whip</td>
+                    <td>{{statLine.strikeOuts}} k</td>
+                    <td>{{statLine.saves}} sv</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
         </div>
       </div>
     </div>
-    <div class="col-md-1">
-    </div>
     <div class="col-md-8">
       <div >
-        <ul class="list-group" style="max-height: 500px; overflow-y: auto">
+        <ul class="list-group" style="max-height: 900px; overflow-y: auto">
           <li class="list-group-item" *ngFor="let tweet of playerTweets">
             <strong>{{tweet?.username}}</strong> {{tweet?.message}}
             <br/>

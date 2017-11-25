@@ -63,4 +63,8 @@ export class QuoteService {
   getPlayerTweets(playerId: string): any {
     return this.http.get('/players/' + playerId + '/tweets', {cache: true});
   }
+
+  getPlayerStats(playerId: string): any {
+    return this.http.get('/players/' + playerId + '/stats', {cache: true});
+  }
 }

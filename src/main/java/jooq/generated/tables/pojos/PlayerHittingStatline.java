@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerHittingStatline implements Serializable {
 
-	private static final long serialVersionUID = -2059712970;
+	private static final long serialVersionUID = -1564342057;
 
 	private final Integer hittingStatlineId;
 	private final Integer year;
@@ -45,6 +45,7 @@ public class PlayerHittingStatline implements Serializable {
 	private final Double  obp;
 	private final Double  slg;
 	private final Double  ops;
+	private final Integer playerId;
 
 	public PlayerHittingStatline(PlayerHittingStatline value) {
 		this.hittingStatlineId = value.hittingStatlineId;
@@ -68,6 +69,7 @@ public class PlayerHittingStatline implements Serializable {
 		this.obp = value.obp;
 		this.slg = value.slg;
 		this.ops = value.ops;
+		this.playerId = value.playerId;
 	}
 
 	public PlayerHittingStatline(
@@ -91,7 +93,8 @@ public class PlayerHittingStatline implements Serializable {
 		Double  average,
 		Double  obp,
 		Double  slg,
-		Double  ops
+		Double  ops,
+		Integer playerId
 	) {
 		this.hittingStatlineId = hittingStatlineId;
 		this.year = year;
@@ -114,6 +117,7 @@ public class PlayerHittingStatline implements Serializable {
 		this.obp = obp;
 		this.slg = slg;
 		this.ops = ops;
+		this.playerId = playerId;
 	}
 
 	public Integer getHittingStatlineId() {
@@ -200,6 +204,10 @@ public class PlayerHittingStatline implements Serializable {
 		return this.ops;
 	}
 
+	public Integer getPlayerId() {
+		return this.playerId;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("PlayerHittingStatline (");
@@ -225,6 +233,7 @@ public class PlayerHittingStatline implements Serializable {
 		sb.append(", ").append(obp);
 		sb.append(", ").append(slg);
 		sb.append(", ").append(ops);
+		sb.append(", ").append(playerId);
 
 		sb.append(")");
 		return sb.toString();

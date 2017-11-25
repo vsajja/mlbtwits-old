@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineRecord> {
 
-	private static final long serialVersionUID = -528516311;
+	private static final long serialVersionUID = -850481519;
 
 	/**
 	 * The reference instance of <code>public.player_pitching_statline</code>
@@ -168,6 +168,11 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	 * The column <code>public.player_pitching_statline.whip</code>.
 	 */
 	public final TableField<PlayerPitchingStatlineRecord, Double> WHIP = createField("whip", org.jooq.impl.SQLDataType.DOUBLE, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.player_id</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Integer> PLAYER_ID = createField("player_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>public.player_pitching_statline</code> table reference

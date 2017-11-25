@@ -203,4 +203,11 @@ public class PlayerHittingStatlineDao extends DAOImpl<PlayerHittingStatlineRecor
 	public List<jooq.generated.tables.pojos.PlayerHittingStatline> fetchByOps(Double... values) {
 		return fetch(PlayerHittingStatline.PLAYER_HITTING_STATLINE.OPS, values);
 	}
+
+	/**
+	 * Fetch records that have <code>player_id IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerHittingStatline> fetchByPlayerId(Integer... values) {
+		return fetch(PlayerHittingStatline.PLAYER_HITTING_STATLINE.PLAYER_ID, values);
+	}
 }

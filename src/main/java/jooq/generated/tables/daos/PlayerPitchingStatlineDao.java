@@ -224,4 +224,11 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByWhip(Double... values) {
 		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.WHIP, values);
 	}
+
+	/**
+	 * Fetch records that have <code>player_id IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByPlayerId(Integer... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.PLAYER_ID, values);
+	}
 }

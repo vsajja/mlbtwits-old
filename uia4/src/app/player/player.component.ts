@@ -11,6 +11,7 @@ export class PlayerComponent implements OnInit {
   playerId: string;
   player : any;
   playerTweets : any;
+  playerStats: any;
 
   constructor(private route: ActivatedRoute, private quoteService: QuoteService) {
   }
@@ -30,6 +31,13 @@ export class PlayerComponent implements OnInit {
     this.quoteService.getPlayerTweets(this.playerId).subscribe(
       (res: Response) => {
         this.playerTweets = res.json();
+      }
+    );
+
+    // get hitting stats
+    this.quoteService.getPlayerStats(this.playerId).subscribe(
+      (res: Response) => {
+        this.playerStats = res.json();
       }
     );
   }

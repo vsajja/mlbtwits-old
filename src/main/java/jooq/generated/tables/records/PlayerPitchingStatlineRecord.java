@@ -25,7 +25,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitchingStatlineRecord> {
 
-	private static final long serialVersionUID = -392971102;
+	private static final long serialVersionUID = 1601445013;
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.pitching_statline_id</code>.
@@ -387,6 +387,21 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 		return (Double) getValue(23);
 	}
 
+	/**
+	 * Setter for <code>public.player_pitching_statline.player_id</code>.
+	 */
+	public PlayerPitchingStatlineRecord setPlayerId(Integer value) {
+		setValue(24, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.player_id</code>.
+	 */
+	public Integer getPlayerId() {
+		return (Integer) getValue(24);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -413,7 +428,7 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Create a detached, initialised PlayerPitchingStatlineRecord
 	 */
-	public PlayerPitchingStatlineRecord(Integer pitchingStatlineId, Integer year, Integer teamId, Integer wins, Integer losses, Double era, Integer games, Integer gamesStarted, Integer completeGames, Integer shutouts, Integer completeGameShutouts, Integer saves, Integer saveOpportunities, Integer innings, Integer hits, Integer runs, Integer earnedRuns, Integer homeRuns, Integer hitBatsmen, Integer walks, Integer intentionalWalks, Integer strikeOuts, Double battingAverageAgainst, Double whip) {
+	public PlayerPitchingStatlineRecord(Integer pitchingStatlineId, Integer year, Integer teamId, Integer wins, Integer losses, Double era, Integer games, Integer gamesStarted, Integer completeGames, Integer shutouts, Integer completeGameShutouts, Integer saves, Integer saveOpportunities, Integer innings, Integer hits, Integer runs, Integer earnedRuns, Integer homeRuns, Integer hitBatsmen, Integer walks, Integer intentionalWalks, Integer strikeOuts, Double battingAverageAgainst, Double whip, Integer playerId) {
 		super(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE);
 
 		setValue(0, pitchingStatlineId);
@@ -440,5 +455,6 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 		setValue(21, strikeOuts);
 		setValue(22, battingAverageAgainst);
 		setValue(23, whip);
+		setValue(24, playerId);
 	}
 }

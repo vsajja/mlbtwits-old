@@ -122,20 +122,56 @@ ratpack {
 
                     try {
                         println '--- HITTING ---'
-                        hittingStats.each { statLine ->
-                            println "${statLine.season} ${statLine.team_abbrev} ${statLine.ab}ab ${statLine.r}runs ${statLine.hr}hr ${statLine.rbi}rbi ${statLine.sb}sb"
 
-//                        context.insertInto(PLAYER_HITTING_STATLINE)
-//                                .set(PLAYER_HITTING_STATLINE.YEAR, (Integer) statLine.year)
-//                                .set(PLAYER_HITTING_STATLINE.ATBATS, (Integer) statLine.ab)
-//                                .set(PLAYER_HITTING_STATLINE.RUNS, (Integer) statLine.r)
-//                                .set(PLAYER_HITTING_STATLINE.HOME_RUNS, (Integer) statLine.hr)
-//                                .set(PLAYER_HITTING_STATLINE.RBIS, (Integer) statLine.rbi)
-//                                .set(PLAYER_HITTING_STATLINE.STOLEN_BASES, (Integer) statLine.sb)
-//                                .execute()
+                        if(hittingStats instanceof Map) {
+                            def year = Integer.parseInt(hittingStats.season)
+                            def atbats = Integer.parseInt(hittingStats.ab)
+                            def average = Double.parseDouble(hittingStats.avg)
+                            def runs = Integer.parseInt(hittingStats.r)
+                            def home_runs = Integer.parseInt(hittingStats.hr)
+                            def rbi = Integer.parseInt(hittingStats.rbi)
+                            def stolen_bases = Integer.parseInt(hittingStats.sb)
+
+                            context.insertInto(PLAYER_HITTING_STATLINE)
+                                    .set(PLAYER_HITTING_STATLINE.TEAM_ID, player.teamId)
+                                    .set(PLAYER_HITTING_STATLINE.PLAYER_ID, player.playerId)
+                                    .set(PLAYER_HITTING_STATLINE.YEAR, year)
+                                    .set(PLAYER_HITTING_STATLINE.ATBATS, atbats)
+                                    .set(PLAYER_HITTING_STATLINE.AVERAGE, average)
+                                    .set(PLAYER_HITTING_STATLINE.RUNS, runs)
+                                    .set(PLAYER_HITTING_STATLINE.HOME_RUNS, home_runs)
+                                    .set(PLAYER_HITTING_STATLINE.RBIS, rbi)
+                                    .set(PLAYER_HITTING_STATLINE.STOLEN_BASES, stolen_bases)
+                                    .execute()
+                        }
+                        else {
+                            hittingStats.each { statLine ->
+
+                                println "${statLine.season} ${statLine.team_abbrev} ${statLine.ab}ab ${statLine.r}runs ${statLine.hr}hr ${statLine.rbi}rbi ${statLine.sb}sb"
+
+                                def year = Integer.parseInt(statLine.season)
+                                def atbats = Integer.parseInt(statLine.ab)
+                                def average = Double.parseDouble(statLine.avg)
+                                def runs = Integer.parseInt(statLine.r)
+                                def home_runs = Integer.parseInt(statLine.hr)
+                                def rbi = Integer.parseInt(statLine.rbi)
+                                def stolen_bases = Integer.parseInt(statLine.sb)
+
+                                context.insertInto(PLAYER_HITTING_STATLINE)
+                                        .set(PLAYER_HITTING_STATLINE.TEAM_ID, player.teamId)
+                                        .set(PLAYER_HITTING_STATLINE.PLAYER_ID, player.playerId)
+                                        .set(PLAYER_HITTING_STATLINE.YEAR, year)
+                                        .set(PLAYER_HITTING_STATLINE.ATBATS, atbats)
+                                        .set(PLAYER_HITTING_STATLINE.AVERAGE, average)
+                                        .set(PLAYER_HITTING_STATLINE.RUNS, runs)
+                                        .set(PLAYER_HITTING_STATLINE.HOME_RUNS, home_runs)
+                                        .set(PLAYER_HITTING_STATLINE.RBIS, rbi)
+                                        .set(PLAYER_HITTING_STATLINE.STOLEN_BASES, stolen_bases)
+                                        .execute()
+                            }
                         }
                     }
-                    catch(error) {
+                    catch (error) {
                         println error.message
                     }
 
@@ -144,8 +180,43 @@ ratpack {
 
                     try {
                         println '--- PITCHING ---'
-                        pitchingStats.each { statLine ->
-                            println "${statLine.season} ${statLine.ip}ip ${statLine.w}w ${statLine.era}era ${statLine.whip}whip ${statLine.so}k ${statLine.sv}sv"
+
+                        if(pitchingStats instanceof Map) {
+                            def year = Integer.parseInt(pitchingStats.season)
+                            def innings = Double.parseDouble(pitchingStats.ip)
+                            def wins = Integer.parseDouble(pitchingStats.w)
+                            def era = Double.parseDouble(pitchingStats.era)
+                            def whip = Double.parseDouble(pitchingStats.whip)
+                            def strike_outs = Integer.parseInt(pitchingStats.so)
+                            def saves = Integer.parseInt(pitchingStats.sv)
+
+                            context.insertInto(PLAYER_PITCHING_STATLINE)
+                                    .set(PLAYER_PITCHING_STATLINE.TEAM_ID, player.teamId)
+                                    .set(PLAYER_PITCHING_STATLINE.PLAYER_ID, player.playerId)
+                                    .set(PLAYER_PITCHING_STATLINE.YEAR, year)
+                                    .set(PLAYER_PITCHING_STATLINE.INNINGS, innings)
+                                    .set(PLAYER_PITCHING_STATLINE.WINS, wins)
+                                    .set(PLAYER_PITCHING_STATLINE.ERA, era)
+                                    .set(PLAYER_PITCHING_STATLINE.WHIP, whip)
+                                    .set(PLAYER_PITCHING_STATLINE.STRIKE_OUTS, strike_outs)
+                                    .set(PLAYER_PITCHING_STATLINE.SAVES, saves)
+                                    .execute()
+                        }
+                        else {
+                            pitchingStats.each { statLine ->
+                                println "${statLine.season} ${statLine.ip}ip ${statLine.w}w ${statLine.era}era ${statLine.whip}whip ${statLine.so}k ${statLine.sv}sv"
+
+                                context.insertInto(PLAYER_PITCHING_STATLINE)
+                                        .set(PLAYER_PITCHING_STATLINE.TEAM_ID, player.teamId)
+                                        .set(PLAYER_PITCHING_STATLINE.PLAYER_ID, player.playerId)
+                                        .set(PLAYER_PITCHING_STATLINE.YEAR, statLine.season)
+                                        .set(PLAYER_PITCHING_STATLINE.WINS, statLine.w)
+                                        .set(PLAYER_PITCHING_STATLINE.INNINGS, statLine.ip)
+                                        .set(PLAYER_PITCHING_STATLINE.ERA, statLine.era)
+                                        .set(PLAYER_PITCHING_STATLINE.WHIP, statLine.whip)
+                                        .set(PLAYER_PITCHING_STATLINE.STRIKE_OUTS, statLine.so)
+                                        .execute()
+                            }
                         }
                     }
                     catch (error) {
@@ -362,9 +433,7 @@ ratpack {
                             def message = params.get('message')?.textValue()
                             def userId = params.get('userId')?.intValue()
 
-                                                            \
-
- assert message
+                            assert message
                             assert userId
 
                             mlbTwitsService.tweet(playerId, userId.toString(), message)
@@ -372,6 +441,16 @@ ratpack {
                             println "created tweet with id: " + tweet.getTweetId()
                             render json(tweet)
                         }
+                    }
+                }
+            }
+
+            path('players/:playerId/stats') {
+                def playerId = pathTokens['playerId']
+                byMethod {
+                    get {
+                        def stats = mlbTwitsService.getPlayerStats(playerId)
+                        render json(stats)
                     }
                 }
             }

@@ -14,6 +14,7 @@ import jooq.generated.Public;
 import jooq.generated.tables.records.PlayerHittingStatlineRecord;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerHittingStatline extends TableImpl<PlayerHittingStatlineRecord> {
 
-	private static final long serialVersionUID = -1449402137;
+	private static final long serialVersionUID = 2107024530;
 
 	/**
 	 * The reference instance of <code>public.player_hitting_statline</code>
@@ -155,6 +156,11 @@ public class PlayerHittingStatline extends TableImpl<PlayerHittingStatlineRecord
 	public final TableField<PlayerHittingStatlineRecord, Double> OPS = createField("ops", org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
 	/**
+	 * The column <code>public.player_hitting_statline.player_id</code>.
+	 */
+	public final TableField<PlayerHittingStatlineRecord, Integer> PLAYER_ID = createField("player_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
 	 * Create a <code>public.player_hitting_statline</code> table reference
 	 */
 	public PlayerHittingStatline() {
@@ -198,6 +204,14 @@ public class PlayerHittingStatline extends TableImpl<PlayerHittingStatlineRecord
 	@Override
 	public List<UniqueKey<PlayerHittingStatlineRecord>> getKeys() {
 		return Arrays.<UniqueKey<PlayerHittingStatlineRecord>>asList(Keys.PLAYER_HITTING_STATLINE_PKEY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ForeignKey<PlayerHittingStatlineRecord, ?>> getReferences() {
+		return Arrays.<ForeignKey<PlayerHittingStatlineRecord, ?>>asList(Keys.PLAYER_HITTING_STATLINE__PLAYER_HITTING_STATLINE_PLAYER_PLAYER_ID_FK);
 	}
 
 	/**

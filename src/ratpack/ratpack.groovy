@@ -99,7 +99,7 @@ ratpack {
          'teams/:teamId'
         ].each { path ->
             get(path) {
-                response.contentType('text/html').send new File('build/resources/main/dist/index.html').text
+                response.contentType('text/html').send new File('src/main/ratpack/dist/index.html').text
             }
         }
 

@@ -43,39 +43,25 @@ import static jooq.generated.Tables.*;
 final Logger log = LoggerFactory.getLogger(this.class)
 
 ratpack {
+
+    serverConfig {
+        props("db.properties")
+        require("/postgres", PostgresConfig)
+    }
+
     bindings {
-        final ConfigData configData = ConfigData.of { ConfigDataBuilder builder ->
-            builder.props(
-                    ['postgres.user'        : 'elnsxicscvthpy',
-                     'postgres.password'    : '42YdDI0OVjJhMhzBEvxA-f5rze',
-                     'postgres.portNumber'  : 5432,
-                     'postgres.databaseName': 'ddqeubt8e101m',
-                     'postgres.serverName'  : 'ec2-54-243-202-113.compute-1.amazonaws.com'])
-            builder.build()
-        }
-
-        bindInstance PostgresConfig, configData.get('/postgres', PostgresConfig)
-
         module HikariModule, { HikariConfig config ->
             config.setMaximumPoolSize(5)
-            config.dataSource =
-                    new PostgresModule().dataSource(
-                            configData.get('/postgres', PostgresConfig))
+            config.dataSource = new PostgresModule().dataSource(serverConfig.get('/postgres', PostgresConfig))
         }
         module SqlModule
-        module SessionModule
 
         bind MLBTwitsSchedulingService
         bind MLBTwitsService
         bind TextTemplateModule
         bind DatabaseUsernamePasswordAuthenticator
-        //        bind TwitterStreamService
     }
-
-    serverConfig {
-
-    }
-
+\
     handlers { MLBTwitsService mlbTwitsService, DatabaseUsernamePasswordAuthenticator dbAuthenticator ->
         all RequestLogger.ncsa(log)
 

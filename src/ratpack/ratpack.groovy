@@ -26,6 +26,8 @@ import ratpack.handling.Context
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
 import ratpack.pac4j.RatpackPac4j
+import ratpack.server.BaseDir
+import ratpack.server.ServerConfig
 import ratpack.session.SessionModule
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
@@ -70,6 +72,9 @@ ratpack {
         //        bind TwitterStreamService
     }
 
+    serverConfig {
+
+    }
 
     handlers { MLBTwitsService mlbTwitsService, DatabaseUsernamePasswordAuthenticator dbAuthenticator ->
         all RequestLogger.ncsa(log)
@@ -99,7 +104,7 @@ ratpack {
          'teams/:teamId'
         ].each { path ->
             get(path) {
-                response.contentType('text/html').send new File('src/ratpack/dist/index.html').text
+                response.contentType('text/html').send new File(this.class.getResource('dist/index.html').toURI()).text
             }
         }
 

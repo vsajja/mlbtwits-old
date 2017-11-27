@@ -46,7 +46,7 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
 
             if (!jedis.smembers('MLBPlayerNewsFeedIds').contains(item_id)) {
                 String message = "[~$playerName] ${StringEscapeUtils.unescapeHtml4(story)}"
-                mlbTwitsService.tweet(user.userId, message, created)
+                mlbTwitsService.tweet(user.userId.toString(), message, created)
                 jedis.sadd('MLBPlayerNewsFeedIds', item_id)
                 log.info(message.toString())
             }

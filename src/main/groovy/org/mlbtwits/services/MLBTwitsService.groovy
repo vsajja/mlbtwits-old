@@ -230,8 +230,12 @@ class MLBTwitsService {
         return tweets
     }
 
-    public List<Tweet> tweet(String userId, String message) {
-        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+    def tweet(String userId, String message, createdTimestamp = null) {
+        if(!createdTimestamp) {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            Date date = format.parse(createdTimestamp);
+            createdTimestamp = new java.sql.Timestamp(date.getTime())
+        }
 
         List<Tweet> insertedRecords = []
 
@@ -263,7 +267,7 @@ class MLBTwitsService {
         return insertedRecords
     }
 
-    Tweet tweet(String playerId, String userId, String message, createdTimestamp = null) {
+    def tweet(String playerId, String userId, String message, createdTimestamp = null) {
         if(!createdTimestamp) {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
             Date date = format.parse(createdTimestamp);
@@ -284,7 +288,7 @@ class MLBTwitsService {
         return tweet
     }
 
-    public Team addTeam(String name, String code) {
+    def addTeam(String name, String code) {
         Team team = context.insertInto(TEAM)
                 .set(TEAM.TEAM_NAME, name)
                 .set(TEAM.TEAM_CODE_MLB, code)

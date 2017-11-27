@@ -51,7 +51,6 @@ public class RotoworldFeed implements org.quartz.Job {
         def user = mlbTwitsService.getUser('BOT_Rotoworld')
 
         newsMap.each { key, value ->
-            log.info(key.toString())
             log.info(value.toString())
 
             if (!jedis.smembers("RotoworldFeedGuids").contains(key)) {

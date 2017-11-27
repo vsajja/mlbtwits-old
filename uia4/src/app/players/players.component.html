@@ -1,19 +1,26 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
       <div>
-          <input placeholder="filter players..." #term (keyup)="searchPlayers(term.value)" />
-          <span class="input-group-btn">
-              <button class="btn btn-info btn-lg" type="button" (click)="searchPlayers(term.value)">
-                  <i class="fa fa-search"></i>
-              </button>
-          </span>
+        <input placeholder="filter players..." #term (keyup)="searchPlayers(term.value)" />
+        <button class="btn btn-info" type="button" (click)="searchPlayers(term.value)">Search</button>
       </div>
     </div>
+  </div>
 
-    <div class="col-md-8">
-      <div *ngFor="let player of players">
-        <a href="/players/{{player.playerId}}">{{player.playerName}}</a>
+  <hr/>
+
+  <div class="row">
+    <div class="col-sm-2" *ngFor="let player of players" style="padding-bottom: 20px">
+      <div class="card" *ngIf="player.mlbPlayerId">
+        <img class="card-img-top" src="http://gdx.mlb.com/images/gameday/mugshots/mlb/{{player?.mlbPlayerId}}@2x.jpg">
+        <div class="card-block">
+          <strong class="card-title text-center"><a href="/players/{{player.playerId}}">{{player.playerName}}</a></strong>
+        </div>
+        <div class="card-footer">
+          <!--<span class="float-right">Joined in 2013</span>-->
+          <!--Rank: 1-->
+        </div>
       </div>
     </div>
   </div>

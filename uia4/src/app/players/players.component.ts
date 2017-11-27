@@ -30,7 +30,9 @@ export class PlayersComponent implements OnInit {
     this.quoteService.getPlayers()
       .subscribe((res: Response) => {
           this.players = res.json();
-        }
+        this.players = this.players.filter(
+          (player: any) => player.mlbPlayerId != null
+        )}
       );
   }
 }

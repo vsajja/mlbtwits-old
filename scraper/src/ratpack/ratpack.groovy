@@ -20,6 +20,16 @@ ratpack {
 
             def playerNews = result?.wsfb_news_browse?.queryResults?.row
 
+            playerNews.each { newsItem ->
+                def playerName = newsItem?.player_name
+                def position = newsItem?.position
+                def story = newsItem?.story
+                def spin = newsItem?.spin
+                def teaser = newsItem?.teaser
+                def item_id = newsItem?.item_id
+
+                println "BOT_MLBPLayerNews [~$playerName] $teaser"
+            }
             render new JsonBuilder(playerNews).toPrettyString()
         }
 

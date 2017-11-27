@@ -4,7 +4,6 @@ import jooq.generated.tables.pojos.Tweet
 
 import java.sql.Timestamp
 
-
 class UserTweet extends Tweet {
     String username
 

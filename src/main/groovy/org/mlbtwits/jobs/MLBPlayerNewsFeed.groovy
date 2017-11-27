@@ -3,7 +3,6 @@ package org.mlbtwits.jobs
 import com.google.inject.Inject
 import groovy.json.JsonSlurper
 import org.apache.commons.lang3.StringEscapeUtils
-import org.ccil.cowan.tagsoup.Parser
 import org.mlbtwits.services.MLBTwitsService
 import org.quartz.JobExecutionContext
 import org.quartz.JobExecutionException
@@ -25,7 +24,14 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
 
         def playerNews = result?.wsfb_news_browse?.queryResults?.row
 
-        String message = "[~$player] ${StringEscapeUtils.unescapeHtml4(news)}"
+        def user = mlbTwitsService.getUser('BOT_MLBPLayerNews')
+
+        // FIXME
+        String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
+        URI redisURI = new URI(REDIS_URL);
+        Jedis jedis = new Jedis(redisURI);
+        log.info(jedis.ping())
+        log.info(jedis.smembers('MLBPlayerNewsFeedIds').toString())
 
         playerNews.each { newsItem ->
             def playerName = newsItem?.player_name
@@ -35,29 +41,12 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
             def teaser = newsItem?.teaser
             def item_id = newsItem?.item_id
 
-            message = "BOT_MLBPLayerNews [~$playerName] $story"
+            if (!jedis.smembers('MLBPlayerNewsFeedIds').contains(item_id)) {
+                jedis.sadd('MLBPlayerNewsFeedIds', item_id)
+                String message = "[~$playerName] ${StringEscapeUtils.unescapeHtml4(story)}"
+                mlbTwitsService.tweet(user.getUserId().toString(), message)
+            }
         }
-
-//        String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
-
-//        URI redisURI = new URI(REDIS_URL);
-//        Jedis jedis = new Jedis(redisURI);
-//        log.info(jedis.ping())
-//
-////        log.info(jedis.smembers("RotoworldFeedGuids").toString())
-//
-//        def user = mlbTwitsService.getUser('BOT_Rotoworld')
-//
-//        newsMap.each { key, value ->
-//            log.info(key.toString())
-//            log.info(value.toString())
-//
-//            if (!jedis.smembers("RotoworldFeedGuids").contains(key)) {
-//                jedis.sadd("RotoworldFeedGuids", key)
-//                mlbTwitsService.tweet(user.getUserId().toString(), value)
-//            }
-//        }
-
         jedis.close()
     }
 }

@@ -31,19 +31,32 @@ class MLBTwitsSchedulingService implements Service {
         scheduler.setJobFactory(injector.getInstance(GuiceJobFactory.class));
         scheduler.start();
 
-        JobDetail job = JobBuilder.newJob(RotoworldFeed.class)
-                .withIdentity("RotoworldFeed", "group1")
+        JobDetail rotoworldJob = JobBuilder.newJob(RotoworldFeed.class)
+                .withIdentity('RotoworldFeed', 'group1')
                 .build();
 
-        Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("RotoworldFeedTrigger", "group1")
+        JobDetail mlbPlayerNewsJob = JobBuilder.newJob(RotoworldFeed.class)
+                .withIdentity('MLBPlayerNewsFeed', 'group1')
+                .build();
+
+        Trigger rotoworldJobTrigger = TriggerBuilder.newTrigger()
+                .withIdentity('RotoworldFeedTrigger', 'group1')
                 .startNow()
                 .withSchedule(simpleSchedule()
                 .withIntervalInMinutes(5)
                 .repeatForever())
                 .build();
 
-        scheduler.scheduleJob(job, trigger);
+        Trigger mlbPlayerNewsJobTrigger = TriggerBuilder.newTrigger()
+                .withIdentity('MLBPlayerNewsFeedTrigger', 'group1')
+                .startNow()
+                .withSchedule(simpleSchedule()
+                .withIntervalInMinutes(5)
+                .repeatForever())
+                .build();
+
+        scheduler.scheduleJob(rotoworldJob, rotoworldJobTrigger);
+        scheduler.scheduleJob(mlbPlayerNewsJob, mlbPlayerNewsJobTrigger);
     }
 
     public void onStop(StopEvent event) {

@@ -7,9 +7,7 @@
           <h4 class="card-title">{{player?.playerName}}</h4>
           <p class="card-text">plays for team {{player?.teamId}}</p>
           <!--<p class="card-text">{{player?.mlbPlayerId}}</p>-->
-
           <table>
-            <tbody>
             <tr *ngFor="let statLine of playerStats?.hittingStats">
               <td><strong>{{statLine.year}}</strong></td>
               <td>{{statLine.runs}} runs</td>
@@ -18,10 +16,9 @@
               <td>{{statLine.stolenBases}} sb</td>
               <td>{{statLine.average}} avg</td>
             </tr>
-            </tbody>
           </table>
+
           <table>
-            <tbody>
             <tr *ngFor="let statLine of playerStats?.pitchingStats">
               <td><strong>{{statLine.year}}</strong></td>
               <td>{{statLine.innings}}ip</td>
@@ -31,7 +28,6 @@
               <td>{{statLine.strikeOuts}}k</td>
               <td>{{statLine.saves}}sv</td>
             </tr>
-            </tbody>
           </table>
         </div>
       </div>

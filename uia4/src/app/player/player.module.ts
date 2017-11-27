@@ -6,7 +6,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {PlayerRoutingModule} from "./player-routing.module";
 import {PlayerComponent} from "./player.component";
-import {TimeAgoPipe} from "../pipes/time-ago-pipe";
 
 @NgModule({
   imports: [

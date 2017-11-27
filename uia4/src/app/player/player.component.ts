@@ -11,6 +11,7 @@ export class PlayerComponent implements OnInit {
   playerId: string;
   player: any;
   playerTweets: any;
+
   playerStats: any;
 
   constructor(private route: ActivatedRoute, private quoteService: QuoteService) {

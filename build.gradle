@@ -58,12 +58,12 @@ task jooqCodegen {
         Configuration configuration = new Configuration()
                 .withJdbc(new Jdbc()
                 .withDriver('org.postgresql.Driver')
-                .withProperties([new Property()
-                                         .withKey('ssl')
-                                         .withValue('true'),
-                                 new Property()
-                                         .withKey('sslfactory')
-                                         .withValue('org.postgresql.ssl.NonValidatingFactory')])
+//                .withProperties([new Property()
+//                                         .withKey('ssl')
+//                                         .withValue('true'),
+//                                 new Property()
+//                                         .withKey('sslfactory')
+//                                         .withValue('org.postgresql.ssl.NonValidatingFactory')])
                 .withUrl('jdbc:postgresql://ec2-54-243-202-113.compute-1.amazonaws.com:5432/ddqeubt8e101m')
                 .withUser('elnsxicscvthpy')
                 .withPassword('42YdDI0OVjJhMhzBEvxA-f5rze'))

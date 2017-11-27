@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'gradle.plugin.io.ratpack:ratpack-gradle:1.5.0'
+    }
+}
+
+plugins {
+    id 'io.ratpack.ratpack-groovy' version '1.5.0'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
+    compile 'org.quartz-scheduler:quartz:2.2.1'
+    compile 'org.quartz-scheduler:quartz-jobs:2.2.1'
+    runtime 'org.slf4j:slf4j-simple:1.7.12'
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile ratpack.dependency('groovy-test')
+}
+
+task stage {
+    dependsOn installDist
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.1'
+}

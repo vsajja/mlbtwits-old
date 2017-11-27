@@ -86,10 +86,6 @@ ratpack {
             }
         }
 
-        get('playerNews') {
-            render 'mlb player news!'
-        }
-
 //        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))
 
         prefix('api/v1') {

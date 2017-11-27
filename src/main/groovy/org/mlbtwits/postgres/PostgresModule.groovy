@@ -24,8 +24,8 @@ class PostgresModule extends ConfigurableModule<PostgresConfig> {
                 password: config.password,
                 serverName: config.serverName,
                 databaseName: config.databaseName,
-                portNumber: config.portNumber,
-                ssl: true,
-                sslfactory: 'org.postgresql.ssl.NonValidatingFactory')
+                portNumber: config.portNumber)
+//                ssl: true,
+//                sslfactory: 'org.postgresql.ssl.NonValidatingFactory')
     }
 }

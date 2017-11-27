@@ -270,7 +270,6 @@ class MLBTwitsService {
             createdTimestamp = new java.sql.Timestamp(date.getTime())
         }
         log.info(playerId)
-        log.info(userId)
         log.info(message)
 
         Tweet tweet = context

@@ -24,7 +24,7 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
 
         def playerNews = result?.wsfb_news_browse?.queryResults?.row
 
-        def user = mlbTwitsService.getUser('BOT_MLBPLayerNews')
+        def user = mlbTwitsService.getUser('BOT_MLBPlayerNews')
 
         // FIXME
         String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
@@ -42,9 +42,10 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
             def item_id = newsItem?.item_id
 
             if (!jedis.smembers('MLBPlayerNewsFeedIds').contains(item_id)) {
-                jedis.sadd('MLBPlayerNewsFeedIds', item_id)
                 String message = "[~$playerName] ${StringEscapeUtils.unescapeHtml4(story)}"
-                mlbTwitsService.tweet(user.getUserId().toString(), message)
+                // FIXME
+                mlbTwitsService.tweet('1', message)
+                jedis.sadd('MLBPlayerNewsFeedIds', item_id)
             }
         }
         jedis.close()

@@ -46,6 +46,7 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
                 // FIXME
                 mlbTwitsService.tweet('1', message)
                 jedis.sadd('MLBPlayerNewsFeedIds', item_id)
+                log.info(message.toString())
             }
         }
         jedis.close()

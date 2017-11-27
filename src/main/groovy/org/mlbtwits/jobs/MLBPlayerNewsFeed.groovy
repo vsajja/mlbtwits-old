@@ -33,7 +33,7 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
         URI redisURI = new URI(REDIS_URL);
         Jedis jedis = new Jedis(redisURI);
         log.info(jedis.ping())
-        log.info(jedis.smembers('MLBPlayerNewsFeedIds').toString())
+        log.info(jedis.smembers('MLBPlayerNewsFeedItemIds').toString())
 
         playerNews.each { newsItem ->
             def playerName = newsItem?.player_name
@@ -47,7 +47,7 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
             if (!jedis.smembers('MLBPlayerNewsFeedIds').contains(item_id)) {
                 String message = "[~$playerName] ${StringEscapeUtils.unescapeHtml4(story)}"
                 mlbTwitsService.tweet(user.userId.toString(), message, created)
-                jedis.sadd('MLBPlayerNewsFeedIds', item_id)
+                jedis.sadd('MLBPlayerNewsFeedItemIds', item_id)
                 log.info(message.toString())
             }
         }

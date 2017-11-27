@@ -259,8 +259,10 @@ class MLBTwitsService {
         return insertedRecords
     }
 
-    public Tweet tweet(String playerId, String userId, String message) {
-        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+    public Tweet tweet(String playerId, String userId, String message, createdTimestamp = null) {
+        if(!createdTimestamp) {
+            createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+        }
 
         log.info(playerId)
         log.info(userId)

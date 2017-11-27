@@ -315,6 +315,10 @@ ratpack {
                 }
             }
         }
-        files('dist', 'index.html')
+
+        files {
+            dir 'dist'
+            indexFiles 'index.html'
+        }
     }
 }

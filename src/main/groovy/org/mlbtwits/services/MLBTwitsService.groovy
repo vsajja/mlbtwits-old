@@ -269,7 +269,6 @@ class MLBTwitsService {
             Date date = format.parse(createdTimestamp);
             createdTimestamp = new java.sql.Timestamp(date.getTime())
         }
-        2017-11-27T21:09:21
         log.info(playerId)
         log.info(userId)
         log.info(message)

@@ -43,7 +43,6 @@ import static jooq.generated.Tables.*;
 final Logger log = LoggerFactory.getLogger(this.class)
 
 ratpack {
-
     serverConfig {
         props("db.properties")
         require("/postgres", PostgresConfig)
@@ -61,7 +60,7 @@ ratpack {
         bind TextTemplateModule
         bind DatabaseUsernamePasswordAuthenticator
     }
-\
+
     handlers { MLBTwitsService mlbTwitsService, DatabaseUsernamePasswordAuthenticator dbAuthenticator ->
         all RequestLogger.ncsa(log)
 
@@ -79,152 +78,11 @@ ratpack {
          'home',
          'profile',
          'settings',
-         'player',
-         'players',
-         'players/:playerId',
-         'user',
-         'users',
-         'users/:userId',
-         'team',
-         'teams',
-         'teams/:teamId'
+         'player', 'players', 'players/:playerId',
+         'user', 'users', 'users/:userId', 'team', 'teams', 'teams/:teamId'
         ].each { path ->
             get(path) {
                 response.contentType('text/html').send new File(this.class.getResource('dist/index.html').toURI()).text
-            }
-        }
-
-        // http://localhost:5050/stats?mlbPlayerId=592450
-        get('careful') {
-//            def mlbPlayerId = request.queryParams['mlbPlayerId']
-
-//            def url = "http://m.mlb.com/player/$mlbPlayerId"
-//            def doc = new XmlParser(new org.ccil.cowan.tagsoup.Parser()).parse(url)
-//            def result = doc.'**'.find {
-//                it instanceof Node &&
-////                it.name() == 'div' &&
-//                        it.@id == 'careerPanel'
-//            }
-
-
-            DataSource dataSource = registry.get(DataSource.class)
-            DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-
-            mlbTwitsService.getPlayers().each { player ->
-                if (player.getMlbPlayerId()) {
-                    def mlbPlayerId = player.getMlbPlayerId()
-
-                    def mlbHittersAPI = "http://m.mlb.com/lookup/json/named.sport_hitting_composed.bam?game_type=%27R%27&league_list_id=%27mlb_hist%27&sort_by=%27season_asc%27&player_id=$mlbPlayerId"
-                    def mlbPitchingAPI = "http://m.mlb.com/lookup/json/named.sport_pitching_composed.bam?game_type=%27R%27&league_list_id=%27mlb_hist%27&sort_by=%27season_asc%27&player_id=$mlbPlayerId"
-
-                    println 'PROCESSING: ' + mlbPlayerId
-
-                    def hittingResult = new JsonSlurper().parseText(mlbHittersAPI.toURL().getText())
-                    def hittingStats = hittingResult?.sport_hitting_composed?.sport_hitting_tm?.queryResults?.row
-
-                    try {
-                        println '--- HITTING ---'
-
-                        if(hittingStats instanceof Map) {
-                            def year = Integer.parseInt(hittingStats.season)
-                            def atbats = Integer.parseInt(hittingStats.ab)
-                            def average = Double.parseDouble(hittingStats.avg)
-                            def runs = Integer.parseInt(hittingStats.r)
-                            def home_runs = Integer.parseInt(hittingStats.hr)
-                            def rbi = Integer.parseInt(hittingStats.rbi)
-                            def stolen_bases = Integer.parseInt(hittingStats.sb)
-
-                            context.insertInto(PLAYER_HITTING_STATLINE)
-                                    .set(PLAYER_HITTING_STATLINE.TEAM_ID, player.teamId)
-                                    .set(PLAYER_HITTING_STATLINE.PLAYER_ID, player.playerId)
-                                    .set(PLAYER_HITTING_STATLINE.YEAR, year)
-                                    .set(PLAYER_HITTING_STATLINE.ATBATS, atbats)
-                                    .set(PLAYER_HITTING_STATLINE.AVERAGE, average)
-                                    .set(PLAYER_HITTING_STATLINE.RUNS, runs)
-                                    .set(PLAYER_HITTING_STATLINE.HOME_RUNS, home_runs)
-                                    .set(PLAYER_HITTING_STATLINE.RBIS, rbi)
-                                    .set(PLAYER_HITTING_STATLINE.STOLEN_BASES, stolen_bases)
-                                    .execute()
-                        }
-                        else {
-                            hittingStats.each { statLine ->
-
-                                println "${statLine.season} ${statLine.team_abbrev} ${statLine.ab}ab ${statLine.r}runs ${statLine.hr}hr ${statLine.rbi}rbi ${statLine.sb}sb"
-
-                                def year = Integer.parseInt(statLine.season)
-                                def atbats = Integer.parseInt(statLine.ab)
-                                def average = Double.parseDouble(statLine.avg)
-                                def runs = Integer.parseInt(statLine.r)
-                                def home_runs = Integer.parseInt(statLine.hr)
-                                def rbi = Integer.parseInt(statLine.rbi)
-                                def stolen_bases = Integer.parseInt(statLine.sb)
-
-                                context.insertInto(PLAYER_HITTING_STATLINE)
-                                        .set(PLAYER_HITTING_STATLINE.TEAM_ID, player.teamId)
-                                        .set(PLAYER_HITTING_STATLINE.PLAYER_ID, player.playerId)
-                                        .set(PLAYER_HITTING_STATLINE.YEAR, year)
-                                        .set(PLAYER_HITTING_STATLINE.ATBATS, atbats)
-                                        .set(PLAYER_HITTING_STATLINE.AVERAGE, average)
-                                        .set(PLAYER_HITTING_STATLINE.RUNS, runs)
-                                        .set(PLAYER_HITTING_STATLINE.HOME_RUNS, home_runs)
-                                        .set(PLAYER_HITTING_STATLINE.RBIS, rbi)
-                                        .set(PLAYER_HITTING_STATLINE.STOLEN_BASES, stolen_bases)
-                                        .execute()
-                            }
-                        }
-                    }
-                    catch (error) {
-                        println error.message
-                    }
-
-                    def pitchingResult = new JsonSlurper().parseText(mlbPitchingAPI.toURL().getText())
-                    def pitchingStats = pitchingResult?.sport_pitching_composed?.sport_pitching_agg?.queryResults?.row
-
-                    try {
-                        println '--- PITCHING ---'
-
-                        if(pitchingStats instanceof Map) {
-                            def year = Integer.parseInt(pitchingStats.season)
-                            def innings = Double.parseDouble(pitchingStats.ip)
-                            def wins = Integer.parseInt(pitchingStats.w)
-                            def era = Double.parseDouble(pitchingStats.era)
-                            def whip = Double.parseDouble(pitchingStats.whip)
-                            def strike_outs = Integer.parseInt(pitchingStats.so)
-                            def saves = Integer.parseInt(pitchingStats.sv)
-
-                            context.insertInto(PLAYER_PITCHING_STATLINE)
-                                    .set(PLAYER_PITCHING_STATLINE.TEAM_ID, player.teamId)
-                                    .set(PLAYER_PITCHING_STATLINE.PLAYER_ID, player.playerId)
-                                    .set(PLAYER_PITCHING_STATLINE.YEAR, year)
-                                    .set(PLAYER_PITCHING_STATLINE.INNINGS, innings)
-                                    .set(PLAYER_PITCHING_STATLINE.WINS, wins)
-                                    .set(PLAYER_PITCHING_STATLINE.ERA, era)
-                                    .set(PLAYER_PITCHING_STATLINE.WHIP, whip)
-                                    .set(PLAYER_PITCHING_STATLINE.STRIKE_OUTS, strike_outs)
-                                    .set(PLAYER_PITCHING_STATLINE.SAVES, saves)
-                                    .execute()
-                        }
-                        else {
-                            pitchingStats.each { statLine ->
-                                println "${statLine.season} ${statLine.ip}ip ${statLine.w}w ${statLine.era}era ${statLine.whip}whip ${statLine.so}k ${statLine.sv}sv"
-
-                                context.insertInto(PLAYER_PITCHING_STATLINE)
-                                        .set(PLAYER_PITCHING_STATLINE.TEAM_ID, player.teamId)
-                                        .set(PLAYER_PITCHING_STATLINE.PLAYER_ID, player.playerId)
-                                        .set(PLAYER_PITCHING_STATLINE.YEAR, statLine.season)
-                                        .set(PLAYER_PITCHING_STATLINE.WINS, statLine.w)
-                                        .set(PLAYER_PITCHING_STATLINE.INNINGS, statLine.ip)
-                                        .set(PLAYER_PITCHING_STATLINE.ERA, statLine.era)
-                                        .set(PLAYER_PITCHING_STATLINE.WHIP, statLine.whip)
-                                        .set(PLAYER_PITCHING_STATLINE.STRIKE_OUTS, statLine.so)
-                                        .execute()
-                            }
-                        }
-                    }
-                    catch (error) {
-                        println error.message
-                    }
-                }
             }
         }
 
@@ -272,21 +130,11 @@ ratpack {
                     }
                 }
             }
-
             post('register') {
                 parse(jsonNode()).map { params ->
-//                            log.info(params.toString())
                     def username = params.get('username')?.textValue()
                     def password = params.get('password')?.textValue()
-//                            def firstName = params.get('firstName')?.textValue()
-//                            def lastName = params.get('lastName')?.textValue()
                     def emailAddress = params.get('emailAddress')?.textValue()
-
-                    assert username
-                    assert password
-                    assert emailAddress
-//                            assert firstName
-//                            assert lastName
 
                     mlbTwitsService.registerUser(username, password, emailAddress)
                 }.onError { Throwable e ->
@@ -295,26 +143,15 @@ ratpack {
                     }
                     throw e
                 }.then { User user ->
-//                            log.info("Registered user with id: " + user.getUserId())
                     render json(user)
                 }
             }
-
             path('mlbtwits') {
                 byMethod {
                     get {
                         def result = mlbTwitsService.getMLBTwits()
                         render json(result)
                     }
-                }
-            }
-
-            all {
-                // TODO: Find a better way, preflight CORS OPTIONS calls do not supply an Authentication header
-                if (request.method.isOptions()) {
-                    response.send()
-                } else {
-                    next()
                 }
             }
 
@@ -328,7 +165,6 @@ ratpack {
                     }
                 }
             }
-
             path('users/:username') {
                 def username = pathTokens['username']
                 byMethod {
@@ -338,7 +174,6 @@ ratpack {
                     }
                 }
             }
-
             path('users/:username/tweets') {
                 def username = pathTokens['username']
                 byMethod {
@@ -347,7 +182,6 @@ ratpack {
                         def tweets = mlbTwitsService.getTweetsByUser(user)
                         render json(tweets)
                     }
-
                     post {
                         parse(jsonNode()).map { params ->
                             log.info(params.toString())
@@ -365,7 +199,6 @@ ratpack {
                     }
                 }
             }
-
             path('teams') {
                 byMethod {
                     get {
@@ -374,7 +207,6 @@ ratpack {
                     }
                 }
             }
-
             path('teams/:teamId') {
                 def teamId = pathTokens['teamId']
                 byMethod {
@@ -384,7 +216,6 @@ ratpack {
                     }
                 }
             }
-
             path('teams/:teamId/roster') {
                 def teamId = pathTokens['teamId']
                 byMethod {
@@ -394,7 +225,6 @@ ratpack {
                     }
                 }
             }
-
             path('players/info') {
                 byMethod {
                     get {
@@ -403,7 +233,6 @@ ratpack {
                     }
                 }
             }
-
             path('players') {
                 byMethod {
                     get {
@@ -412,7 +241,6 @@ ratpack {
                     }
                 }
             }
-
             path('players/:playerId') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -422,7 +250,6 @@ ratpack {
                     }
                 }
             }
-
             path('players/:playerId/tweets') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -446,7 +273,6 @@ ratpack {
                     }
                 }
             }
-
             path('players/:playerId/stats') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -456,7 +282,6 @@ ratpack {
                     }
                 }
             }
-
             path('playerLabels') {
                 byMethod {
                     get {
@@ -465,14 +290,12 @@ ratpack {
                     }
                 }
             }
-
             path('tweets') {
                 byMethod {
                     get {
                         def tweets = mlbTwitsService.getTweets()
                         render json(tweets)
                     }
-
                     post {
                         parse(jsonNode()).map { params ->
                             def message = params.get('message')?.textValue()
@@ -488,343 +311,6 @@ ratpack {
                 }
             }
         }
-
-//        prefix('test') {
-//            get('redis') {
-//                String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
-//
-//                URI redisURI = new URI(REDIS_URL);
-//                Jedis jedis = new Jedis(redisURI);
-//                log.info(jedis.ping())
-//
-//                /*
-//                jedis.del("RotoworldFeedGuids")
-//                assert jedis.smembers("RotoworldFeedGuids").isEmpty()
-//                */
-//                jedis.srem("RotoworldFeedGuids", "524674")
-//                jedis.close()
-//
-//                render 'redis'
-//            }
-//
-//            get('trending/yahoo') {
-//                String trendingUrl = "https://baseball.fantasysports.yahoo.com/b1/buzzindex?bimtab=ALL&pos=ALL"
-//                HttpClient httpClient = registry.get(HttpClient.class)
-//
-//                XmlSlurper slurper = new XmlSlurper(new Parser())
-//                httpClient.get(new URI(trendingUrl)).then {
-//                    GPathResult trendingContent = slurper.parseText(it.body.text)
-//
-//                    List trendingPlayers = []
-//
-//                    String name
-//                    String transactions
-//
-//                    def topFiveTrending = trendingContent.depthFirst().findAll {
-//                        if(it.@class.toString().contains('ysf-player-name')) {
-////                            log.info(it.a.text())
-//                            name = it.a.text()
-//                        }
-//
-//                        if(it.@class.toString() == 'Alt Last Ta-end Selected') {
-//                            transactions = it.div.text()
-//
-//                            def tPlayer = ['name' : name, 'transactions' : transactions]
-//
-//                            trendingPlayers.add(tPlayer)
-//                        }
-//                    }
-//
-//                    trendingPlayers.take(10).each { tPlayer ->
-//                        log.info(tPlayer.name)
-//                        log.info(tPlayer.transactions.toString())
-//                    }
-//
-//                    render json(trendingPlayers)
-//                }
-//            }
-//        }
-//
-//        prefix('test/data') {
-//
-//            path('mlb/players') {
-//                DataSource dataSource = registry.get(DataSource.class)
-//                DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-//
-//                def teams = context.selectFrom(TEAM)
-//                        .fetchInto(Team.class)
-//
-//                def teamCodes = teams.collect { it.teamCodeMlb.toLowerCase() }
-//
-//                HttpClient httpClient = registry.get(HttpClient.class)
-//
-//                teamCodes.each { String teamCode ->
-//                    String strAngelsUrl = "http://m.mlb.com/${teamCode}/roster/40-man"
-//
-//                    httpClient.get(new URI(strAngelsUrl)).then {
-//                        log.info("$teamCode " + it.body.text.length().toString())
-//
-////                        File teamFile = new File("C:\\mlb/rosters/2017/${teamCode}.html")
-////                        teamFile.createNewFile()
-////                        teamFile << it.body.text
-//                    }
-//                }
-//                render 'mlb players from 40 man rosters'
-//            }
-//
-//            path('mlb/players/info') {
-//                DataSource dataSource = registry.get(DataSource.class)
-//                DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-//
-//                def teams = context.selectFrom(TEAM)
-//                        .fetchInto(Team.class)
-//
-//                def teamCodes = teams.collect { it.mlbTeamCode.toLowerCase() }
-//
-//                File playerMissingFile = new File("C:\\\\mlb\\missing.txt")
-//                File playerFoundFile = new File("C:\\\\mlb\\found.txt")
-//
-//                XmlSlurper slurper = new XmlSlurper(new Parser())
-//
-//                teamCodes.each { String teamCode ->
-//                    // get the team
-//                    Team team = context.selectFrom(TEAM)
-//                            .where(TEAM.TEAM_CODE_MLB.equal(teamCode.toUpperCase()))
-//                            .fetchInto(Team.class)
-//
-//                    log.info(team.toString())
-//
-//                    File teamRosterFile = new File("src/ratpack/data/mlb/rosters/2017/preseason/${teamCode}.html")
-//
-//                    String teamText = teamRosterFile.text
-//
-//                    def teamRoster = slurper.parseText(teamText)
-//
-//                    teamRoster.depthFirst().find {
-//    //                    it.@class == 'page page-40-man'
-////                        if(it.@class == 'dg-player_headshot') {
-////                            log.info(it.img.@src.toString())
-////                        }
-//                        if(it.@class == 'dg-name_display_first_last' && it.name() == 'td') {
-////                            log.info(it.a.@href.toString())
-////                            log.info(it.a.@href.toString().split("/")[2])
-////                            log.info(it.text().trim())
-//
-//                            String mlbPlayerId = it.a.@href.toString().split("/")[2]
-//                            String mlbPlayerName = (it.text() - '(60-day DL)').trim()
-//
-//                            log.info(mlbPlayerName)
-//
-//                            try {
-//                                Player player = context.selectFrom(PLAYER)
-//                                        .where(PLAYER.PLAYER_NAME_PLAIN.equal(mlbPlayerName))
-//                                        .fetchInto(Player.class)
-//
-////                                context.update(PLAYER)
-////                                    .set(PLAYER.TEAM_ID, team.getTeamId())
-////                                    .set(PLAYER.MLB_PLAYER_ID, mlbPlayerId)
-////                                    .where(PLAYER.PLAYER_ID.eq(player.getPlayerId()))
-////                                    .execute()
-////
-////                                player = context.selectFrom(PLAYER)
-////                                        .where(PLAYER.PLAYER_NAME_PLAIN.equal(mlbPlayerName))
-////                                        .fetchInto(Player.class)
-//
-//                                log.info(player.toString())
-////                                playerFoundFile << player.toString() + '\n'
-//                            } catch (Exception e) {
-////                                playerMissingFile << "$mlbPlayerName $mlbPlayerId ${team.getTeamId()} ${team.getTeamCodeMlb()} \n"
-//
-////                                context.insertInto(PLAYER)
-////                                    .set(PLAYER.PLAYER_NAME, mlbPlayerName)
-////                                    .set(PLAYER.PLAYER_NAME_PLAIN, mlbPlayerName)
-////                                    .set(PLAYER.TEAM_ID, team.getTeamId())
-////                                    .set(PLAYER.MLB_PLAYER_ID, mlbPlayerId)
-////                                    .execute()
-//
-//                                log.info("${mlbPlayerName} not found")
-//                            }
-//                        }
-//                    }
-//                }
-//
-////                String teamText = new File('src/ratpack/data/angels.html').text
-////                XmlSlurper slurper = new XmlSlurper(new Parser())
-////                def angels = slurper.parseText(teamText)
-////
-////                angels.depthFirst().find {
-//////                    it.@class == 'page page-40-man'
-////                    if(it.@class == 'dg-player_headshot') {
-////                        log.info(it.img.@src.toString())
-////                    }
-////                    if(it.@class == 'dg-name_display_first_last' && it.name() == 'td') {
-////                        log.info(it.a.@href.toString())
-////                        log.info(it.a.@href.toString().split("/")[2])
-////                        log.info(it.text().trim())
-////
-////                        try {
-////                            Player player = context.selectFrom(PLAYER)
-////                                    .where(PLAYER.NAME_PLAIN.equal(it.text().trim()))
-////                                    .fetchInto(Player.class)
-////                            log.info(player.toString())
-////                        } catch (Exception e) {
-////                            log.info("${it.text().trim()} not found")
-////                        }
-////                    }
-////                }
-//
-//                render 'teamText'
-//            }
-//
-//            path('br/teams/2016') {
-//                byMethod {
-//                    get {
-//
-//                        File mlb2016Teams = new File('src/ratpack/data/baseball-reference-mlb-teams-2016.html')
-//
-//                        XmlSlurper slurper = new XmlSlurper()
-//
-//                        def teams = slurper.parse(mlb2016Teams)
-//
-//                        teams.children().children().each {
-//                            assert it.a.@title.toString()
-//                            assert it.a.@href.toString()
-//
-//                            String bTeamName = it.a.@title.toString()
-//                            String bTeamCode = it.a.toString()
-//                            String bTeamUrl = 'http://www.baseball-reference.com' + it.a.@href.toString()
-//
-//                            log.info(bTeamCode)
-//                            log.info(bTeamName)
-//                            log.info(bTeamUrl)
-//
-////                            mlbTwitsService.addTeam(bTeamName, bTeamCode)
-//                        }
-//
-//                        render mlb2016Teams.text
-//                    }
-//                }
-//            }
-//
-//            path('br/players/2016') {
-//                byMethod {
-//                    get {
-//                        DataSource dataSource = registry.get(DataSource.class)
-//                        DSLContext context = DSL.using(dataSource, SQLDialect.POSTGRES)
-//
-//                        File mlb2016Teams = new File('src/ratpack/data/baseball-reference-mlb-teams-2016.html')
-//
-//                        XmlSlurper slurper = new XmlSlurper()
-//
-//                        def teams = slurper.parse(mlb2016Teams)
-//
-//                        teams.children().children().each {
-//                            assert it.a.@title.toString()
-//                            assert it.a.@href.toString()
-//
-//                            String brUrl = 'http://www.baseball-reference.com'
-//
-//                            String bTeamName = it.a.@title.toString()
-//                            String bTeamCode = it.a.toString()
-//                            String bTeamUrl = brUrl + it.a.@href.toString()
-//
-//                            log.info(bTeamCode)
-//                            log.info(bTeamName)
-//                            log.info(bTeamUrl)
-//
-//                            slurper = new XmlSlurper(new Parser())
-//
-//                            HttpClient httpClient = registry.get(HttpClient.class)
-//
-//                            httpClient.get(new URI(bTeamUrl)).then {
-//                                def teamPage = slurper.parseText(it.body.text)
-//
-//                                def players = teamPage.depthFirst().findAll {
-//                                    it.name() == 'a' &&
-//                                            it.@href.toString().contains('/players/') &&
-//                                            it.@href.toString() != '/players/'
-//                                }
-//
-//                                playerLinks = players.collect { player ->
-//                                    player.@href.toString().trim()
-//                                }
-//
-//                                playerLinks.unique(false).sort().each { playerLink ->
-//                                    String playerUrl = brUrl + playerLink.toString()
-//
-//                                    httpClient.get(new URI(playerUrl)).then {
-//                                        log.info(playerUrl)
-//
-//                                        def playerPage = slurper.parseText(it.body.text)
-//
-//                                        String name = playerPage.depthFirst().find {
-//                                            it.name() == 'span' &&
-//                                                    it.@id == 'player_name'
-//                                        }.toString()
-//
-//                                        log.info(name)
-//
-//                                        log.info("Inserting player: $name")
-//
-////                                        context.insertInto(PLAYER)
-////                                            .set(PLAYER.PLAYER_NAME, name.trim())
-////                                            .execute()
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        render mlb2016Teams.text
-//                    }
-//                }
-//            }
-//
-//            path('br/player') {
-//                byMethod {
-//                    get {
-//                        def playerUrl = 'http://www.baseball-reference.com/players/m/martiru01.shtml'
-//
-//                        XmlSlurper slurper = new XmlSlurper(new Parser())
-//
-//                        HttpClient httpClient = registry.get(HttpClient.class)
-//
-//                        httpClient.get(new URI(playerUrl)).then {
-//                            def playerPage = slurper.parseText(it.body.text)
-//
-//                            String name = playerPage.depthFirst().find {
-//                                it.name() == 'span' &&
-//                                        it.@id == 'player_name'
-//                            }.toString()
-//
-//                            log.info(name)
-//
-//                            /*
-//                            def playerInfo = playerPage.depthFirst().find {
-//                                            it.name() == 'div' &&
-//                                                    it.@id == 'info_box'
-//                                        }
-//
-//
-//                            String headshotUrl  = playerPage.depthFirst().find {
-//                                it.name().contains('img') &&
-//                                it.@src.toString().contains('/headshots/')
-//                            }.toString()
-//
-//                            log.info(name)
-//                            log.info(headshotUrl)
-//                            */
-//                        }
-//
-//                        render 'hello'
-//                    }
-//                }
-//            }
-//        }
-
-        files {
-            dir 'dist'
-            indexFiles 'index.html'
-        }
-//        files('dist', 'index.html')
+        files('dist', 'index.html')
     }
 }

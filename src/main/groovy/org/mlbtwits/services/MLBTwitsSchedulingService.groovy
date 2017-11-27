@@ -2,6 +2,7 @@ package org.mlbtwits.services
 
 import com.google.inject.Inject
 import com.google.inject.Injector
+import org.mlbtwits.jobs.MLBPlayerNewsFeed
 import org.mlbtwits.jobs.RotoworldFeed
 import org.quartz.JobBuilder
 import org.quartz.JobDetail
@@ -35,7 +36,7 @@ class MLBTwitsSchedulingService implements Service {
                 .withIdentity('RotoworldFeed', 'group1')
                 .build();
 
-        JobDetail mlbPlayerNewsJob = JobBuilder.newJob(RotoworldFeed.class)
+        JobDetail mlbPlayerNewsJob = JobBuilder.newJob(MLBPlayerNewsFeed.class)
                 .withIdentity('MLBPlayerNewsFeed', 'group1')
                 .build();
 

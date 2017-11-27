@@ -25,6 +25,10 @@ import org.mlbtwits.jooq.MLBTwitsRecordMapperProvider
 import org.mlbtwits.pojos.UserTweet
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 import static jooq.generated.Tables.*;
 
 import javax.sql.DataSource
@@ -259,11 +263,13 @@ class MLBTwitsService {
         return insertedRecords
     }
 
-    public Tweet tweet(String playerId, String userId, String message, createdTimestamp = null) {
+    Tweet tweet(String playerId, String userId, String message, createdTimestamp = null) {
         if(!createdTimestamp) {
-            createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            Date date = format.parse(createdTimestamp);
+            createdTimestamp = new java.sql.Timestamp(date.getTime())
         }
-
+        2017-11-27T21:09:21
         log.info(playerId)
         log.info(userId)
         log.info(message)

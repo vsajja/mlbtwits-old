@@ -26,6 +26,8 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
 
         def user = mlbTwitsService.getUser('BOT_MLBPlayerNews')
 
+        log.info(user.userId)
+
         // FIXME
         String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
         URI redisURI = new URI(REDIS_URL);
@@ -40,11 +42,11 @@ public class MLBPlayerNewsFeed implements org.quartz.Job {
             def spin = newsItem?.spin
             def teaser = newsItem?.teaser
             def item_id = newsItem?.item_id
+            def created = newsItem?.created
 
             if (!jedis.smembers('MLBPlayerNewsFeedIds').contains(item_id)) {
                 String message = "[~$playerName] ${StringEscapeUtils.unescapeHtml4(story)}"
-                // FIXME
-                mlbTwitsService.tweet(user.userId, message, )
+                mlbTwitsService.tweet(user.userId, message, created)
                 jedis.sadd('MLBPlayerNewsFeedIds', item_id)
                 log.info(message.toString())
             }

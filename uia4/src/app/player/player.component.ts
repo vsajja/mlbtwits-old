@@ -9,8 +9,8 @@ import {QuoteService} from "../services/quote.service";
 })
 export class PlayerComponent implements OnInit {
   playerId: string;
-  player : any;
-  playerTweets : any;
+  player: any;
+  playerTweets: any;
   playerStats: any;
 
   constructor(private route: ActivatedRoute, private quoteService: QuoteService) {
@@ -40,5 +40,9 @@ export class PlayerComponent implements OnInit {
         this.playerStats = res.json();
       }
     );
+  }
+
+  FIXME_timeAgo(value:string) {
+    return this.quoteService.FIXME_timeAgo(value);
   }
 }

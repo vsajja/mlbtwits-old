@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(private quoteService: QuoteService) {
   }
 
+
   ngOnInit() {
     this.getPlayerLabels()
     this.getTweets()
@@ -49,6 +50,10 @@ export class HomeComponent implements OnInit {
 
   tweetPlayer() {
     console.log('TODO: tweet player!');
+  }
+
+  FIXME_timeAgo(value:string) {
+    return this.quoteService.FIXME_timeAgo(value);
   }
 
   search = (text$: Observable<string>) =>

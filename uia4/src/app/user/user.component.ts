@@ -32,4 +32,8 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  FIXME_timeAgo(value:string) {
+    return this.quoteService.FIXME_timeAgo(value);
+  }
 }

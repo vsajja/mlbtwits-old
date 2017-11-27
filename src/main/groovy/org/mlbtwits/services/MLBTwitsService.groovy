@@ -232,7 +232,7 @@ class MLBTwitsService {
 
     def tweet(String userId, String message, createdTimestamp = null) {
         if(!createdTimestamp) {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            DateFormat format = new SimpleDateFormat("YYYY-MM-DD'T'HH:mm:ss", Locale.ENGLISH);
             Date date = format.parse(createdTimestamp);
             createdTimestamp = new java.sql.Timestamp(date.getTime())
         }

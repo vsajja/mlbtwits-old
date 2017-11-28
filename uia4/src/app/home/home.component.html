@@ -7,7 +7,7 @@
     <div class="col-md-8">
       <div>
         <ng-template #rt let-r="result" let-t="term">
-          <!--<img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" width="16">-->
+          <img *ngIf="r?.mlbPlayerId" [src]="getPlayerMugshotUrl(r.mlbPlayerId)" width="16">
           {{ r.playerName}}
         </ng-template>
 
@@ -23,7 +23,7 @@
         <hr>
         <pre>Model: {{ model | json }}</pre>
 
-        <button type="submit" class="btn btn-success btn-lg btn-block" (click)="tweetPlayer()">
+        <button type="submit" class="btn btn-success btn-lg btn-block" (click)="tweet(model)">
           <i class="fa fa-twitter" aria-hidden="true"></i>
           Share
         </button>

@@ -70,10 +70,18 @@ export class QuoteService {
   }
 
   getPlayerMugshotUrl(mlbPlayerId: string): string {
-    return environment.serverUrl +  '/players/' + mlbPlayerId + '/mugshot';
+    return environment.serverUrl + '/players/' + mlbPlayerId + '/mugshot';
   }
 
-  // FIXME
+  FIXME_userTweet(user: any, message: string) {
+    let userId = user.userId;
+    let username = user.username;
+    this.http.post('/users/' + user.username + '/tweets', {
+      userId: userId,
+      message: message
+    }).subscribe(res => console.log(res.json()));
+  }
+
   FIXME_timeAgo(value: string) {
     let d = new Date(value);
     let now = new Date();

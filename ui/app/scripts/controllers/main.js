@@ -40,13 +40,13 @@ angular.module('mlbTwitsApp')
     };
 
     $scope.tweetPlayer = function (userId) {
-      $scope.tweet.userId = userId;
-      tweets.post($scope.tweet).then(function (newTweet) {
+      $scope.FIXME_userTweet.userId = userId;
+      tweets.post($scope.FIXME_userTweet).then(function (newTweet) {
         $scope.getTweets();
         $scope.getMLBTwits();
         $scope.alerts.push({type: 'success', msg: 'Success! Tweet Id: ' + newTweet.tweetId});
       }, function () {
-        $scope.alerts.push({type: 'danger', msg: 'Error! Unable tweet at baseball player.'});
+        $scope.alerts.push({type: 'danger', msg: 'Error! Unable FIXME_userTweet at baseball player.'});
       });
     };
 

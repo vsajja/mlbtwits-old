@@ -98,7 +98,8 @@ ratpack {
         }
 
         get('mlb/player/info') {
-            def url = 'http://mlb.mlb.com/lookup/json/named.search_player_all.bam?sport_code=%27mlb%27&name_part=%27JUDGE'
+            def name = URLEncoder.encode("'aaron judge'", 'UTF-8')
+            def url = "http://mlb.mlb.com/lookup/json/named.search_player_all.bam?&name_part=${name}"
 
             def result = new JsonSlurper().parseText(url.toURL().getText())
 
@@ -203,7 +204,6 @@ ratpack {
                     }
                     post {
                         parse(jsonNode()).map { params ->
-                            log.info(params.toString())
                             def message = params.get('message')?.textValue()
                             def userId = params.get('userId')?.intValue()
 
@@ -318,7 +318,7 @@ ratpack {
                 byMethod {
                     get {
                         def players = mlbTwitsService.getPlayers()
-                        render json(players.collect { ['playerName': it.playerName, 'label': it.playerNamePlain] })
+                        render json(players.collect { ['playerName': it.playerName, 'label': it.playerNamePlain, 'mlbPlayerId' : it.mlbPlayerId] })
                     }
                 }
             }
@@ -327,18 +327,6 @@ ratpack {
                     get {
                         def tweets = mlbTwitsService.getTweets()
                         render json(tweets)
-                    }
-                    post {
-                        parse(jsonNode()).map { params ->
-                            def message = params.get('message')?.textValue()
-                            def userId = params.get('userId')?.intValue()
-                            assert message
-                            assert userId
-
-                            List<Tweet> insertedRecords = mlbTwitsService.tweet(userId.toString(), message)
-                        }.then { List<Tweet> insertedRecords ->
-                            render json(insertedRecords)
-                        }
                     }
                 }
             }

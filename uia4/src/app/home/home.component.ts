@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {QuoteService} from '../services/quote.service';
+import {AuthenticationService} from "../core/authentication/authentication.service";
 
 @Component({
   selector: 'app-home',
@@ -16,8 +17,17 @@ export class HomeComponent implements OnInit {
   playerLabels: any;
   tweets: any;
   isLoading: boolean;
+  username: any;
+  user: any;
 
-  constructor(private quoteService: QuoteService) {
+  constructor(private quoteService: QuoteService, private authService : AuthenticationService) {
+    this.username = authService.credentials.username;
+
+    this.quoteService.getUser(this.username).subscribe(
+      (res: Response) => {
+        this.user = res.json();
+      }
+    );
   }
 
   ngOnInit() {
@@ -47,12 +57,19 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  tweetPlayer() {
-    console.log('TODO: tweet player!');
+  tweet(player : any) {
+    let message = '[~' + player.playerName + '] ' + 'test FIXME_userTweet!'
+    this.quoteService.FIXME_userTweet(this.user, message);
+    // FIXME: refresh the tweets (better use live feeds)
+    this.getTweets();
   }
 
   FIXME_timeAgo(value:string) {
     return this.quoteService.FIXME_timeAgo(value);
+  }
+
+  getPlayerMugshotUrl(mlbPlayerId: string) {
+    return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
   }
 
   search = (text$: Observable<string>) =>

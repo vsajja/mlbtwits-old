@@ -10,7 +10,6 @@ import static ratpack.jackson.Jackson.jsonNode
 final Logger log = LoggerFactory.getLogger(this.class)
 
 ratpack {
-
     handlers {
         all RequestLogger.ncsa(log)
 
@@ -31,6 +30,17 @@ ratpack {
                 println "BOT_MLBPLayerNews [~$playerName] $teaser"
             }
             render new JsonBuilder(playerNews).toPrettyString()
+        }
+
+        get('players/:mlbPlayerId/mugshot') {
+            def mlbPlayerId = pathTokens['mlbPlayerId']
+
+            if(!mlbPlayerId) {
+                clientError(400)
+            }
+
+            def bytes = 'http://gdx.mlb.com/images/gameday/mugshots/mlb/${mlbPlayerId}@2x.jpg'.toURL().getBytes()
+            response.send('image/jpg', bytes)
         }
 
         files {

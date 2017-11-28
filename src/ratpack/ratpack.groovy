@@ -282,6 +282,19 @@ ratpack {
                     }
                 }
             }
+            path('players/:mlbPlayerId/mugshot') {
+                def mlbPlayerId = pathTokens['mlbPlayerId']
+                byMethod {
+                    get {
+                        if(!mlbPlayerId) {
+                            clientError(400)
+                        }
+
+                        def bytes = 'http://gdx.mlb.com/images/gameday/mugshots/mlb/${mlbPlayerId}@2x.jpg'.toURL().getBytes()
+                        response.send('image/jpg', bytes)
+                    }
+                }
+            }
             path('playerLabels') {
                 byMethod {
                     get {

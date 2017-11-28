@@ -29,10 +29,14 @@ export class PlayersComponent implements OnInit {
   refreshPlayers() {
     this.quoteService.getPlayers()
       .subscribe((res: Response) => {
-          this.players = res.json();
+        this.players = res.json();
         this.players = this.players.filter(
           (player: any) => player.mlbPlayerId != null
         )}
       );
+  }
+
+  getPlayerMugshotUrl(mlbPlayerId : string) {
+    return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
   }
 }

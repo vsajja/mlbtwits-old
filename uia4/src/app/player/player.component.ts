@@ -25,9 +25,6 @@ export class PlayerComponent implements OnInit {
     this.quoteService.getPlayer(this.playerId).subscribe(
       (res: Response) => {
         this.player = res.json();
-        if(this.player.mlbPlayerId) {
-          this.player.mugshotUrl = this.quoteService.getPlayerMugshotUrl(this.player.mlbPlayerId)
-        }
       }
     );
 
@@ -46,7 +43,11 @@ export class PlayerComponent implements OnInit {
     );
   }
 
-  FIXME_timeAgo(value:string) {
+  FIXME_timeAgo(value: string) {
     return this.quoteService.FIXME_timeAgo(value);
+  }
+
+  getPlayerMugshotUrl(mlbPlayerId: string) {
+    return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
   }
 }

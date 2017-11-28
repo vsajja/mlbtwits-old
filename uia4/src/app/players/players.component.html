@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-sm-2" *ngFor="let player of players" style="padding-bottom: 20px">
       <div class="card" *ngIf="player.mlbPlayerId">
-        <img class="card-img-top" src="http://gdx.mlb.com/images/gameday/mugshots/mlb/{{player?.mlbPlayerId}}@2x.jpg">
+        <img class="card-img-top" [src]="getPlayerMugshotUrl(player.mlbPlayerId)">
         <div class="card-block">
           <strong class="card-title text-center"><a href="/players/{{player.playerId}}">{{player.playerName}}</a></strong>
         </div>

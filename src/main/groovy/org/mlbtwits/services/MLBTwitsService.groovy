@@ -230,12 +230,8 @@ class MLBTwitsService {
         return tweets
     }
 
-    def tweet(String userId, String message, createdTimestamp = null) {
-        if(!createdTimestamp) {
-            DateFormat format = new SimpleDateFormat("YYYY-MM-DD'T'HH:mm:ss", Locale.ENGLISH);
-            Date date = format.parse(createdTimestamp);
-            createdTimestamp = new java.sql.Timestamp(date.getTime())
-        }
+    def tweet(String userId, String message) {
+        def createdTimestamp = new java.sql.Timestamp(new Date().getTime())
 
         List<Tweet> insertedRecords = []
 
@@ -252,8 +248,8 @@ class MLBTwitsService {
 
                 def record = context
                         .insertInto(TWEET)
-                        .set(TWEET.MESSAGE, message)
-                        .set(TWEET.PLAYER_ID, player.playerId)
+                        .set(TWEET.MESSAGE, (String) message)
+                        .set(TWEET.PLAYER_ID, (String) player.playerId)
                         .set(TWEET.USER_ID, userId)
                         .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
                         .returning()
@@ -267,19 +263,16 @@ class MLBTwitsService {
         return insertedRecords
     }
 
-    def tweet(String playerId, String userId, String message, createdTimestamp = null) {
-        if(!createdTimestamp) {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-            Date date = format.parse(createdTimestamp);
-            createdTimestamp = new java.sql.Timestamp(date.getTime())
-        }
+    def tweet(String playerId, String userId, String message) {
+        def createdTimestamp = new java.sql.Timestamp(new Date().getTime())
+
         log.info(playerId)
         log.info(message)
 
         Tweet tweet = context
                 .insertInto(TWEET)
-                .set(TWEET.MESSAGE, message)
-                .set(TWEET.CREATED_TIMESTAMP, createdTimestamp)
+                .set(TWEET.MESSAGE, (String) message)
+                .set(TWEET.CREATED_TIMESTAMP, (String) createdTimestamp)
                 .set(TWEET.PLAYER_ID, playerId)
                 .set(TWEET.USER_ID, userId)
                 .returning()

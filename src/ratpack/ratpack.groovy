@@ -31,6 +31,7 @@ import ratpack.server.ServerConfig
 import ratpack.session.SessionModule
 import org.mlbtwits.postgres.PostgresConfig
 import org.mlbtwits.postgres.PostgresModule
+import redis.clients.jedis.Jedis
 
 import javax.sql.DataSource
 
@@ -84,6 +85,24 @@ ratpack {
             get(path) {
                 response.contentType('text/html').send new File(this.class.getResource('dist/index.html').toURI()).text
             }
+        }
+
+        get('clearRedis') {
+            String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
+            URI redisURI = new URI(REDIS_URL);
+            Jedis jedis = new Jedis(redisURI);
+            jedis.del('MLBPlayerNewsFeedItemIds')
+            jedis.del('MLBPlayerNewsFeedIds')
+            jedis.close()
+            render 'test'
+        }
+
+        get('mlb/player/info') {
+            def url = 'http://mlb.mlb.com/lookup/json/named.search_player_all.bam?sport_code=%27mlb%27&name_part=%27JUDGE'
+
+            def result = new JsonSlurper().parseText(url.toURL().getText())
+
+            render new JsonBuilder(result).toPrettyString()
         }
 
 //        all RatpackPac4j.authenticator(new DirectBasicAuthClient(dbAuthenticator))

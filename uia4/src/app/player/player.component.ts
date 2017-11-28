@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {QuoteService} from "../services/quote.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-player',
@@ -24,8 +25,9 @@ export class PlayerComponent implements OnInit {
     this.quoteService.getPlayer(this.playerId).subscribe(
       (res: Response) => {
         this.player = res.json();
-        this.player.mugshotUrl = "http://gdx.mlb.com/images/gameday/mugshots/mlb/" + this.player.mlbPlayerId + "@2x.jpg";
-        // this.player.mugshotUrl = "http://gdx.mlb.com/images/gameday/mugshots/mlb/" + this.player.mlbPlayerId + "@2x.jpg";
+        if(this.player.mlbPlayerId) {
+          this.player.mugshotUrl = this.quoteService.getPlayerMugshotUrl(this.player.mlbPlayerId)
+        }
       }
     );
 

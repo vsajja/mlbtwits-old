@@ -4,6 +4,7 @@ import 'rxjs/add/operator/catch';
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class QuoteService {
@@ -66,6 +67,10 @@ export class QuoteService {
 
   getPlayerStats(playerId: string): any {
     return this.http.get('/players/' + playerId + '/stats', {cache: true});
+  }
+
+  getPlayerMugshotUrl(mlbPlayerId: string): string {
+    return environment.serverUrl +  '/players/' + mlbPlayerId + '/mugshot';
   }
 
   // FIXME

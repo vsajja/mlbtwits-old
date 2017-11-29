@@ -26,6 +26,7 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {APIInterceptor} from "./core/http/http-interceptor";
 import {PagerService} from "./services/pager.service";
+import {PlayerCardComponent} from './player-card/player-card.component';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import {PagerService} from "./services/pager.service";
     TeamComponent,
     UserComponent,
     UsersComponent,
-    SettingsComponent
+    SettingsComponent,
+    PlayerCardComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

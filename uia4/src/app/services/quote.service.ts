@@ -67,6 +67,12 @@ export class QuoteService {
     return environment.serverUrl + '/players/' + mlbPlayerId + '/mugshot';
   }
 
+  calculateAge(birthDate: any) {
+    var ageDifMs = Date.now() - birthDate;
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
   FIXME_userTweet(user: any, message: string) {
     let userId = user.userId;
     let username = user.username;

@@ -25,7 +25,7 @@ export class PlayersComponent implements OnInit {
 
   ngOnInit() {
     this.refreshPlayers('');
-    this.refreshPlayers(this.defaultSearchTerm);
+    // this.refreshPlayers(this.defaultSearchTerm);
   }
 
   searchPlayers(term: string) {
@@ -38,9 +38,9 @@ export class PlayersComponent implements OnInit {
       .subscribe((data: any) => {
         // FIXME - get all players with a mlbPlayerId
         this.players = data.filter((player: any) => player.mlbPlayerId != null);
-        if(!term) {
-          term = this.defaultSearchTerm;
-        }
+        // if(!term) {
+        //   term = this.defaultSearchTerm;
+        // }
         this.allItems = this.players;
         this.allItems = this.allItems.filter(
           (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) != -1
@@ -53,8 +53,16 @@ export class PlayersComponent implements OnInit {
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
+
+    // show all items in search result
+    let pageSize = this.allItems.length;
+    // if initial page, load the first 18
+    if(page == 1) {
+      pageSize = 18;
+    }
+
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.allItems.length, page, this.allItems.length);
+    this.pager = this.pagerService.getPager(this.allItems.length, page, 18);
     // get current page of items
     // FIXME - why + 1?
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
@@ -65,8 +73,6 @@ export class PlayersComponent implements OnInit {
   }
 
   calculateAge(birthday: any) {
-    var ageDifMs = Date.now() - birthday;
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+    return this.quoteService.calculateAge(birthday);
   }
 }

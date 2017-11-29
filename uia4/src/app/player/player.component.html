@@ -1,36 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
-      <div class="card">
-        <img class="card-img-top" *ngIf="player?.mlbPlayerId" [src]="getPlayerMugshotUrl(player?.mlbPlayerId)">
-        <div class="card-block">
-          <h4 class="card-title">{{player?.playerName}}</h4>
-          <p class="card-text">plays for team {{player?.teamId}}</p>
-          <!--<p class="card-text">{{player?.mlbPlayerId}}</p>-->
-          <table>
-            <tr *ngFor="let statLine of playerStats?.hittingStats">
-              <td><strong>{{statLine.year}}</strong></td>
-              <td>{{statLine.runs}} runs</td>
-              <td>{{statLine.homeRuns}} hr</td>
-              <td>{{statLine.rbis}} rbi</td>
-              <td>{{statLine.stolenBases}} sb</td>
-              <td>{{statLine.average}} avg</td>
-            </tr>
-          </table>
-
-          <table>
-            <tr *ngFor="let statLine of playerStats?.pitchingStats">
-              <td><strong>{{statLine.year}}</strong></td>
-              <td>{{statLine.innings}}ip</td>
-              <td>{{statLine.wins}}wins</td>
-              <td>{{statLine.era}}era </td>
-              <td>{{statLine.whip}}whip</td>
-              <td>{{statLine.strikeOuts}}k</td>
-              <td>{{statLine.saves}}sv</td>
-            </tr>
-          </table>
-        </div>
-      </div>
+    <div class="col-md-2">
+      <app-player-card [player]="player"></app-player-card>
     </div>
     <div class="col-md-8">
       <div class="card">

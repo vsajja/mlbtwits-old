@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div>
-        <input placeholder="clayton kershaw..." #term/>
+        <input placeholder="clayton kershaw..." #term (keyup.enter)="searchPlayers(term.value);"/>
         <!--(keyup)="searchPlayers(term.value);"-->
         <button class="btn btn-info" type="button" (click)="searchPlayers(term.value);">Search</button>
       </div>
@@ -13,28 +13,10 @@
 
   <div class="row">
     <div class="col-md-2" *ngFor="let player of pagedItems" style="margin-bottom: 10px">
-      <div class="card" style="cursor: pointer;">
-        <img class="card-img-top" [src]="getPlayerMugshotUrl(player?.mlbPlayerId)">
-        <div class="card-block">
-          <p class="card-title">
-            <a class="text-center" href="/players/{{player?.playerId}}">{{player?.playerName}} ({{player?.position}})</a>
-          </p>
-        </div>
-        <div class="card-footer">
-          <!--<span class="float-right">Joined in 2013</span>-->
-          <!--Rank: 1-->
-          <label>{{player?.birthCountry}}</label>
-          <label>Height: {{player?.heightFeet}}' {{player?.heightInches}}"</label>
-          <label>Weight: {{player?.weight}} lbs</label>
-
-          <label>Bats: {{player?.bats}}</label>
-          <label>Throws: {{player?.throws}}</label>
-          <label>Age: {{calculateAge(player?.birthDate)}}</label>
-        </div>
-      </div>
+      <app-player-card [player]="player"></app-player-card>
     </div>
 
-    <div class="col-md-12" style="align: center">
+    <!--<div class="col-md-12" style="align: center">-->
       <!--<ngb-pagination-->
         <!--[collectionSize]="players?.length"-->
         <!--[(page)]="page"-->
@@ -42,7 +24,6 @@
         <!--[boundaryLinks]="true"-->
         <!--[maxSize]="22"-->
       <!--&gt;</ngb-pagination>-->
-
-    </div>
+    <!--</div>-->
   </div>
 </div>

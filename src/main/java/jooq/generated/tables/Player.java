@@ -4,6 +4,7 @@
 package jooq.generated.tables;
 
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player extends TableImpl<PlayerRecord> {
 
-	private static final long serialVersionUID = -349839679;
+	private static final long serialVersionUID = -1579372805;
 
 	/**
 	 * The reference instance of <code>public.player</code>
@@ -74,6 +75,46 @@ public class Player extends TableImpl<PlayerRecord> {
 	 * The column <code>public.player.mlb_player_id</code>.
 	 */
 	public final TableField<PlayerRecord, String> MLB_PLAYER_ID = createField("mlb_player_id", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.player.bats</code>.
+	 */
+	public final TableField<PlayerRecord, String> BATS = createField("bats", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.player.birth_date</code>.
+	 */
+	public final TableField<PlayerRecord, Timestamp> BIRTH_DATE = createField("birth_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+	/**
+	 * The column <code>public.player.height_feet</code>.
+	 */
+	public final TableField<PlayerRecord, Integer> HEIGHT_FEET = createField("height_feet", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player.height_inches</code>.
+	 */
+	public final TableField<PlayerRecord, Integer> HEIGHT_INCHES = createField("height_inches", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player.position</code>.
+	 */
+	public final TableField<PlayerRecord, String> POSITION = createField("position", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.player.throws</code>.
+	 */
+	public final TableField<PlayerRecord, String> THROWS = createField("throws", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.player.weight</code>.
+	 */
+	public final TableField<PlayerRecord, String> WEIGHT = createField("weight", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.player.birth_country</code>.
+	 */
+	public final TableField<PlayerRecord, String> BIRTH_COUNTRY = createField("birth_country", org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
 	/**
 	 * Create a <code>public.player</code> table reference

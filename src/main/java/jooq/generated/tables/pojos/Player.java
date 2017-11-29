@@ -5,6 +5,7 @@ package jooq.generated.tables.pojos;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -22,13 +23,21 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player implements Serializable {
 
-	private static final long serialVersionUID = 387083678;
+	private static final long serialVersionUID = 1815501639;
 
-	private final Integer playerId;
-	private final String  playerName;
-	private final String  playerNamePlain;
-	private final Integer teamId;
-	private final String  mlbPlayerId;
+	private final Integer   playerId;
+	private final String    playerName;
+	private final String    playerNamePlain;
+	private final Integer   teamId;
+	private final String    mlbPlayerId;
+	private final String    bats;
+	private final Timestamp birthDate;
+	private final Integer   heightFeet;
+	private final Integer   heightInches;
+	private final String    position;
+	private final String    throws_;
+	private final String    weight;
+	private final String    birthCountry;
 
 	public Player(Player value) {
 		this.playerId = value.playerId;
@@ -36,20 +45,44 @@ public class Player implements Serializable {
 		this.playerNamePlain = value.playerNamePlain;
 		this.teamId = value.teamId;
 		this.mlbPlayerId = value.mlbPlayerId;
+		this.bats = value.bats;
+		this.birthDate = value.birthDate;
+		this.heightFeet = value.heightFeet;
+		this.heightInches = value.heightInches;
+		this.position = value.position;
+		this.throws_ = value.throws_;
+		this.weight = value.weight;
+		this.birthCountry = value.birthCountry;
 	}
 
 	public Player(
-		Integer playerId,
-		String  playerName,
-		String  playerNamePlain,
-		Integer teamId,
-		String  mlbPlayerId
+		Integer   playerId,
+		String    playerName,
+		String    playerNamePlain,
+		Integer   teamId,
+		String    mlbPlayerId,
+		String    bats,
+		Timestamp birthDate,
+		Integer   heightFeet,
+		Integer   heightInches,
+		String    position,
+		String    throws_,
+		String    weight,
+		String    birthCountry
 	) {
 		this.playerId = playerId;
 		this.playerName = playerName;
 		this.playerNamePlain = playerNamePlain;
 		this.teamId = teamId;
 		this.mlbPlayerId = mlbPlayerId;
+		this.bats = bats;
+		this.birthDate = birthDate;
+		this.heightFeet = heightFeet;
+		this.heightInches = heightInches;
+		this.position = position;
+		this.throws_ = throws_;
+		this.weight = weight;
+		this.birthCountry = birthCountry;
 	}
 
 	public Integer getPlayerId() {
@@ -72,6 +105,38 @@ public class Player implements Serializable {
 		return this.mlbPlayerId;
 	}
 
+	public String getBats() {
+		return this.bats;
+	}
+
+	public Timestamp getBirthDate() {
+		return this.birthDate;
+	}
+
+	public Integer getHeightFeet() {
+		return this.heightFeet;
+	}
+
+	public Integer getHeightInches() {
+		return this.heightInches;
+	}
+
+	public String getPosition() {
+		return this.position;
+	}
+
+	public String getThrows() {
+		return this.throws_;
+	}
+
+	public String getWeight() {
+		return this.weight;
+	}
+
+	public String getBirthCountry() {
+		return this.birthCountry;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Player (");
@@ -81,6 +146,14 @@ public class Player implements Serializable {
 		sb.append(", ").append(playerNamePlain);
 		sb.append(", ").append(teamId);
 		sb.append(", ").append(mlbPlayerId);
+		sb.append(", ").append(bats);
+		sb.append(", ").append(birthDate);
+		sb.append(", ").append(heightFeet);
+		sb.append(", ").append(heightInches);
+		sb.append(", ").append(position);
+		sb.append(", ").append(throws_);
+		sb.append(", ").append(weight);
+		sb.append(", ").append(birthCountry);
 
 		sb.append(")");
 		return sb.toString();

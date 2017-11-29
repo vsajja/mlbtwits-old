@@ -4,6 +4,7 @@
 package jooq.generated.tables.daos;
 
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -90,5 +91,61 @@ public class PlayerDao extends DAOImpl<PlayerRecord, jooq.generated.tables.pojos
 	 */
 	public List<jooq.generated.tables.pojos.Player> fetchByMlbPlayerId(String... values) {
 		return fetch(Player.PLAYER.MLB_PLAYER_ID, values);
+	}
+
+	/**
+	 * Fetch records that have <code>bats IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByBats(String... values) {
+		return fetch(Player.PLAYER.BATS, values);
+	}
+
+	/**
+	 * Fetch records that have <code>birth_date IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByBirthDate(Timestamp... values) {
+		return fetch(Player.PLAYER.BIRTH_DATE, values);
+	}
+
+	/**
+	 * Fetch records that have <code>height_feet IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByHeightFeet(Integer... values) {
+		return fetch(Player.PLAYER.HEIGHT_FEET, values);
+	}
+
+	/**
+	 * Fetch records that have <code>height_inches IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByHeightInches(Integer... values) {
+		return fetch(Player.PLAYER.HEIGHT_INCHES, values);
+	}
+
+	/**
+	 * Fetch records that have <code>position IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByPosition(String... values) {
+		return fetch(Player.PLAYER.POSITION, values);
+	}
+
+	/**
+	 * Fetch records that have <code>throws IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByThrows(String... values) {
+		return fetch(Player.PLAYER.THROWS, values);
+	}
+
+	/**
+	 * Fetch records that have <code>weight IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByWeight(String... values) {
+		return fetch(Player.PLAYER.WEIGHT, values);
+	}
+
+	/**
+	 * Fetch records that have <code>birth_country IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByBirthCountry(String... values) {
+		return fetch(Player.PLAYER.BIRTH_COUNTRY, values);
 	}
 }

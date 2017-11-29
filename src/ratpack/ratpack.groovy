@@ -1,6 +1,7 @@
 import com.zaxxer.hikari.HikariConfig
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.PlayerHittingStatline
 import jooq.generated.tables.pojos.Tweet
 import jooq.generated.tables.pojos.User
@@ -98,6 +99,45 @@ ratpack {
         }
 
         get('mlb/player/info') {
+
+            def players = mlbTwitsService.getPlayers()
+
+            players.each { player ->
+//                log.info(player.playerNamePlain)
+                if(!player.mlbPlayerId) {
+                    def name = URLEncoder.encode("'${player.playerNamePlain.toLowerCase()}'", 'UTF-8')
+                    def url = "http://mlb.mlb.com/lookup/json/named.search_player_all.bam?&name_part=${name}"
+
+                    def result = new JsonSlurper().parseText(url.toURL().getText())
+
+                    def playerRow = result?.search_player_all?.queryResults?.row
+
+                    // 2nd part of if statement: some players have multiple player ids!
+                    if(playerRow && !playerRow.playerId) {
+                        println playerRow.player_id
+
+                        Player updatedPlayer = new Player(player.playerId,
+                                player.playerName,
+                                player.playerNamePlain,
+                                player.teamId,
+                                playerRow.player_id,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null)
+                        mlbTwitsService.updatePlayer(updatedPlayer)
+                    }
+                    else {
+                        // still missing
+                        log.info('STILL MISSING: ' + player.playerNamePlain)
+                    }
+                }
+            }
+
             def name = URLEncoder.encode("'aaron judge'", 'UTF-8')
             def url = "http://mlb.mlb.com/lookup/json/named.search_player_all.bam?&name_part=${name}"
 

@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import com.google.inject.Singleton
 import groovy.transform.CompileStatic
 import groovy.util.slurpersupport.GPathResult
+import jooq.generated.tables.daos.PlayerDao
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.PlayerHittingStatline
 import jooq.generated.tables.pojos.PlayerPitchingStatline
@@ -38,6 +39,8 @@ class MLBTwitsService {
 
     DSLContext context
 
+    PlayerDao playerDao
+
     @Inject
     public MLBTwitsService(DataSource dataSource) {
 //        context = DSL.using(dataSource, SQLDialect.POSTGRES)
@@ -64,6 +67,8 @@ class MLBTwitsService {
 //            }
 //        })
         )
+
+        playerDao = new PlayerDao(context.configuration())
     }
 
     public List<User> getUsers() {
@@ -191,6 +196,10 @@ class MLBTwitsService {
                 .fetchOne()
                 .into(Player.class)
         return player
+    }
+
+    def updatePlayer(Player values) {
+        playerDao.update(values)
     }
 
     public List<UserTweet> getTweets() {

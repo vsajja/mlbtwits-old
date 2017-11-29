@@ -26,11 +26,10 @@
     "@angular/platform-browser-dynamic": "^5.0.3",
     "@angular/platform-server": "^5.0.3",
     "@angular/router": "^5.0.3",
-    "@angular/service-worker": "^1.0.0-beta.16",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.5",
+    "@angular/service-worker": "^5.0.3",
     "@ngx-translate/core": "^8.0.0",
     "@swimlane/ngx-datatable": "^11.1.4",
-    "bootstrap": "4.0.0-beta",
+    "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",
@@ -48,7 +47,7 @@
     "@types/jasminewd2": "^2.0.2",
     "@types/lodash": "^4.14.86",
     "@types/node": "^8.0.10",
-    "codelyzer": "~3.2.0",
+    "codelyzer": "^4.0.1",
     "hads": "^1.3.4",
     "htmlhint": "^0.9.13",
     "https-proxy-agent": "^2.1.1",
@@ -68,6 +67,6 @@
     "stylelint-scss": "~2.1.0",
     "ts-node": "^3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "^2.6.2"
+    "typescript": "2.4.2"
   }
 }

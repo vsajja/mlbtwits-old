@@ -18,11 +18,14 @@ export class PlayersComponent implements OnInit {
   pagedItems: any[];
   page = 1;
 
+  defaultSearchTerm = 'clayton';
+
   constructor(private quoteService: QuoteService, private pagerService: PagerService) {
   }
 
   ngOnInit() {
-    this.refreshPlayers(null);
+    this.refreshPlayers('');
+    this.refreshPlayers(this.defaultSearchTerm);
   }
 
   searchPlayers(term: string) {
@@ -31,16 +34,17 @@ export class PlayersComponent implements OnInit {
 
   refreshPlayers(term: string) {
     this.quoteService.getPlayers()
+      .debounceTime(500)
       .subscribe((data: any) => {
         // FIXME - get all players with a mlbPlayerId
         this.players = data.filter((player: any) => player.mlbPlayerId != null);
-        this.allItems = this.players;
-
-        if(term != null) {
-          this.allItems = this.allItems.filter(
-            (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) != -1
-          );
+        if(!term) {
+          term = this.defaultSearchTerm;
         }
+        this.allItems = this.players;
+        this.allItems = this.allItems.filter(
+          (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) != -1
+        );
         this.setPage(1);
       });
   }
@@ -50,7 +54,7 @@ export class PlayersComponent implements OnInit {
       return;
     }
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.allItems.length, page, 18);
+    this.pager = this.pagerService.getPager(this.allItems.length, page, this.allItems.length);
     // get current page of items
     // FIXME - why + 1?
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
@@ -58,5 +62,11 @@ export class PlayersComponent implements OnInit {
 
   getPlayerMugshotUrl(mlbPlayerId : string) {
     return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
+  }
+
+  calculateAge(birthday: any) {
+    var ageDifMs = Date.now() - birthday;
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 }

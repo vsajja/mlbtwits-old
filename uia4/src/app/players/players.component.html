@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-md-12">
       <div>
-        <input placeholder="filter players..." #term (keyup)="searchPlayers(term.value);"/>
+        <input placeholder="clayton kershaw..." #term/>
+        <!--(keyup)="searchPlayers(term.value);"-->
         <button class="btn btn-info" type="button" (click)="searchPlayers(term.value);">Search</button>
       </div>
     </div>
@@ -15,12 +16,20 @@
       <div class="card" style="cursor: pointer;">
         <img class="card-img-top" [src]="getPlayerMugshotUrl(player?.mlbPlayerId)">
         <div class="card-block">
-          <strong class="card-title"><a class="text-center"
-                                        href="/players/{{player?.playerId}}">{{player?.playerName}}</a></strong>
+          <p class="card-title">
+            <a class="text-center" href="/players/{{player?.playerId}}">{{player?.playerName}} ({{player?.position}})</a>
+          </p>
         </div>
         <div class="card-footer">
           <!--<span class="float-right">Joined in 2013</span>-->
           <!--Rank: 1-->
+          <label>{{player?.birthCountry}}</label>
+          <label>Height: {{player?.heightFeet}}' {{player?.heightInches}}"</label>
+          <label>Weight: {{player?.weight}} lbs</label>
+
+          <label>Bats: {{player?.bats}}</label>
+          <label>Throws: {{player?.throws}}</label>
+          <label>Age: {{calculateAge(player?.birthDate)}}</label>
         </div>
       </div>
     </div>

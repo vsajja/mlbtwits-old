@@ -9,10 +9,19 @@ import {QuoteService} from "../services/quote.service";
 export class PlayerCardComponent implements OnInit {
   @Input() player: any;
 
+  team: any;
+
   constructor(private quoteService: QuoteService) {
   }
 
   ngOnInit() {
+    this.getTeam(this.player.teamId);
+  }
+
+  getTeam(teamId: string) {
+    this.quoteService.getTeam(teamId).subscribe( (data: any) => {
+      this.team = data;
+    });
   }
 
   getPlayerMugshotUrl(mlbPlayerId : string) {

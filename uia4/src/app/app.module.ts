@@ -27,6 +27,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {APIInterceptor} from "./core/http/http-interceptor";
 import {PagerService} from "./services/pager.service";
 import {PlayerCardComponent} from './player-card/player-card.component';
+import { TeamCardComponent } from './team-card/team-card.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import {PlayerCardComponent} from './player-card/player-card.component';
     UserComponent,
     UsersComponent,
     SettingsComponent,
-    PlayerCardComponent
+    PlayerCardComponent,
+    TeamCardComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -1,0 +1,8 @@
+<div class="card" style="cursor: pointer; margin-bottom: 10px">
+  <img class="card-img-top" *ngIf="team?.teamCodeMlb" [src]="getTeamLogoUrl(team?.teamCodeMlb)">
+  <div class="card-block">
+    <div class="card-title">
+      <a class="text-center" href="/teams/{{team?.teamId}}">{{team?.teamName}} ({{team?.teamCodeMlb}})</a>
+    </div>
+  </div>
+</div>

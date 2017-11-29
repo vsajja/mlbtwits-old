@@ -300,7 +300,7 @@ ratpack {
             path('players') {
                 byMethod {
                     get {
-                        def players = mlbTwitsService.getPlayers().collect { it.weight != null }
+                        def players = mlbTwitsService.getPlayers().findAll { it.weight != null }
                         render json(players)
                     }
                 }

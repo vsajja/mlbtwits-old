@@ -1,21 +1,15 @@
-<div>
-  <div class="card" style="cursor: pointer">
-    <img class="card-img-top" *ngIf="player?.mlbPlayerId" [src]="getPlayerMugshotUrl(player?.mlbPlayerId)">
-    <div class="card-block">
-      <p class="card-title">
-        <a class="text-center" href="/players/{{player?.playerId}}">{{player?.playerName}} ({{player?.position}})</a>
-      </p>
-    </div>
-    <div class="card-footer">
-      <!--<span class="float-right">Joined in 2013</span>-->
-      <!--Rank: 1-->
-      <label>{{player?.birthCountry}}</label>
-      <label>Height: {{player?.heightFeet}}' {{player?.heightInches}}"</label>
-      <label>Weight: {{player?.weight}} lbs</label>
-
-      <label>Bats: {{player?.bats}}</label>
-      <label>Throws: {{player?.throws}}</label>
-      <label *ngIf="player?.birthDate">Age: {{calculateAge(player?.birthDate)}}</label>
+<div class="card" style="cursor: pointer">
+  <img class="card-img-top" *ngIf="player?.mlbPlayerId" [src]="getPlayerMugshotUrl(player?.mlbPlayerId)">
+  <div class="card-block">
+    <div class="card-title">
+      <a class="text-center" href="/players/{{player?.playerId}}">{{player?.playerName}} ({{player?.position}})</a>
+      <pre>
+<p>{{player?.birthCountry}}
+{{player?.heightFeet}}' {{player?.heightInches}}" {{player?.weight}} lbs
+Bats: {{player?.bats}} Throws: {{player?.throws}}
+<label *ngIf="player?.birthDate">Age: {{calculateAge(player?.birthDate)}}</label>
+</p>
+      </pre>
     </div>
   </div>
 </div>

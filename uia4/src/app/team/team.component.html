@@ -10,12 +10,9 @@
       </div>
     </div>
     <div class="col-md-9">
-
-      <div class="card">
-        <img ng-src="teamLogo"/>
-        <div class="card-title"><strong>40 man roster</strong></div>
-        <div class="card-block" *ngFor="let player of roster">
-          <a href="/players/{{player.playerId}}">{{player.playerName}}</a>
+      <div class="row">
+        <div class="1" *ngFor="let player of roster">
+          <app-player-card [player]="player"></app-player-card>
         </div>
       </div>
     </div>

@@ -284,7 +284,8 @@ ratpack {
                 def teamId = pathTokens['teamId']
                 byMethod {
                     get {
-                        def teamRoster = mlbTwitsService.getTeamRoster(teamId)
+                        // FIXME: some players are missing stats! eg. weight
+                        def teamRoster = mlbTwitsService.getTeamRoster(teamId).findAll { it.weight != null }
                         render json(teamRoster)
                     }
                 }

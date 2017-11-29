@@ -2,7 +2,7 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {QuoteService} from '../services/quote.service';
 import {AuthenticationService} from "../core/authentication/authentication.service";
@@ -15,10 +15,11 @@ import {AuthenticationService} from "../core/authentication/authentication.servi
 export class HomeComponent implements OnInit {
   model: any;
   playerLabels: any;
-  tweets: any;
   isLoading: boolean;
   username: any;
   user: any;
+
+  @Input() tweets: any;
 
   constructor(private quoteService: QuoteService, private authService : AuthenticationService) {
     this.username = authService.credentials.username;
@@ -26,8 +27,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPlayerLabels()
-    this.getTweets()
+    this.getPlayerLabels();
+    this.getTweets();
   }
 
   getUser(username: string) {
@@ -59,14 +60,16 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  tweet(player : any) {
-    let message = '[~' + player.playerName + '] ' + 'test FIXME_userTweet!'
-    this.quoteService.FIXME_userTweet(this.user, message)
-    // FIXME: refresh the tweets (better use live feeds)
+  tweet(message: string) {
+    // FIXME: message must contain [~playerName]
+    if(!message.includes("[~") && !message.includes("]")) {
+      window.alert('tweet must contain a player!')
+    }
+    this.quoteService.FIXME_userTweet(this.user, message);
     this.getTweets();
   }
 
-  FIXME_timeAgo(value:string) {
+  FIXME_timeAgo(value: string) {
     return this.quoteService.FIXME_timeAgo(value);
   }
 
@@ -77,8 +80,8 @@ export class HomeComponent implements OnInit {
   search = (text$: Observable<string>) =>
     text$
       .debounceTime(100)
-      .map(term => term === '' ? []
-        : this.playerLabels.filter((player: any) => player.playerName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10));
+      .map(term => !term.startsWith('@') ? []
+        : this.playerLabels.filter((player: any) => player.playerName.toLowerCase().indexOf(term.substring(1).toLowerCase()) > -1).slice(0, 10));
 
-  formatter = (player: any) => player.playerName;
+  formatter = (player: any) => '[~' + player.playerName + '] ';
 }

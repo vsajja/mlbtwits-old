@@ -13,29 +13,27 @@
 
         <input
           class="tweet-input"
-          [(ngModel)]="model"
+          style="width: 100%; height: 40px; margin-bottom: 10px"
+          [(ngModel)]="message"
           [ngbTypeahead]="search"
           [resultTemplate]="rt"
           [inputFormatter]="formatter"
-          placeholder="What's on your mind?"
+          (ngModalChange)="test($event)"
+          placeholder="@player message..."
         />
-
-        <hr>
-        <pre>Model: {{ model | json }}</pre>
-
-        <button type="submit" class="btn btn-success btn-lg btn-block" (click)="tweet(model)">
+        <br/>
+        <button type="submit" class="btn btn-success btn-lg btn-block" (click)="tweet(message)">
           <i class="fa fa-twitter" aria-hidden="true"></i>
           Share
         </button>
+        <hr>
       </div>
-
-      <br/>
-
       <div>
         <div>
           <div class="card">
             <ul class="list-group">
-              <li class="list-group-item list-group-flush" *ngFor="let tweet of tweets"><strong>{{tweet?.username}}</strong>
+              <li class="list-group-item list-group-flush" *ngFor="let tweet of tweets">
+                <strong>{{tweet?.username}}</strong>
                 {{tweet?.message}}
                 <br/>
                 <div>

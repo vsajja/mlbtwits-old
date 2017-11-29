@@ -13,22 +13,22 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.refreshUsers();
+    this.getUsers();
   }
 
   searchUsers(term: string) {
-    this.refreshUsers();
+    this.getUsers();
     if (term) {
       this.users = this.users.filter(
         (user: any) => user.username.toLowerCase().indexOf(term.toLowerCase()) > -1
-      )
+      );
     }
   }
 
-  refreshUsers() {
+  getUsers() {
     this.quoteService.getUsers()
-      .subscribe((res: Response) => {
-          this.users = res.json();
+      .subscribe((data: any) => {
+          this.users = data;
         }
       );
   }

@@ -22,17 +22,19 @@ export class HomeComponent implements OnInit {
 
   constructor(private quoteService: QuoteService, private authService : AuthenticationService) {
     this.username = authService.credentials.username;
-
-    this.quoteService.getUser(this.username).subscribe(
-      (res: Response) => {
-        this.user = res.json();
-      }
-    );
+    this.getUser(this.username);
   }
 
   ngOnInit() {
     this.getPlayerLabels()
     this.getTweets()
+  }
+
+  getUser(username: string) {
+    this.quoteService.getUser(username).subscribe(
+      (data: any) => {
+        this.user = data;
+      });
   }
 
   getPlayerLabels() {
@@ -59,7 +61,7 @@ export class HomeComponent implements OnInit {
 
   tweet(player : any) {
     let message = '[~' + player.playerName + '] ' + 'test FIXME_userTweet!'
-    this.quoteService.FIXME_userTweet(this.user, message);
+    this.quoteService.FIXME_userTweet(this.user, message)
     // FIXME: refresh the tweets (better use live feeds)
     this.getTweets();
   }

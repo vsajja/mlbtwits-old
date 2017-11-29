@@ -18,7 +18,6 @@ export class PlayersComponent implements OnInit {
   }
 
   searchPlayers(term: string) {
-    // FIXME: try not to load all players
     this.refreshPlayers();
     if(term) {
       this.players = this.players.filter(
@@ -29,10 +28,10 @@ export class PlayersComponent implements OnInit {
 
   refreshPlayers() {
     this.quoteService.getPlayers()
-      .subscribe((res: Response) => {
-        this.players = res.json();
+      .subscribe((data: any) => {
+        this.players = data;
         this.players = this.players.filter((player: any) => player.mlbPlayerId != null);
-        this.rows = this.players
+        this.rows = this.players;
       });
   }
 

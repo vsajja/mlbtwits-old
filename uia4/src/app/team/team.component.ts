@@ -17,17 +17,21 @@ export class TeamComponent implements OnInit {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('teamId');
+    this.getTeam(this.teamId);
+    this.getTeamRoster(this.teamId);
+  }
 
-    this.quoteService.getTeam(this.teamId).subscribe(
-      (res: Response) => {
-        this.team = res.json();
-      }
-    );
+  getTeam(teamId: string) {
+    this.quoteService.getTeam(teamId).subscribe(
+      (data: any) => {
+        this.team = data;
+      });
+  }
 
-    this.quoteService.getTeamRoster(this.teamId).subscribe(
-      (res: Response) => {
-        this.roster = res.json();
-      }
-    );
+  getTeamRoster(teamId: string) {
+    this.quoteService.getTeamRoster(teamId).subscribe(
+      (data: any) => {
+        this.roster = data;
+      });
   }
 }

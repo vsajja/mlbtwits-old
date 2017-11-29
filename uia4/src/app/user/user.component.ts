@@ -9,31 +9,37 @@ import {AuthenticationService} from "../core/authentication/authentication.servi
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  username : any;
+  username: any;
   user: any;
-  userTweets : any;
+  userTweets: any;
 
   constructor(private route: ActivatedRoute,
               private quoteService: QuoteService,
               private authenticationService: AuthenticationService) {
     this.username = this.route.snapshot.paramMap.get('username');
 
-    this.quoteService.getUser(this.username).subscribe(
-      (res: Response) => {
-        this.user = res.json();
-      }
-    );
-
-    this.quoteService.getUserTweets(this.username).subscribe(
-      (res: Response) => {
-         this.userTweets = res.json();
-      })
+    this.getUsers(this.username);
+    this.getUserTweets(this.username);
   }
 
   ngOnInit() {
   }
 
-  FIXME_timeAgo(value:string) {
+  getUsers(username: string) {
+    this.quoteService.getUser(username).subscribe(
+      (data: any) => {
+        this.user = data;
+      });
+  }
+
+  getUserTweets(username: string) {
+    this.quoteService.getUserTweets(username).subscribe(
+      (data: any) => {
+        this.userTweets = data;
+      });
+  }
+
+  FIXME_timeAgo(value: string) {
     return this.quoteService.FIXME_timeAgo(value);
   }
 }

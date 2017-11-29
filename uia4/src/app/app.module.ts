@@ -1,13 +1,11 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {CoreModule} from './core/core.module';
-import {SharedModule} from './shared/shared.module';
 import {HomeModule} from './home/home.module';
 import {LoginModule} from './login/login.module';
 import {PlayerComponent} from './player/player.component';
@@ -25,16 +23,17 @@ import {UserModule} from "./user/user.module";
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsModule} from "./settings/settings.module";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {APIInterceptor} from "./core/http/http-interceptor";
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     TranslateModule.forRoot(),
     NgbModule.forRoot(),
     CoreModule,
-    SharedModule,
     HomeModule,
     LoginModule,
     PlayerModule,
@@ -47,8 +46,21 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
     NgxDatatableModule,
     AppRoutingModule
   ],
-  declarations: [AppComponent, PlayerComponent, PlayersComponent, TeamsComponent, TeamComponent, UserComponent, UsersComponent, SettingsComponent],
-  providers: [],
+  declarations: [
+    AppComponent,
+    PlayerComponent,
+    PlayersComponent,
+    TeamsComponent,
+    TeamComponent,
+    UserComponent,
+    UsersComponent,
+    SettingsComponent
+  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: APIInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

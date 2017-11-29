@@ -13,12 +13,11 @@ export class TeamsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.refreshTeams();
+    this.getTeams();
   }
 
   searchTeams(term: string) {
-    // FIXME: try not to load all teams
-    this.refreshTeams();
+    this.getTeams();
     if (term) {
       this.teams = this.teams.filter(
         (team: any) => team.teamName.toLowerCase().indexOf(term.toLowerCase()) > -1
@@ -26,11 +25,10 @@ export class TeamsComponent implements OnInit {
     }
   }
 
-  refreshTeams() {
+  getTeams() {
     this.quoteService.getTeams()
-      .subscribe((res: Response) => {
-          this.teams = res.json();
-        }
-      );
+      .subscribe((data: any) => {
+        this.teams = data;
+      });
   }
 }

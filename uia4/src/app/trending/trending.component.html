@@ -3,7 +3,7 @@
     <strong>Trending</strong>
   </div>
   <div class="card-block">
-    <div *ngFor="let player of players">
+    <div *ngFor="let player of mlbTwits?.trending">
       <i class="fa fa-line-chart fa-1x text-muted"></i>
       <a href="/players/{{player.playerId}}">{{player.playerName}}</a> &nbsp;
     </div>
@@ -12,6 +12,6 @@
 
 <br/>
 
-<a href="/players">{{playerCount}} players</a>
-<a href="/users">{{userCount}} users</a>
-<a href="/teams">{{teamCount}} teams</a>
+<a href="/players">{{mlbTwits?.players}} players</a>
+<a href="/users">{{mlbTwits?.users}} users</a>
+<a href="/teams">{{mlbTwits?.teams}} teams</a>

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {QuoteService} from "../services/quote.service";
-import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-player',
@@ -12,7 +11,6 @@ export class PlayerComponent implements OnInit {
   playerId: string;
   player: any;
   playerTweets: any;
-
   playerStats: any;
 
   constructor(private route: ActivatedRoute, private quoteService: QuoteService) {
@@ -21,33 +19,37 @@ export class PlayerComponent implements OnInit {
   ngOnInit() {
     this.playerId = this.route.snapshot.paramMap.get('playerId');
 
-    // get player details
-    this.quoteService.getPlayer(this.playerId).subscribe(
-      (res: Response) => {
-        this.player = res.json();
-      }
-    );
-
-    // get player tweets
-    this.quoteService.getPlayerTweets(this.playerId).subscribe(
-      (res: Response) => {
-        this.playerTweets = res.json();
-      }
-    );
-
-    // get hitting stats
-    this.quoteService.getPlayerStats(this.playerId).subscribe(
-      (res: Response) => {
-        this.playerStats = res.json();
-      }
-    );
+    this.getPlayer(this.playerId);
+    this.getPlayerTweets(this.playerId);
+    this.getPlayerStats(this.playerId);
   }
 
-  FIXME_timeAgo(value: string) {
-    return this.quoteService.FIXME_timeAgo(value);
+  getPlayer(playerId: string) {
+    this.quoteService.getPlayer(playerId).subscribe(
+      (data: any) => {
+        this.player = data;
+      });
+  }
+
+  getPlayerTweets(playerId: string) {
+    this.quoteService.getPlayerTweets(playerId).subscribe(
+      (data: any) => {
+        this.playerTweets = data;
+      });
+  }
+
+  getPlayerStats(playerId: string) {
+    this.quoteService.getPlayerStats(playerId).subscribe(
+      (data: any) => {
+        this.playerStats = data;
+      });
   }
 
   getPlayerMugshotUrl(mlbPlayerId: string) {
     return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
+  }
+
+  FIXME_timeAgo(value: string) {
+    return this.quoteService.FIXME_timeAgo(value);
   }
 }

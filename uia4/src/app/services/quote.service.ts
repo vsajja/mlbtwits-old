@@ -2,71 +2,65 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {environment} from "../../environments/environment";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 @Injectable()
 export class QuoteService {
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
-  getMlbTwits() {
-    return this.http.get('/mlbtwits', {cache: true})
-      .map(res => res.json())
-      .catch(() => Observable.of('Error, could not load trending players'));
+  getMlbTwits(): any {
+    return this.httpClient.get('/mlbtwits');
   }
 
   getPlayerLabels() {
-    return this.http.get('/playerLabels', {cache: true})
-      .map(res => res.json())
-      .catch(() => Observable.of('Error, could not load player labels'));
+    return this.httpClient.get('/playerLabels');
   }
 
   getTweets() {
-    return this.http.get('/tweets', {cache: true})
-      .map(res => res.json())
-      .catch(() => Observable.of('Error, could not load tweets.'));
+    return this.httpClient.get('/tweets');
   }
 
   getPlayer(playerId: string): any {
-    return this.http.get('/players/' + playerId, {cache: true});
+    return this.httpClient.get('/players/' + playerId);
   }
 
   getPlayers(): any {
-    return this.http.get('/players', {cache: true});
+    return this.httpClient.get('/players');
   }
 
   getTeams(): any {
-    return this.http.get('/teams', {cache: true});
+    return this.httpClient.get('/teams');
   }
 
   getTeam(teamId: string): any {
-    return this.http.get('/teams/' + teamId, {cache: true});
+    return this.httpClient.get('/teams/' + teamId);
   }
 
   getTeamRoster(teamId: string): any {
-    return this.http.get('/teams/' + teamId + '/roster', {cache: true});
+    return this.httpClient.get('/teams/' + teamId + '/roster');
   }
 
   getUsers(): any {
-    return this.http.get('/users', {cache: true});
+    return this.httpClient.get('/users');
   }
 
   getUser(username: string): any {
-    return this.http.get('/users/' + username, {cache: true});
+    return this.httpClient.get('/users/' + username);
   }
 
   getUserTweets(username: string): any {
-    return this.http.get('/users/' + username + '/tweets', {cache: true});
+    return this.httpClient.get('/users/' + username + '/tweets');
   }
 
   getPlayerTweets(playerId: string): any {
-    return this.http.get('/players/' + playerId + '/tweets', {cache: true});
+    return this.httpClient.get('/players/' + playerId + '/tweets');
   }
 
   getPlayerStats(playerId: string): any {
-    return this.http.get('/players/' + playerId + '/stats', {cache: true});
+    return this.httpClient.get('/players/' + playerId + '/stats');
   }
 
   getPlayerMugshotUrl(mlbPlayerId: string): string {
@@ -76,10 +70,10 @@ export class QuoteService {
   FIXME_userTweet(user: any, message: string) {
     let userId = user.userId;
     let username = user.username;
-    this.http.post('/users/' + user.username + '/tweets', {
+    this.httpClient.post('/users/' + user.username + '/tweets', {
       userId: userId,
       message: message
-    }).subscribe(res => console.log(res.json()));
+    }).subscribe(data => console.log(data));
   }
 
   FIXME_timeAgo(value: string) {

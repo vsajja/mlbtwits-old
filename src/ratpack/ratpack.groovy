@@ -349,7 +349,7 @@ ratpack {
                             clientError(400)
                         }
 
-                        def bytes = "http://gdx.mlb.com/images/gameday/mugshots/mlb/${mlbPlayerId}@2x.jpg".toURL().getBytes()
+                        def bytes = "http://gdx.mlb.com/images/gameday/mugshots/mlb/${mlbPlayerId}@3x.jpg".toURL().getBytes()
                         response.send('image/jpg', bytes)
                     }
                 }

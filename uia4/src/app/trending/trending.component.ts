@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QuoteService} from "../services/quote.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-trending',
@@ -7,11 +8,7 @@ import {QuoteService} from "../services/quote.service";
   styleUrls: ['./trending.component.scss']
 })
 export class TrendingComponent implements OnInit {
-  players: any;
-  playerCount: any;
-  teamCount: any;
-  userCount: any;
-  isLoading: boolean;
+  mlbTwits: any;
 
   constructor(private quoteService: QuoteService) {
   }
@@ -21,16 +18,8 @@ export class TrendingComponent implements OnInit {
   }
 
   getTrending() {
-    this.isLoading = true;
-    this.quoteService.getMlbTwits()
-      .finally(() => {
-        this.isLoading = false;
-      })
-      .subscribe((mlbtwits: any) => {
-        this.players = mlbtwits.trending;
-        this.playerCount = mlbtwits.players;
-        this.teamCount = mlbtwits.teams;
-        this.userCount = mlbtwits.users;
+    this.quoteService.getMlbTwits().subscribe((data: any) => {
+        this.mlbTwits = data;
       });
   }
 }

@@ -16,6 +16,7 @@ export class PlayersComponent implements OnInit {
   pager: any = {};
   // paged items
   pagedItems: any[];
+  page: any;
 
   constructor(private quoteService: QuoteService, private pagerService: PagerService) {
   }

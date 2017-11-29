@@ -14,11 +14,12 @@ import {AuthenticationService} from "../core/authentication/authentication.servi
 })
 export class HomeComponent implements OnInit {
   model: any;
+  message: any;
+
   playerLabels: any;
   isLoading: boolean;
   username: any;
   user: any;
-
   items: any;
 
   @Input() tweets: any;

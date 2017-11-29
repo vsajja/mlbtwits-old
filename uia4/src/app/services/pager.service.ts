@@ -1,3 +1,5 @@
+declare var require: any
+
 var _ = require('underscore');
 
 export class PagerService {

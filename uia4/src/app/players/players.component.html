@@ -27,29 +27,13 @@
     </div>
   </div>
 
-  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === 1}">&ndash;&gt;-->
-  <!--&lt;!&ndash;<a (click)="setPage(1)">First</a>&ndash;&gt;-->
-  <!--&lt;!&ndash;</li>&ndash;&gt;-->
-  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === 1}">&ndash;&gt;-->
-  <!--&lt;!&ndash;<a (click)="setPage(pager.currentPage - 1)">Previous</a>&ndash;&gt;-->
-  <!--&lt;!&ndash;</li>&ndash;&gt;-->
-  <!--&lt;!&ndash;<li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">&ndash;&gt;-->
-  <!--&lt;!&ndash;<a (click)="setPage(page)">{{page}}</a>&ndash;&gt;-->
-  <!--&lt;!&ndash;</li>&ndash;&gt;-->
-  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">&ndash;&gt;-->
-  <!--&lt;!&ndash;<a (click)="setPage(pager.currentPage + 1)">Next</a>&ndash;&gt;-->
-  <!--&lt;!&ndash;</li>&ndash;&gt;-->
-  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">&ndash;&gt;-->
-  <!--&lt;!&ndash;<a (click)="setPage(pager.totalPages)">Last</a>&ndash;&gt;-->
-  <!--&lt;!&ndash;</li>&ndash;&gt;-->
-
-  <!--&lt;!&ndash; pager &ndash;&gt;-->
-
   <ngb-pagination
-    [collectionSize]="pager.totalPages"
+    [collectionSize]="pager.totalItems"
     [(page)]="page"
     (pageChange)="setPage(page)"
     [boundaryLinks]="true"
+    [maxSize]="5"
+    [rotate]="true"
   ></ngb-pagination>
   <div class="alert alert-info">
     <b>Current page: </b>{{page}}

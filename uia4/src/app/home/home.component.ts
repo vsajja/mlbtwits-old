@@ -19,9 +19,11 @@ export class HomeComponent implements OnInit {
   username: any;
   user: any;
 
+  items: any;
+
   @Input() tweets: any;
 
-  constructor(private quoteService: QuoteService, private authService : AuthenticationService) {
+  constructor(private quoteService: QuoteService, private authService: AuthenticationService) {
     this.username = authService.credentials.username;
     this.getUser(this.username);
   }
@@ -50,23 +52,22 @@ export class HomeComponent implements OnInit {
   }
 
   getTweets() {
-    this.isLoading = true;
     this.quoteService.getTweets()
-      .finally(() => {
-        this.isLoading = false;
-      })
-      .subscribe((tweets: any) => {
-        this.tweets = tweets;
+      .subscribe((data: any) => {
+        this.tweets = data;
       });
   }
 
   tweet(message: string) {
     // FIXME: message must contain [~playerName]
-    if(!message.includes("[~") && !message.includes("]")) {
+    if (!message.includes("[~") && !message.includes("]")) {
       window.alert('tweet must contain a player!')
     }
-    this.quoteService.FIXME_userTweet(this.user, message);
-    this.getTweets();
+
+    // FIXME?
+    this.quoteService.FIXME_userTweet(this.user, message).subscribe((data: any) => {
+      this.getTweets();
+    });
   }
 
   FIXME_timeAgo(value: string) {

@@ -358,7 +358,7 @@ ratpack {
                 byMethod {
                     get {
                         def players = mlbTwitsService.getPlayers()
-                        render json(players.collect { ['playerName': it.playerName, 'label': it.playerNamePlain, 'mlbPlayerId' : it.mlbPlayerId] })
+                        render json(players.collect { ['playerName': it.playerName, 'playerNamePlain': it.playerNamePlain, 'mlbPlayerId' : it.mlbPlayerId] })
                     }
                 }
             }

@@ -70,10 +70,10 @@ export class QuoteService {
   FIXME_userTweet(user: any, message: string) {
     let userId = user.userId;
     let username = user.username;
-    this.httpClient.post('/users/' + user.username + '/tweets', {
+    return this.httpClient.post('/users/' + user.username + '/tweets', {
       userId: userId,
       message: message
-    }).subscribe(data => console.log(data));
+    });
   }
 
   FIXME_timeAgo(value: string) {

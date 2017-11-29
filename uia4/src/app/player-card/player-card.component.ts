@@ -7,15 +7,9 @@ import {QuoteService} from "../services/quote.service";
   styleUrls: ['./player-card.component.scss']
 })
 export class PlayerCardComponent implements OnInit {
-  // @Input() playerId: string;
   @Input() player: any;
 
   constructor(private quoteService: QuoteService) {
-    // this.quoteService.getPlayer(this.playerId).subscribe((data: any) => {
-    //     this.player = data;
-    //   });
-
-    console.log(this.player);
   }
 
   ngOnInit() {

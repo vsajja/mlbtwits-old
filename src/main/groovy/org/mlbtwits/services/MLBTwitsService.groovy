@@ -129,6 +129,7 @@ class MLBTwitsService {
 
     public List<Player> getPlayers() {
         List<Player> players = context.selectFrom(PLAYER)
+                .orderBy(PLAYER.name)
                 .fetch()
                 .into(Player.class)
         return players

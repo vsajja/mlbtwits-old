@@ -300,7 +300,8 @@ ratpack {
             path('players') {
                 byMethod {
                     get {
-                        def players = mlbTwitsService.getPlayers()
+                        // FIXME: some players are missing stats! eg. weight
+                        def players = mlbTwitsService.getPlayers().findAll { it.weight != null }
                         render json(players)
                     }
                 }

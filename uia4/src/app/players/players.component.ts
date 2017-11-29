@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {QuoteService} from "../services/quote.service";
 import {PagerService} from "../services/pager.service";
 
+declare var require: any
+var _ = require('underscore');
+
 @Component({
   selector: 'app-players',
   templateUrl: './players.component.html',
@@ -35,7 +38,7 @@ export class PlayersComponent implements OnInit {
 
         if(term != null) {
           this.allItems = this.allItems.filter(
-            (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) > -1
+            (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) != -1
           );
         }
         this.setPage(1);
@@ -47,9 +50,10 @@ export class PlayersComponent implements OnInit {
       return;
     }
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.allItems.length, page, 19);
+    this.pager = this.pagerService.getPager(this.allItems.length, page, 18);
     // get current page of items
-    this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex);
+    // FIXME - why + 1?
+    this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
   getPlayerMugshotUrl(mlbPlayerId : string) {

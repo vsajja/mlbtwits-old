@@ -10,14 +10,13 @@
 
   <hr/>
 
-  <!--<div class="container">-->
   <div class="row">
     <div class="col-md-2" *ngFor="let player of pagedItems" style="margin-bottom: 10px">
-      <div class="card" style="cursor: pointer;" *ngIf="player?.mlbPlayerId">
-        <img class="card-img-top" [src]="getPlayerMugshotUrl(player.mlbPlayerId)">
+      <div class="card" style="cursor: pointer;">
+        <img class="card-img-top" [src]="getPlayerMugshotUrl(player?.mlbPlayerId)">
         <div class="card-block">
           <strong class="card-title"><a class="text-center"
-                                        href="/players/{{player.playerId}}">{{player.playerName}}</a></strong>
+                                        href="/players/{{player?.playerId}}">{{player?.playerName}}</a></strong>
         </div>
         <div class="card-footer">
           <!--<span class="float-right">Joined in 2013</span>-->
@@ -25,17 +24,16 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <ngb-pagination
-    [collectionSize]="pager.totalItems"
-    [(page)]="page"
-    (pageChange)="setPage(page)"
-    [boundaryLinks]="true"
-    [maxSize]="5"
-    [rotate]="true"
-  ></ngb-pagination>
-  <div class="alert alert-info">
-    <b>Current page: </b>{{page}}
+    <div class="col-md-12" style="align: center">
+      <!--<ngb-pagination-->
+        <!--[collectionSize]="players?.length"-->
+        <!--[(page)]="page"-->
+        <!--(pageChange)="setPage(page)"-->
+        <!--[boundaryLinks]="true"-->
+        <!--[maxSize]="22"-->
+      <!--&gt;</ngb-pagination>-->
+
+    </div>
   </div>
 </div>

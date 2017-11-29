@@ -25,6 +25,7 @@ import {SettingsModule} from "./settings/settings.module";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {APIInterceptor} from "./core/http/http-interceptor";
+import {PagerService} from "./services/pager.service";
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import {APIInterceptor} from "./core/http/http-interceptor";
     provide: HTTP_INTERCEPTORS,
     useClass: APIInterceptor,
     multi: true,
-  }],
+  },
+    PagerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

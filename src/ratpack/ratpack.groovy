@@ -35,6 +35,7 @@ import org.mlbtwits.postgres.PostgresModule
 import redis.clients.jedis.Jedis
 
 import javax.sql.DataSource
+import java.text.SimpleDateFormat
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
@@ -88,15 +89,15 @@ ratpack {
             }
         }
 
-        get('clearRedis') {
-            String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
-            URI redisURI = new URI(REDIS_URL);
-            Jedis jedis = new Jedis(redisURI);
-            jedis.del('MLBPlayerNewsFeedItemIds')
-            jedis.del('MLBPlayerNewsFeedIds')
-            jedis.close()
-            render 'test'
-        }
+//        get('clearRedis') {
+//            String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
+//            URI redisURI = new URI(REDIS_URL);
+//            Jedis jedis = new Jedis(redisURI);
+//            jedis.del('MLBPlayerNewsFeedItemIds')
+//            jedis.del('MLBPlayerNewsFeedIds')
+//            jedis.close()
+//            render 'test'
+//        }
 
         get('mlb/player/info') {
 
@@ -104,7 +105,7 @@ ratpack {
 
             players.each { player ->
 //                log.info(player.playerNamePlain)
-                if(!player.mlbPlayerId) {
+                if(player.mlbPlayerId) {
                     def name = URLEncoder.encode("'${player.playerNamePlain.toLowerCase()}'", 'UTF-8')
                     def url = "http://mlb.mlb.com/lookup/json/named.search_player_all.bam?&name_part=${name}"
 
@@ -116,20 +117,24 @@ ratpack {
                     if(playerRow && !playerRow.playerId) {
                         println playerRow.player_id
 
-                        Player updatedPlayer = new Player(player.playerId,
-                                player.playerName,
-                                player.playerNamePlain,
-                                player.teamId,
-                                playerRow.player_id,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null,
-                                null)
-                        mlbTwitsService.updatePlayer(updatedPlayer)
+                        def format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
+                        def parsedDate = format.parse(playerRow.birth_date.toString())
+                        def birthDate = new java.sql.Timestamp(parsedDate.getTime())
+
+//                        Player updatedPlayer = new Player(player.playerId,
+//                                player.playerName,
+//                                player.playerNamePlain,
+//                                player.teamId,
+//                                playerRow.player_id,
+//                                playerRow.bats,
+//                                birthDate,
+//                                Integer.parseInt(playerRow.height_feet.toString()),
+//                                Integer.parseInt(playerRow.height_inches.toString()),
+//                                playerRow.position,
+//                                playerRow.throws,
+//                                playerRow.weight,
+//                                playerRow.birth_country)
+//                        mlbTwitsService.updatePlayer(updatedPlayer)
                     }
                     else {
                         // still missing

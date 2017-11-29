@@ -2,87 +2,56 @@
   <div class="row">
     <div class="col-md-12">
       <div>
-        <input placeholder="filter players..." #term (keyup)="searchPlayers(term.value)"/>
-        <button class="btn btn-info" type="button" (click)="searchPlayers(term.value)">Search</button>
+        <input placeholder="filter players..." #term (keyup)="searchPlayers(term.value);"/>
+        <button class="btn btn-info" type="button" (click)="searchPlayers(term.value);">Search</button>
       </div>
     </div>
   </div>
 
   <hr/>
 
+  <!--<div class="container">-->
   <div class="row">
-    <!--<div class="col-sm-2" *ngFor="let player of players" style="padding-bottom: 20px">-->
-    <!--<div class="card" *ngIf="player.mlbPlayerId">-->
-    <!--<img class="card-img-top" [src]="getPlayerMugshotUrl(player.mlbPlayerId)">-->
-    <!--<div class="card-block">-->
-    <!--<strong class="card-title text-center"><a href="/players/{{player.playerId}}">{{player.playerName}}</a></strong>-->
-    <!--</div>-->
-    <!--<div class="card-footer">-->
-    <!--&lt;!&ndash;<span class="float-right">Joined in 2013</span>&ndash;&gt;-->
-    <!--&lt;!&ndash;Rank: 1&ndash;&gt;-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <div>
-      <!--<ngx-datatable-column>-->
-      <!--<ng-template let-row="row" ngx-datatable-cell-template>-->
-      <!--<div id="job" class="card" style="width: 20rem; cursor: pointer;" (click)="viewJobDetails(row.jobId)">-->
-      <!--<div style="align: center">-->
-      <!--<img *ngIf="row.companyLogo" style="float: left; padding-top: 15px; padding-left: 20px" width="35%"-->
-      <!--height="35%" src="{{row.companyLogo}}">-->
-      <!--</div>-->
-      <!--<div class="card-body">-->
-      <!--<div>-->
-      <!--<h6 class="card-title">-->
-      <!--<a href="jobs/{{row.jobId}}">-->
-      <!--<strong>{{row.title}}</strong>-->
-      <!--</a>-->
-      <!--</h6>-->
-      <!--<div>-->
-      <!--<h6 class="card-subtitle mb-2 text-muted">{{row.company}}</h6>-->
-      <!--<h6 class="card-subtitle mb-2 text-muted">{{row.location}}</h6>-->
-      <!--<hr/>-->
-      <!--<h6 class="card-subtitle mb-2 text-muted">{{row.createdTimestamp | timeAgo}}</h6>-->
-      <!--<button (click)="shortlist($event, row.jobId)">&hearts; Shortlist</button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<br/>-->
-      <!--</ng-template>-->
-      <!--</ngx-datatable-column>-->
-
-      <ngx-datatable
-        [rows]="rows"
-        [columnMode]="'force'"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [limit]="10"
-        [rowHeight]="'auto'">
-
-        <div class="card-deck">
-
-          <ngx-datatable-column style="padding-bottom: 20px">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-
-              <strong class="card-title text-center"><a
-                href="/players/{{row.playerId}}">{{row.playerName}}</a></strong>
-
-              <!--<div class="card" style="width: 20rem; cursor: pointer;" *ngIf="row?.mlbPlayerId">-->
-              <!--<img class="card-img-top" [src]="getPlayerMugshotUrl(row.mlbPlayerId)">-->
-              <!--<div class="card-block">-->
-              <!--<strong class="card-title text-center"><a-->
-              <!--href="/players/{{row.playerId}}">{{row.playerName}}</a></strong>-->
-              <!--</div>-->
-              <!--<div class="card-footer">-->
-              <!--&lt;!&ndash;<span class="float-right">Joined in 2013</span>&ndash;&gt;-->
-              <!--&lt;!&ndash;Rank: 1&ndash;&gt;-->
-              <!--</div>-->
-              <!--</div>-->
-            </ng-template>
-          </ngx-datatable-column>
+    <div class="col-md-2" *ngFor="let player of pagedItems" style="margin-bottom: 10px">
+      <div class="card" style="cursor: pointer;" *ngIf="player?.mlbPlayerId">
+        <img class="card-img-top" [src]="getPlayerMugshotUrl(player.mlbPlayerId)">
+        <div class="card-block">
+          <strong class="card-title"><a class="text-center"
+                                        href="/players/{{player.playerId}}">{{player.playerName}}</a></strong>
         </div>
-      </ngx-datatable>
+        <div class="card-footer">
+          <!--<span class="float-right">Joined in 2013</span>-->
+          <!--Rank: 1-->
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === 1}">&ndash;&gt;-->
+  <!--&lt;!&ndash;<a (click)="setPage(1)">First</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === 1}">&ndash;&gt;-->
+  <!--&lt;!&ndash;<a (click)="setPage(pager.currentPage - 1)">Previous</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">&ndash;&gt;-->
+  <!--&lt;!&ndash;<a (click)="setPage(page)">{{page}}</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">&ndash;&gt;-->
+  <!--&lt;!&ndash;<a (click)="setPage(pager.currentPage + 1)">Next</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">&ndash;&gt;-->
+  <!--&lt;!&ndash;<a (click)="setPage(pager.totalPages)">Last</a>&ndash;&gt;-->
+  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
+  <!--&lt;!&ndash; pager &ndash;&gt;-->
+
+  <ngb-pagination
+    [collectionSize]="pager.totalPages"
+    [(page)]="page"
+    (pageChange)="setPage(page)"
+    [boundaryLinks]="true"
+  ></ngb-pagination>
+  <div class="alert alert-info">
+    <b>Current page: </b>{{page}}
   </div>
 </div>

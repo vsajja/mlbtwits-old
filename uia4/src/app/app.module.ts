@@ -24,6 +24,7 @@ import {UsersModule} from "./users/users.module";
 import {UserModule} from "./user/user.module";
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsModule} from "./settings/settings.module";
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import {SettingsModule} from "./settings/settings.module";
     UserModule,
     UsersModule,
     SettingsModule,
+    NgxDatatableModule,
     AppRoutingModule
   ],
   declarations: [AppComponent, PlayerComponent, PlayersComponent, TeamsComponent, TeamComponent, UserComponent, UsersComponent, SettingsComponent],

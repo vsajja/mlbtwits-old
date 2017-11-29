@@ -8,12 +8,13 @@ import {QuoteService} from "../services/quote.service";
 })
 export class PlayersComponent implements OnInit {
   players: any;
+  rows: any = [];
 
   constructor(private quoteService: QuoteService) {
+    this.refreshPlayers();
   }
 
   ngOnInit() {
-    this.refreshPlayers();
   }
 
   searchPlayers(term: string) {
@@ -30,10 +31,9 @@ export class PlayersComponent implements OnInit {
     this.quoteService.getPlayers()
       .subscribe((res: Response) => {
         this.players = res.json();
-        this.players = this.players.filter(
-          (player: any) => player.mlbPlayerId != null
-        )}
-      );
+        this.players = this.players.filter((player: any) => player.mlbPlayerId != null);
+        this.rows = this.players
+      });
   }
 
   getPlayerMugshotUrl(mlbPlayerId : string) {

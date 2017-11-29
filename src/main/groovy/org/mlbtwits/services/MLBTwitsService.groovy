@@ -129,7 +129,7 @@ class MLBTwitsService {
 
     public List<Player> getPlayers() {
         List<Player> players = context.selectFrom(PLAYER)
-                .orderBy(PLAYER.WEIGHT.desc())
+                .orderBy(PLAYER.TEAM_ID)
                 .fetch()
                 .into(Player.class)
         return players

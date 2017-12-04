@@ -28,6 +28,9 @@ import {APIInterceptor} from "./core/http/http-interceptor";
 import {PagerService} from "./services/pager.service";
 import {PlayerCardComponent} from './player-card/player-card.component';
 import { TeamCardComponent } from './team-card/team-card.component';
+import { PlayerStatcardComponent } from './player-statcard/player-statcard.component';
+import { PlayerHittingStatsComponent } from './player-hitting-stats/player-hitting-stats.component';
+import { PlayerPitchingStatsComponent } from './player-pitching-stats/player-pitching-stats.component';
 
 @NgModule({
   imports: [
@@ -59,7 +62,10 @@ import { TeamCardComponent } from './team-card/team-card.component';
     UsersComponent,
     SettingsComponent,
     PlayerCardComponent,
-    TeamCardComponent
+    TeamCardComponent,
+    PlayerStatcardComponent,
+    PlayerHittingStatsComponent,
+    PlayerPitchingStatsComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

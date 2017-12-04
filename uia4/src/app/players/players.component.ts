@@ -12,13 +12,10 @@ var _ = require('underscore');
 })
 export class PlayersComponent implements OnInit {
   players: any;
-
-  private allItems: any[];
+  allItems: any[];
   pager: any = {};
   pagedItems: any[];
   page = 1;
-
-  defaultSearchTerm = 'clayton';
 
   constructor(private quoteService: QuoteService, private pagerService: PagerService) {
   }
@@ -38,9 +35,6 @@ export class PlayersComponent implements OnInit {
       .subscribe((data: any) => {
         // FIXME - get all players with a mlbPlayerId
         this.players = data.filter((player: any) => player.mlbPlayerId != null);
-        // if(!term) {
-        //   term = this.defaultSearchTerm;
-        // }
         this.allItems = this.players;
         this.allItems = this.allItems.filter(
           (player: any) => player.playerNamePlain.toLowerCase().indexOf(term.toLowerCase()) != -1
@@ -55,24 +49,12 @@ export class PlayersComponent implements OnInit {
     }
 
     // show all items in search result
-    let pageSize = this.allItems.length;
-    // if initial page, load the first 18
-    if(page == 1) {
-      pageSize = 18;
-    }
+    let pageSize = page == 1 ? 18 : this.allItems.length;
 
     // get pager object from service
-    this.pager = this.pagerService.getPager(this.allItems.length, page, 18);
+    this.pager = this.pagerService.getPager(this.allItems.length, page, pageSize);
     // get current page of items
     // FIXME - why + 1?
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
-  }
-
-  getPlayerMugshotUrl(mlbPlayerId : string) {
-    return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
-  }
-
-  calculateAge(birthday: any) {
-    return this.quoteService.calculateAge(birthday);
   }
 }

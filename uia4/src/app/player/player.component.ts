@@ -45,10 +45,6 @@ export class PlayerComponent implements OnInit {
       });
   }
 
-  getPlayerMugshotUrl(mlbPlayerId: string) {
-    return this.quoteService.getPlayerMugshotUrl(mlbPlayerId);
-  }
-
   FIXME_timeAgo(value: string) {
     return this.quoteService.FIXME_timeAgo(value);
   }

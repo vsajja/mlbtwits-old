@@ -27,10 +27,10 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {APIInterceptor} from "./core/http/http-interceptor";
 import {PagerService} from "./services/pager.service";
 import {PlayerCardComponent} from './player-card/player-card.component';
-import { TeamCardComponent } from './team-card/team-card.component';
-import { PlayerStatcardComponent } from './player-statcard/player-statcard.component';
-import { PlayerHittingStatsComponent } from './player-hitting-stats/player-hitting-stats.component';
-import { PlayerPitchingStatsComponent } from './player-pitching-stats/player-pitching-stats.component';
+import {TeamCardComponent} from './team-card/team-card.component';
+import {PlayerHittingStatsComponent} from './player-hitting-stats/player-hitting-stats.component';
+import {PlayerPitchingStatsComponent} from './player-pitching-stats/player-pitching-stats.component';
+import { PlayerStatCardComponent } from './player-stat-card/player-stat-card.component';
 
 @NgModule({
   imports: [
@@ -63,9 +63,9 @@ import { PlayerPitchingStatsComponent } from './player-pitching-stats/player-pit
     SettingsComponent,
     PlayerCardComponent,
     TeamCardComponent,
-    PlayerStatcardComponent,
     PlayerHittingStatsComponent,
-    PlayerPitchingStatsComponent
+    PlayerPitchingStatsComponent,
+    PlayerStatCardComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

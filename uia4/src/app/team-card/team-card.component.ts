@@ -7,18 +7,13 @@ import {QuoteService} from "../services/quote.service";
   styleUrls: ['./team-card.component.scss']
 })
 export class TeamCardComponent implements OnInit {
-  // @Input() teamId: any;
+
   @Input() team: any;
 
   constructor(private quoteService: QuoteService) {
   }
 
   ngOnInit() {
-    // if (!this.team) {
-    //   this.quoteService.getTeam(this.teamId).subscribe((data: any) => {
-    //     this.team = data;
-    //   });
-    // }
   }
 
   getTeamLogoUrl() {

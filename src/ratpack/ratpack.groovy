@@ -105,7 +105,7 @@ ratpack {
 
             players.each { player ->
 //                log.info(player.playerNamePlain)
-                if(player.mlbPlayerId) {
+                if (player.mlbPlayerId) {
                     def name = URLEncoder.encode("'${player.playerNamePlain.toLowerCase()}'", 'UTF-8')
                     def url = "http://mlb.mlb.com/lookup/json/named.search_player_all.bam?&name_part=${name}"
 
@@ -114,7 +114,7 @@ ratpack {
                     def playerRow = result?.search_player_all?.queryResults?.row
 
                     // 2nd part of if statement: some players have multiple player ids!
-                    if(playerRow && !playerRow.playerId) {
+                    if (playerRow && !playerRow.playerId) {
                         println playerRow.player_id
 
                         def format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
@@ -135,8 +135,7 @@ ratpack {
 //                                playerRow.weight,
 //                                playerRow.birth_country)
 //                        mlbTwitsService.updatePlayer(updatedPlayer)
-                    }
-                    else {
+                    } else {
                         // still missing
                         log.info('STILL MISSING: ' + player.playerNamePlain)
                     }
@@ -195,6 +194,7 @@ ratpack {
                     }
                 }
             }
+
             post('register') {
                 parse(jsonNode()).map { params ->
                     def username = params.get('username')?.textValue()
@@ -211,6 +211,7 @@ ratpack {
                     render json(user)
                 }
             }
+
             path('mlbtwits') {
                 byMethod {
                     get {
@@ -230,6 +231,7 @@ ratpack {
                     }
                 }
             }
+
             path('users/:username') {
                 def username = pathTokens['username']
                 byMethod {
@@ -239,6 +241,7 @@ ratpack {
                     }
                 }
             }
+
             path('users/:username/tweets') {
                 def username = pathTokens['username']
                 byMethod {
@@ -263,6 +266,7 @@ ratpack {
                     }
                 }
             }
+
             path('teams') {
                 byMethod {
                     get {
@@ -271,6 +275,7 @@ ratpack {
                     }
                 }
             }
+
             path('teams/:teamId') {
                 def teamId = pathTokens['teamId']
                 byMethod {
@@ -280,6 +285,7 @@ ratpack {
                     }
                 }
             }
+
             path('teams/:teamId/roster') {
                 def teamId = pathTokens['teamId']
                 byMethod {
@@ -290,6 +296,7 @@ ratpack {
                     }
                 }
             }
+
             path('players/info') {
                 byMethod {
                     get {
@@ -298,6 +305,7 @@ ratpack {
                     }
                 }
             }
+
             path('players') {
                 byMethod {
                     get {
@@ -307,6 +315,7 @@ ratpack {
                     }
                 }
             }
+
             path('players/:playerId') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -316,6 +325,7 @@ ratpack {
                     }
                 }
             }
+
             path('players/:playerId/tweets') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -339,6 +349,7 @@ ratpack {
                     }
                 }
             }
+
             path('players/:playerId/stats') {
                 def playerId = pathTokens['playerId']
                 byMethod {
@@ -348,11 +359,12 @@ ratpack {
                     }
                 }
             }
+
             path('players/:mlbPlayerId/mugshot') {
                 def mlbPlayerId = pathTokens['mlbPlayerId']
                 byMethod {
                     get {
-                        if(!mlbPlayerId) {
+                        if (!mlbPlayerId) {
                             clientError(400)
                         }
 
@@ -361,14 +373,18 @@ ratpack {
                     }
                 }
             }
+
             path('playerLabels') {
                 byMethod {
                     get {
                         def players = mlbTwitsService.getPlayers()
-                        render json(players.collect { ['playerName': it.playerName, 'playerNamePlain': it.playerNamePlain, 'mlbPlayerId' : it.mlbPlayerId] })
+                        render json(players.collect {
+                            ['playerName': it.playerName, 'playerNamePlain': it.playerNamePlain, 'mlbPlayerId': it.mlbPlayerId]
+                        })
                     }
                 }
             }
+
             path('tweets') {
                 byMethod {
                     get {

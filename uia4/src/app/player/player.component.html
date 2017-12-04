@@ -2,6 +2,9 @@
   <div class="row">
     <div class="col-md-3" *ngIf="player?.weight">
       <app-player-card [player]="player"></app-player-card>
+
+      <app-player-stat-card [player]="player"></app-player-stat-card>
+
     </div>
     <div class="col-md-8">
       <div class="card">

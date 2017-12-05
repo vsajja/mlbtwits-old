@@ -7,30 +7,66 @@ import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
 
+import static org.apache.poi.ss.usermodel.CellStyle.*
+import static org.apache.poi.ss.usermodel.IndexedColors.*
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import au.com.bytecode.opencsv.*
+
 final Logger log = LoggerFactory.getLogger(this.class)
 
 ratpack {
     handlers {
         all RequestLogger.ncsa(log)
 
-        get('mlb/player/news') {
-            def url = "http://mlb.mlb.com/fantasylookup/json/named.wsfb_news_browse.bam"
-            def result = new JsonSlurper().parseText(url.toURL().getText())
+        get('maps/places') {
+            def apiKey = 'AIzaSyBIVOsx4FeYY8ZrqvyToGS6Dx07nv1OIRw'
 
-            def playerNews = result?.wsfb_news_browse?.queryResults?.row
+            def outputFile = new File('C:\\Users\\vsajja\\Desktop\\google api\\results.csv')
+            outputFile.delete()
+            outputFile.createNewFile()
 
-            playerNews.each { newsItem ->
-                def playerName = newsItem?.player_name
-                def position = newsItem?.position
-                def story = newsItem?.story
-                def spin = newsItem?.spin
-                def teaser = newsItem?.teaser
-                def item_id = newsItem?.item_id
+            def columnStr = ['place_id',
+                             'name',
+                             'icon',
+                             'lat',
+                             'lng',
+                             'rating',
+                             'types'
+            ].join(',')
 
-                println "BOT_MLBPLayerNews [~$playerName] $teaser"
+            outputFile.text += columnStr + '\n'
+            println columnStr
+
+            def pageToken = ''
+
+            while(pageToken != null) {
+                def url = "https://maps.googleapis.com/maps/api/place/textsearch/json" +
+                        "?query=starbucks+seattle" +
+                        "&sensor=false" +
+                        "&key=$apiKey" +
+                        "&page_token=$pageToken"
+
+                def result = new JsonSlurper().parseText(url.toURL().getText())
+                def places = result.results
+
+                places.each { place ->
+                    outputFile.text += [place.get('place_id'),
+                                        place.get('name'),
+                                        place.get('icon'),
+                                        place.get('geometry').get('location').get('lat'),
+                                        place.get('geometry').get('location').get('lng'),
+                                        place.get('rating'),
+                                        place.get('types').toString(),
+                    ].join(',') + '\n'
+                }
+
+                if(result?.get('next_page_token')) {
+                    pageToken = result?.get('next_page_token')
+                }
             }
-            render new JsonBuilder(playerNews).toPrettyString()
+            render outputFile.text
         }
+
         files {
             dir 'dist'
             indexFiles 'index.html'

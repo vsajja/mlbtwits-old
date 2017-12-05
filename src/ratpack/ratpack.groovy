@@ -293,8 +293,8 @@ ratpack {
         }
 
         get('mlb/player/stats/pitching') {
-//            def players = mlbTwitsService.getPlayers()
-            def players = mlbTwitsService.getPlayersByTerm('clay')
+            def players = mlbTwitsService.getPlayers()
+//            def players = mlbTwitsService.getPlayersByTerm('clay')
 //
             players.each { player ->
                 assert player.mlbPlayerId
@@ -325,81 +325,74 @@ ratpack {
                         def homeRuns = row?.get('hr').toString().toInteger()
                         def intentionalWalks = row?.get('ibb').toString().toInteger()
                         def strikeOuts = row?.get('so').toString().toInteger()
+                        def gidpOpp = row?.get('gidp_opp').toString().toInteger()
 
-                        def era = null
+                        Double era = null
                         try {
-                            era = Double.parseDouble(row?.get('era').toString())
+                            era = row?.get('era').toString().toDouble()
                         } catch (NumberFormatException e) {
                             era = 0.0
                         }
 
-                        def innings = null
+                        Double innings = null
                         try {
-                            innings = Double.parseDouble(row?.get('ip').toString())
+                            innings = row?.get('ip').toString().toDouble()
                         } catch (NumberFormatException e) {
                             innings = 0.0
                         }
 
-                        def average = null
+                        Double average = null
                         try {
-                            average = Double.parseDouble(row?.get('avg').toString())
+                            average = row?.get('avg').toString().toDouble()
                         } catch (NumberFormatException e) {
                             average = 0.0
                         }
 
-                        def whip = null
+                        Double whip = null
                         try {
-                            whip = Double.parseDouble(row?.get('whip').toString())
+                            whip = row?.get('whip').toString().toDouble()
                         } catch (NumberFormatException e) {
                             whip = 0.0
                         }
 
-                        def bb9 = null
+                        Double babip = null
                         try {
-                            bb9 = Double.parseDouble(row?.get('bb9').toString())
-                        } catch (NumberFormatException e) {
-                            bb9 = 0.0
-                        }
-
-                        def hr9 = null
-                        try {
-                            hr9 = Double.parseDouble(row?.get('hr9').toString())
-                        } catch (NumberFormatException e) {
-                            hr9 = 0.0
-                        }
-
-
-                        def babip = null
-                        try {
-                            babip = Double.parseDouble(row?.get('babip').toString())
+                            babip = row?.get('babip').toString().toDouble()
                         } catch (NumberFormatException e) {
                             babip = 0.0
                         }
 
-                        def gidpOpp = null
+                        Double hr9 = null
                         try {
-                            gidpOpp = Double.parseDouble(row?.get('gidp_opp').toString())
+                            hr9 = row?.get('hr9').toString().toDouble()
                         } catch (NumberFormatException e) {
-                            gidpOpp = 0.0
+                            hr9 = 0.0
                         }
 
-                        def obp = null
+                        Double bb9 = null
                         try {
-                            obp = Double.parseDouble(row?.get('obp').toString())
+                            bb9 = row?.get('bb9').toString().toDouble()
+                        } catch (NumberFormatException e) {
+                            bb9 = 0.0
+                        }
+
+                        Double obp = null
+                        try {
+                            obp = row?.get('obp').toString().toDouble()
                         } catch (NumberFormatException e) {
                             obp = 0.0
                         }
 
-                        def ops = null
+                        Double ops = null
                         try {
-                            ops = Double.parseDouble(row?.get('ops').toString())
+                            ops = row?.get('ops').toString().toDouble()
                         } catch (NumberFormatException e) {
                             ops = 0.0
                         }
 
-                        def slg = null
+                        Double slg = null
                         try {
-                            slg = Double.parseDouble(row?.get('slg').toString())
+                            slg = row?.get('slg').toString().toDouble()
                         } catch (NumberFormatException e) {
                             slg = 0.0
                         }
@@ -421,109 +414,142 @@ ratpack {
                         assert homeRuns != null
                         assert intentionalWalks != null
                         assert strikeOuts != null
+                        assert era != null
+                        assert whip != null
+                        assert innings != null
+                        assert average != null
+                        assert obp != null
+                        assert slg != null
+                        assert gidpOpp != null
+                        assert hr9 != null
+                        assert babip != null
+                        assert bb9 != null
 
-                        PlayerPitchingStatline pitchingStatLine = new PlayerPitchingStatline(null, year, player.teamId,
-                                wins, losses, era, games, gamesStarted, completeGames, shutouts,
-                                saves, saveOpps, innings, hits, runs, earnedRuns, homeRuns,
-                                hitBatsmen, walks, intentionalWalks, strikeOuts, average,
-                                whip, player.playerId, bb9, babip, hr9, gidpOpp, obp, ops, slg)
 
-                        println "${player.playerName} hittingStats: ${pitchingStatLine.toString()}"
-                        mlbTwitsService.addPlayerHittingStatline(pitchingStatLine)
+                        PlayerPitchingStatline pitchingStatline = new PlayerPitchingStatline(
+                                null,
+                                (Integer) year,
+                                (Integer) player.teamId,
+                                (Integer) wins,
+                                (Integer) losses,
+                                (Double) era,
+                                (Integer) games,
+                                (Integer) gamesStarted,
+                                (Integer) completeGames,
+                                (Integer) shutouts,
+                                (Integer) saves,
+                                (Integer) saveOpps,
+                                (Double) innings,
+                                (Integer) hits,
+                                (Integer) runs,
+                                (Integer) earnedRuns,
+                                (Integer) homeRuns,
+                                (Integer) hitBatsmen,
+                                (Integer) walks,
+                                (Integer) intentionalWalks,
+                                (Integer) strikeOuts,
+                                (Double) average,
+                                (Double) whip,
+                                (Integer) player.playerId,
+                                (Double) bb9,
+                                (Double) babip,
+                                (Double) hr9,
+                                (Integer) gidpOpp,
+                                (Double) obp,
+                                (Double) ops,
+                                (Double) slg
+                        )
+
+                        mlbTwitsService.addPlayerPitchingStatline(pitchingStatline)
+                        println "${player.playerName} pitchingStats: ${pitchingStatline.toString()}"
                     } else {
                         row.each { statLine ->
-                            def year = row?.season.toString().toInteger()
-                            def wins = row?.w.toString().toInteger()
-                            def losses = row?.l.toString().toInteger()
-                            def games = row?.g.toString().toInteger()
-                            def gamesStarted = row?.gs.toString().toInteger()
-                            def completeGames = row?.cg.toString().toInteger()
-                            def shutouts = row?.sho.toString().toInteger()
-                            def saves = row?.sv.toString().toInteger()
-                            def saveOpps = row?.svo.toString().toInteger()
-                            def hits = row?.h.toString().toInteger()
-                            def runs = row?.r.toString().toInteger()
-                            def earnedRuns = row?.er.toString().toInteger()
-                            def hitBatsmen = row?.hb.toString().toInteger()
-                            def walks = row?.bb.toString().toInteger()
-                            def homeRuns = row?.hr.toString().toInteger()
-                            def intentionalWalks = row?.ibb.toString().toInteger()
-                            def strikeOuts = row?.so.toString().toInteger()
+                            def year = statLine?.season.toString().toInteger()
+                            def wins = statLine?.w.toString().toInteger()
+                            def losses = statLine?.l.toString().toInteger()
+                            def games = statLine?.g.toString().toInteger()
+                            def gamesStarted = statLine?.gs.toString().toInteger()
+                            def completeGames = statLine?.cg.toString().toInteger()
+                            def shutouts = statLine?.sho.toString().toInteger()
+                            def saves = statLine?.sv.toString().toInteger()
+                            def saveOpps = statLine?.svo.toString().toInteger()
+                            def hits = statLine?.h.toString().toInteger()
+                            def runs = statLine?.r.toString().toInteger()
+                            def earnedRuns = statLine?.er.toString().toInteger()
+                            def hitBatsmen = statLine?.hb.toString().toInteger()
+                            def walks = statLine?.bb.toString().toInteger()
+                            def homeRuns = statLine?.hr.toString().toInteger()
+                            def intentionalWalks = statLine?.ibb.toString().toInteger()
+                            def strikeOuts = statLine?.so.toString().toInteger()
 
-                            def era = null
+                            def gidpOpp = statLine?.gidp_opp.toString().toInteger()
+
+                            Double era = null
                             try {
-                                era = Double.parseDouble(row?.get('era').toString())
+                                era = row?.era.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 era = 0.0
                             }
 
-                            def innings = null
+                            Double innings = null
                             try {
-                                innings = Double.parseDouble(row?.get('ip').toString())
+                                innings = row?.ip.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 innings = 0.0
                             }
 
-                            def average = null
+                            Double average = null
                             try {
-                                average = Double.parseDouble(row?.get('avg').toString())
+                                average = row?.avg.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 average = 0.0
                             }
 
-                            def whip = null
+                            Double whip = null
                             try {
-                                whip = Double.parseDouble(row?.get('whip').toString())
+                                whip = row?.whip.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 whip = 0.0
                             }
 
-                            def bb9 = null
+                            Double babip = null
                             try {
-                                bb9 = Double.parseDouble(row?.get('bb9').toString())
-                            } catch (NumberFormatException e) {
-                                bb9 = 0.0
-                            }
-
-                            def hr9 = null
-                            try {
-                                hr9 = Double.parseDouble(row?.get('hr9').toString())
-                            } catch (NumberFormatException e) {
-                                hr9 = 0.0
-                            }
-
-
-                            def babip = null
-                            try {
-                                babip = Double.parseDouble(row?.get('babip').toString())
+                                babip = row?.babip.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 babip = 0.0
                             }
 
-                            def gidpOpp = null
+                            Double bb9 = null
                             try {
-                                gidpOpp = Double.parseDouble(row?.get('gidp_opp').toString())
+                                bb9 = row?.bb9.toString().toDouble()
                             } catch (NumberFormatException e) {
-                                gidpOpp = 0.0
+                                bb9 = 0.0
                             }
 
-                            def obp = null
+                            Double hr9 = null
                             try {
-                                obp = Double.parseDouble(row?.get('obp').toString())
+                                hr9 = row?.hr9.toString().toDouble()
+                            } catch (NumberFormatException e) {
+                                hr9 = 0.0
+                            }
+
+                            Double obp = null
+                            try {
+                                obp = row?.obp.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 obp = 0.0
                             }
 
-                            def ops = null
+                            Double ops = null
                             try {
-                                ops = Double.parseDouble(row?.get('ops').toString())
+                                ops = row?.ops.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 ops = 0.0
                             }
 
-                            def slg = null
+                            Double slg = null
                             try {
-                                slg = Double.parseDouble(row?.get('slg').toString())
+                                slg = row?.slg.toString().toDouble()
                             } catch (NumberFormatException e) {
                                 slg = 0.0
                             }
@@ -545,22 +571,59 @@ ratpack {
                             assert homeRuns != null
                             assert intentionalWalks != null
                             assert strikeOuts != null
+                            assert era != null
+                            assert whip != null
+                            assert innings != null
+                            assert average != null
+                            assert obp != null
+                            assert slg != null
+                            assert gidpOpp != null
+                            assert hr9 != null
+                            assert babip != null
+                            assert bb9 != null
 
-                            PlayerPitchingStatline pitchingStatLine = new PlayerPitchingStatline(null, year, player.teamId,
-                                    wins, losses, era, games, gamesStarted, completeGames, shutouts,
-                                    saves, saveOpps, innings, hits, runs, earnedRuns, homeRuns,
-                                    hitBatsmen, walks, intentionalWalks, strikeOuts, average,
-                                    whip, player.playerId, bb9, babip, hr9, gidpOpp, obp, ops, slg)
+                            PlayerPitchingStatline pitchingStatline = new PlayerPitchingStatline(
+                                    null,
+                                    (Integer) year,
+                                    (Integer) player.teamId,
+                                    (Integer) wins,
+                                    (Integer) losses,
+                                    (Double) era,
+                                    (Integer) games,
+                                    (Integer) gamesStarted,
+                                    (Integer) completeGames,
+                                    (Integer) shutouts,
+                                    (Integer) saves,
+                                    (Integer) saveOpps,
+                                    (Double) innings,
+                                    (Integer) hits,
+                                    (Integer) runs,
+                                    (Integer) earnedRuns,
+                                    (Integer) homeRuns,
+                                    (Integer) hitBatsmen,
+                                    (Integer) walks,
+                                    (Integer) intentionalWalks,
+                                    (Integer) strikeOuts,
+                                    (Double) average,
+                                    (Double) whip,
+                                    (Integer) player.playerId,
+                                    (Double) bb9,
+                                    (Double) babip,
+                                    (Double) hr9,
+                                    (Integer) gidpOpp,
+                                    (Double) obp,
+                                    (Double) ops,
+                                    (Double) slg
+                            )
 
-                            println "${player.playerName} hittingStats: ${pitchingStatLine.toString()}"
-                            mlbTwitsService.addPlayerHittingStatline(pitchingStatLine)
+                            mlbTwitsService.addPlayerPitchingStatline(pitchingStatline)
+                            println "${player.playerName} pitchingStats: ${pitchingStatline.toString()}"
                         }
+
                     }
                 }
                 catch (error) {
-                    println 'ERROR'
                     println error.message
-                    error.printStackTrace()
                 }
             }
             render 'test'

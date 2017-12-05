@@ -25,7 +25,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitchingStatlineRecord> {
 
-	private static final long serialVersionUID = -986997925;
+	private static final long serialVersionUID = 1128177579;
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.pitching_statline_id</code>.
@@ -210,7 +210,7 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Setter for <code>public.player_pitching_statline.innings</code>.
 	 */
-	public PlayerPitchingStatlineRecord setInnings(Integer value) {
+	public PlayerPitchingStatlineRecord setInnings(Double value) {
 		setValue(12, value);
 		return this;
 	}
@@ -218,8 +218,8 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Getter for <code>public.player_pitching_statline.innings</code>.
 	 */
-	public Integer getInnings() {
-		return (Integer) getValue(12);
+	public Double getInnings() {
+		return (Double) getValue(12);
 	}
 
 	/**
@@ -390,7 +390,7 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Setter for <code>public.player_pitching_statline.bb9</code>.
 	 */
-	public PlayerPitchingStatlineRecord setBb9(Integer value) {
+	public PlayerPitchingStatlineRecord setBb9(Double value) {
 		setValue(24, value);
 		return this;
 	}
@@ -398,8 +398,8 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Getter for <code>public.player_pitching_statline.bb9</code>.
 	 */
-	public Integer getBb9() {
-		return (Integer) getValue(24);
+	public Double getBb9() {
+		return (Double) getValue(24);
 	}
 
 	/**
@@ -420,7 +420,7 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Setter for <code>public.player_pitching_statline.hr9</code>.
 	 */
-	public PlayerPitchingStatlineRecord setHr9(Integer value) {
+	public PlayerPitchingStatlineRecord setHr9(Double value) {
 		setValue(26, value);
 		return this;
 	}
@@ -428,8 +428,8 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Getter for <code>public.player_pitching_statline.hr9</code>.
 	 */
-	public Integer getHr9() {
-		return (Integer) getValue(26);
+	public Double getHr9() {
+		return (Double) getValue(26);
 	}
 
 	/**
@@ -518,7 +518,7 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Create a detached, initialised PlayerPitchingStatlineRecord
 	 */
-	public PlayerPitchingStatlineRecord(Integer pitchingStatlineId, Integer year, Integer teamId, Integer wins, Integer losses, Double era, Integer games, Integer gamesStarted, Integer completeGames, Integer shutouts, Integer saves, Integer saveOpps, Integer innings, Integer hits, Integer runs, Integer earnedRuns, Integer homeRuns, Integer hitBatsmen, Integer walks, Integer intentionalWalks, Integer strikeOuts, Double average, Double whip, Integer playerId, Integer bb9, Double babip, Integer hr9, Integer gidpOpp, Double obp, Double ops, Double slg) {
+	public PlayerPitchingStatlineRecord(Integer pitchingStatlineId, Integer year, Integer teamId, Integer wins, Integer losses, Double era, Integer games, Integer gamesStarted, Integer completeGames, Integer shutouts, Integer saves, Integer saveOpps, Double innings, Integer hits, Integer runs, Integer earnedRuns, Integer homeRuns, Integer hitBatsmen, Integer walks, Integer intentionalWalks, Integer strikeOuts, Double average, Double whip, Integer playerId, Double bb9, Double babip, Double hr9, Integer gidpOpp, Double obp, Double ops, Double slg) {
 		super(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE);
 
 		setValue(0, pitchingStatlineId);

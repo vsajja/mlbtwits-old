@@ -144,7 +144,7 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	/**
 	 * Fetch records that have <code>innings IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByInnings(Integer... values) {
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByInnings(Double... values) {
 		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.INNINGS, values);
 	}
 
@@ -228,7 +228,7 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	/**
 	 * Fetch records that have <code>bb9 IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByBb9(Integer... values) {
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByBb9(Double... values) {
 		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.BB9, values);
 	}
 
@@ -242,7 +242,7 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	/**
 	 * Fetch records that have <code>hr9 IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByHr9(Integer... values) {
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByHr9(Double... values) {
 		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.HR9, values);
 	}
 

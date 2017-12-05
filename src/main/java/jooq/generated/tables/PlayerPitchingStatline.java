@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineRecord> {
 
-	private static final long serialVersionUID = -145077051;
+	private static final long serialVersionUID = 1471943029;
 
 	/**
 	 * The reference instance of <code>public.player_pitching_statline</code>
@@ -112,7 +112,7 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	/**
 	 * The column <code>public.player_pitching_statline.innings</code>.
 	 */
-	public final TableField<PlayerPitchingStatlineRecord, Integer> INNINGS = createField("innings", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<PlayerPitchingStatlineRecord, Double> INNINGS = createField("innings", org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
 	/**
 	 * The column <code>public.player_pitching_statline.hits</code>.
@@ -172,7 +172,7 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	/**
 	 * The column <code>public.player_pitching_statline.bb9</code>.
 	 */
-	public final TableField<PlayerPitchingStatlineRecord, Integer> BB9 = createField("bb9", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<PlayerPitchingStatlineRecord, Double> BB9 = createField("bb9", org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
 	/**
 	 * The column <code>public.player_pitching_statline.babip</code>.
@@ -182,7 +182,7 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	/**
 	 * The column <code>public.player_pitching_statline.hr9</code>.
 	 */
-	public final TableField<PlayerPitchingStatlineRecord, Integer> HR9 = createField("hr9", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<PlayerPitchingStatlineRecord, Double> HR9 = createField("hr9", org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
 	/**
 	 * The column <code>public.player_pitching_statline.gidp_opp</code>.

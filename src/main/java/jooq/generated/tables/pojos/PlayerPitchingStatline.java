@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatline implements Serializable {
 
-	private static final long serialVersionUID = -946070206;
+	private static final long serialVersionUID = -345651405;
 
 	private final Integer pitchingStatlineId;
 	private final Integer year;
@@ -36,7 +36,7 @@ public class PlayerPitchingStatline implements Serializable {
 	private final Integer shutouts;
 	private final Integer saves;
 	private final Integer saveOpps;
-	private final Integer innings;
+	private final Double  innings;
 	private final Integer hits;
 	private final Integer runs;
 	private final Integer earnedRuns;
@@ -48,9 +48,9 @@ public class PlayerPitchingStatline implements Serializable {
 	private final Double  average;
 	private final Double  whip;
 	private final Integer playerId;
-	private final Integer bb9;
+	private final Double  bb9;
 	private final Double  babip;
-	private final Integer hr9;
+	private final Double  hr9;
 	private final Integer gidpOpp;
 	private final Double  obp;
 	private final Double  ops;
@@ -103,7 +103,7 @@ public class PlayerPitchingStatline implements Serializable {
 		Integer shutouts,
 		Integer saves,
 		Integer saveOpps,
-		Integer innings,
+		Double  innings,
 		Integer hits,
 		Integer runs,
 		Integer earnedRuns,
@@ -115,9 +115,9 @@ public class PlayerPitchingStatline implements Serializable {
 		Double  average,
 		Double  whip,
 		Integer playerId,
-		Integer bb9,
+		Double  bb9,
 		Double  babip,
-		Integer hr9,
+		Double  hr9,
 		Integer gidpOpp,
 		Double  obp,
 		Double  ops,
@@ -204,7 +204,7 @@ public class PlayerPitchingStatline implements Serializable {
 		return this.saveOpps;
 	}
 
-	public Integer getInnings() {
+	public Double getInnings() {
 		return this.innings;
 	}
 
@@ -252,7 +252,7 @@ public class PlayerPitchingStatline implements Serializable {
 		return this.playerId;
 	}
 
-	public Integer getBb9() {
+	public Double getBb9() {
 		return this.bb9;
 	}
 
@@ -260,7 +260,7 @@ public class PlayerPitchingStatline implements Serializable {
 		return this.babip;
 	}
 
-	public Integer getHr9() {
+	public Double getHr9() {
 		return this.hr9;
 	}
 

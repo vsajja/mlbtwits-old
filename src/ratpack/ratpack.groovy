@@ -115,8 +115,6 @@ ratpack {
                     it != null
                 }
 
-                def hittingStatlines = []
-
                 try {
                     if (row instanceof Map) {
                         new JsonBuilder(row).toPrettyString()
@@ -294,7 +292,7 @@ ratpack {
 
         get('mlb/player/stats/pitching') {
             def players = mlbTwitsService.getPlayers()
-//            def players = mlbTwitsService.getPlayersByTerm('clay')
+//            def players = mlbTwitsService.getPlayersByTerm('grenkie')
 //
             players.each { player ->
                 assert player.mlbPlayerId
@@ -329,70 +327,71 @@ ratpack {
 
                         Double era = null
                         try {
-                            era = row?.get('era').toString().toDouble()
+                            println row?.get('era')
+                            era = Double.parseDouble(row?.get('era').toString())
                         } catch (NumberFormatException e) {
                             era = 0.0
                         }
 
                         Double innings = null
                         try {
-                            innings = row?.get('ip').toString().toDouble()
+                            innings = Double.parseDouble(row?.get('ip').toString())
                         } catch (NumberFormatException e) {
                             innings = 0.0
                         }
 
                         Double average = null
                         try {
-                            average = row?.get('avg').toString().toDouble()
+                            average = Double.parseDouble(row?.get('avg').toString())
                         } catch (NumberFormatException e) {
                             average = 0.0
                         }
 
                         Double whip = null
                         try {
-                            whip = row?.get('whip').toString().toDouble()
+                            whip = Double.parseDouble(row?.get('whip').toString())
                         } catch (NumberFormatException e) {
                             whip = 0.0
                         }
 
                         Double babip = null
                         try {
-                            babip = row?.get('babip').toString().toDouble()
+                            babip = Double.parseDouble(row?.get('babip').toString())
                         } catch (NumberFormatException e) {
                             babip = 0.0
                         }
 
                         Double hr9 = null
                         try {
-                            hr9 = row?.get('hr9').toString().toDouble()
+                            hr9 = Double.parseDouble(row?.get('hr8').toString())
                         } catch (NumberFormatException e) {
                             hr9 = 0.0
                         }
 
                         Double bb9 = null
                         try {
-                            bb9 = row?.get('bb9').toString().toDouble()
+                            bb9 = Double.parseDouble(row?.get('bb9').toString())
                         } catch (NumberFormatException e) {
                             bb9 = 0.0
                         }
 
                         Double obp = null
                         try {
-                            obp = row?.get('obp').toString().toDouble()
+                            obp = Double.parseDouble(row?.get('obp').toString())
                         } catch (NumberFormatException e) {
                             obp = 0.0
                         }
 
                         Double ops = null
                         try {
-                            ops = row?.get('ops').toString().toDouble()
+                            ops = Double.parseDouble(row?.get('ops').toString())
                         } catch (NumberFormatException e) {
                             ops = 0.0
                         }
 
                         Double slg = null
                         try {
-                            slg = row?.get('slg').toString().toDouble()
+                            slg = Double.parseDouble(row?.get('slg').toString())
                         } catch (NumberFormatException e) {
                             slg = 0.0
                         }
@@ -486,70 +485,70 @@ ratpack {
 
                             Double era = null
                             try {
-                                era = row?.era.toString().toDouble()
+                                era = Double.parseDouble(statLine?.era.toString())
                             } catch (NumberFormatException e) {
                                 era = 0.0
                             }
 
                             Double innings = null
                             try {
-                                innings = row?.ip.toString().toDouble()
+                                innings = Double.parseDouble(statLine?.ip.toString())
                             } catch (NumberFormatException e) {
                                 innings = 0.0
                             }
 
                             Double average = null
                             try {
-                                average = row?.avg.toString().toDouble()
+                                average = Double.parseDouble(statLine?.avg.toString())
                             } catch (NumberFormatException e) {
                                 average = 0.0
                             }
 
                             Double whip = null
                             try {
-                                whip = row?.whip.toString().toDouble()
+                                whip = Double.parseDouble(statLine?.whip.toString())
                             } catch (NumberFormatException e) {
                                 whip = 0.0
                             }
 
                             Double babip = null
                             try {
-                                babip = row?.babip.toString().toDouble()
+                                babip = Double.parseDouble(statLine?.babip.toString())
                             } catch (NumberFormatException e) {
                                 babip = 0.0
                             }
 
                             Double bb9 = null
                             try {
-                                bb9 = row?.bb9.toString().toDouble()
+                                bb9 = Double.parseDouble(statLine?.bb9.toString())
                             } catch (NumberFormatException e) {
                                 bb9 = 0.0
                             }
 
                             Double hr9 = null
                             try {
-                                hr9 = row?.hr9.toString().toDouble()
+                                hr9 = Double.parseDouble(statLine?.hr9.toString())
                             } catch (NumberFormatException e) {
                                 hr9 = 0.0
                             }
 
                             Double obp = null
                             try {
-                                obp = row?.obp.toString().toDouble()
+                                obp = Double.parseDouble(statLine?.obp.toString())
                             } catch (NumberFormatException e) {
                                 obp = 0.0
                             }
 
                             Double ops = null
                             try {
-                                ops = row?.ops.toString().toDouble()
+                                ops = Double.parseDouble(statLine?.ops.toString())
                             } catch (NumberFormatException e) {
                                 ops = 0.0
                             }
 
                             Double slg = null
                             try {
-                                slg = row?.slg.toString().toDouble()
+                                slg = Double.parseDouble(statLine?.slg.toString())
                             } catch (NumberFormatException e) {
                                 slg = 0.0
                             }

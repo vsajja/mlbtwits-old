@@ -1,3 +1,28 @@
-<p>
-  player-hitting-stats works!
-</p>
+<table class="table table-sm table-dark">
+  <thead>
+  <tr>
+    <td scope="col">Year</td>
+    <td scope="col">Team</td>
+    <td scope="col">Average</td>
+    <td scope="col">Runs</td>
+    <td scope="col">Home Runs</td>
+    <td scope="col">RBIs</td>
+    <td scope="col">SBs</td>
+    <td scope="col">OBP</td>
+    <td scope="col">SLG</td>
+    <td scope="col">OPS</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let hittingStat of player?.playerStats?.hittingStats">
+    {{hittingStat.year}}
+    {{hittingStat.teamId}}
+    <!--{{hittingStat.average}}-->
+    <!--<th scope="row">hittingStat?.year</th>-->
+    <!--<td>Mark</td>-->
+    <!--<td>Otto</td>-->
+    <!--<td>@mdo</td>-->
+  </tr>
+  </tbody>
+</table>
+

@@ -30,7 +30,8 @@ import {PlayerCardComponent} from './player-card/player-card.component';
 import {TeamCardComponent} from './team-card/team-card.component';
 import {PlayerHittingStatsComponent} from './player-hitting-stats/player-hitting-stats.component';
 import {PlayerPitchingStatsComponent} from './player-pitching-stats/player-pitching-stats.component';
-import { PlayerStatCardComponent } from './player-stat-card/player-stat-card.component';
+import {PlayerStatCardComponent} from './player-stat-card/player-stat-card.component';
+import {DecimalPipe} from '@angular/common';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { PlayerStatCardComponent } from './player-stat-card/player-stat-card.com
     useClass: APIInterceptor,
     multi: true,
   },
+    DecimalPipe,
     PagerService],
   bootstrap: [AppComponent]
 })

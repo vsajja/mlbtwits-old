@@ -1,18 +1,17 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-3" *ngIf="player?.weight">
+    <div class="col-md-4" *ngIf="player?.weight">
       <app-player-card [player]="player"></app-player-card>
-
-      <app-player-stat-card [player]="player"></app-player-stat-card>
-
     </div>
     <div class="col-md-8">
+      <app-player-stat-card [player]="player" [playerStats]="playerStats"></app-player-stat-card>
+
       <div class="card">
         <ul class="list-group list-group-flush">
           <li class="list-group-item"  *ngFor="let tweet of playerTweets"><strong>{{tweet?.username}}</strong> {{tweet?.message}}
             <br/>
             <div>
-            <span style="float:right;font-size:1em;font-weight:600;color: darkgrey">{{FIXME_timeAgo(tweet?.createdTimestamp)}}</span>
+              <span style="float:right;font-size:1em;font-weight:600;color: darkgrey">{{FIXME_timeAgo(tweet?.createdTimestamp)}}</span>
             </div>
           </li>
         </ul>

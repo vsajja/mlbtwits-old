@@ -7,10 +7,13 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class PlayerHittingStatsComponent implements OnInit {
   @Input() player: any;
+  @Input() playerStats: any;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+    console.log(this.playerStats);
   }
 
 }

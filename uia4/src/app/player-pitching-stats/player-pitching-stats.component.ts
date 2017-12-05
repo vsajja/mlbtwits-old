@@ -7,6 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class PlayerPitchingStatsComponent implements OnInit {
   @Input() player: any;
+  @Input() playerStats: any;
 
   constructor() {
   }

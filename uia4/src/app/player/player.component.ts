@@ -42,7 +42,7 @@ export class PlayerComponent implements OnInit {
     this.quoteService.getPlayerStats(playerId).subscribe(
       (data: any) => {
         this.playerStats = data;
-        this.player.playerStats = data;
+        console.log(this.playerStats);
       });
   }
 

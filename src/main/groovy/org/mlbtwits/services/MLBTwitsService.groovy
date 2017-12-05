@@ -5,6 +5,8 @@ import com.google.inject.Singleton
 import groovy.transform.CompileStatic
 import groovy.util.slurpersupport.GPathResult
 import jooq.generated.tables.daos.PlayerDao
+import jooq.generated.tables.daos.PlayerHittingStatlineDao
+import jooq.generated.tables.daos.PlayerPitchingStatlineDao
 import jooq.generated.tables.pojos.Player
 import jooq.generated.tables.pojos.PlayerHittingStatline
 import jooq.generated.tables.pojos.PlayerPitchingStatline
@@ -40,9 +42,11 @@ class MLBTwitsService {
     DSLContext context
 
     PlayerDao playerDao
+    PlayerHittingStatlineDao playerHittingStatlineDao
+    PlayerPitchingStatlineDao playerPitchingStatlineDao
 
     @Inject
-    public MLBTwitsService(DataSource dataSource) {
+    MLBTwitsService(DataSource dataSource) {
 //        context = DSL.using(dataSource, SQLDialect.POSTGRES)
 
         context = DSL.using(new DefaultConfiguration()
@@ -69,28 +73,29 @@ class MLBTwitsService {
         )
 
         playerDao = new PlayerDao(context.configuration())
+        playerHittingStatlineDao = new PlayerHittingStatlineDao(context.configuration())
+        playerPitchingStatlineDao = new PlayerPitchingStatlineDao(context.configuration())
     }
 
-    public List<User> getUsers() {
+    List<User> getUsers() {
         List<User> users = context.selectFrom(USER)
                 .fetch()
                 .into(User.class)
         return users
     }
 
-    public User getUser(String username) {
+    User getUser(String username) {
         User user = null
         def userData = context.selectFrom(USER)
                 .where(USER.USERNAME.equal(username))
                 .fetchOne()
-        if(userData) {
+        if (userData) {
             user = userData.into(User.class)
         }
         return user
     }
 
-    public User registerUser(String username, String password, String emailAddress) {
-//        def createdTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime())
+    User registerUser(String username, String password, String emailAddress) {
         int BCRYPT_LOG_ROUNDS = 6
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
         def user = context.insertInto(USER)
@@ -104,14 +109,14 @@ class MLBTwitsService {
         return user
     }
 
-    public List<Team> getTeams() {
+    List<Team> getTeams() {
         List<Team> teams = context.selectFrom(TEAM)
                 .fetch()
                 .into(Team.class)
         return teams
     }
 
-    public Team getTeam(String teamId) {
+    Team getTeam(String teamId) {
         Team team = context.selectFrom(TEAM)
                 .where(TEAM.TEAM_ID.equal(teamId))
                 .fetchOne()
@@ -119,7 +124,7 @@ class MLBTwitsService {
         return team
     }
 
-    public List<Player> getTeamRoster(String teamId) {
+    List<Player> getTeamRoster(String teamId) {
         List<Player> players = context.selectFrom(PLAYER)
                 .where(PLAYER.TEAM_ID.equal(teamId))
                 .fetch()
@@ -127,7 +132,7 @@ class MLBTwitsService {
         return players
     }
 
-    public List<Player> getPlayers() {
+    List<Player> getPlayers() {
         List<Player> players = context.selectFrom(PLAYER)
                 .orderBy(PLAYER.TEAM_ID)
                 .fetch()
@@ -146,7 +151,15 @@ class MLBTwitsService {
                 .fetch()
                 .into(PlayerPitchingStatline.class)
 
-        return [ 'hittingStats' : hittingStats, 'pitchingStats' : pitchingStats]
+        return ['hittingStats': hittingStats, 'pitchingStats': pitchingStats]
+    }
+
+    def addPlayerHittingStatline(PlayerHittingStatline statline) {
+        playerHittingStatlineDao.insert(statline)
+    }
+
+    def addPlayerPitchingStatline(PlayerPitchingStatline statLine) {
+        playerPitchingStatlineDao.insert(statLine)
     }
 
     def getPlayersWithTeams() {
@@ -180,7 +193,7 @@ class MLBTwitsService {
         return teams
     }
 
-    public List<Player> getPlayersByTerm(String term) {
+    List<Player> getPlayersByTerm(String term) {
         term = term.toLowerCase().trim()
 
         List<Player> players = context.selectFrom(PLAYER)
@@ -191,7 +204,7 @@ class MLBTwitsService {
         return players
     }
 
-    public Player getPlayer(String playerId) {
+    Player getPlayer(String playerId) {
         Player player = context.selectFrom(PLAYER)
                 .where(PLAYER.PLAYER_ID.equal(playerId))
                 .fetchOne()
@@ -203,7 +216,7 @@ class MLBTwitsService {
         playerDao.update(values)
     }
 
-    public List<UserTweet> getTweets() {
+    List<UserTweet> getTweets() {
         def tweets = context.select()
                 .from(TWEET)
                 .join(USER)
@@ -215,7 +228,7 @@ class MLBTwitsService {
         return tweets
     }
 
-    public List<UserTweet> getTweets(String playerId) {
+    List<UserTweet> getTweets(String playerId) {
         List<UserTweet> tweets = context.select()
                 .from(TWEET)
                 .join(USER)
@@ -227,7 +240,7 @@ class MLBTwitsService {
         return tweets
     }
 
-    public List<UserTweet> getTweetsByUser(User user) {
+    List<UserTweet> getTweetsByUser(User user) {
         String userId = user.getUserId().toString()
         List<UserTweet> tweets = context.select()
                 .from(TWEET)
@@ -341,7 +354,6 @@ class MLBTwitsService {
 
         return trending
     }
-
 
     /*
     def getTrendingYahoo() {

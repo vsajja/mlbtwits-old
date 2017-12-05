@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineRecord> {
 
-	private static final long serialVersionUID = -850481519;
+	private static final long serialVersionUID = -145077051;
 
 	/**
 	 * The reference instance of <code>public.player_pitching_statline</code>
@@ -100,19 +100,14 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	public final TableField<PlayerPitchingStatlineRecord, Integer> SHUTOUTS = createField("shutouts", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
-	 * The column <code>public.player_pitching_statline.complete_game_shutouts</code>.
-	 */
-	public final TableField<PlayerPitchingStatlineRecord, Integer> COMPLETE_GAME_SHUTOUTS = createField("complete_game_shutouts", org.jooq.impl.SQLDataType.INTEGER, this, "");
-
-	/**
 	 * The column <code>public.player_pitching_statline.saves</code>.
 	 */
 	public final TableField<PlayerPitchingStatlineRecord, Integer> SAVES = createField("saves", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
-	 * The column <code>public.player_pitching_statline.save_opportunities</code>.
+	 * The column <code>public.player_pitching_statline.save_opps</code>.
 	 */
-	public final TableField<PlayerPitchingStatlineRecord, Integer> SAVE_OPPORTUNITIES = createField("save_opportunities", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<PlayerPitchingStatlineRecord, Integer> SAVE_OPPS = createField("save_opps", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * The column <code>public.player_pitching_statline.innings</code>.
@@ -160,9 +155,9 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	public final TableField<PlayerPitchingStatlineRecord, Integer> STRIKE_OUTS = createField("strike_outs", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
-	 * The column <code>public.player_pitching_statline.batting_average_against</code>.
+	 * The column <code>public.player_pitching_statline.average</code>.
 	 */
-	public final TableField<PlayerPitchingStatlineRecord, Double> BATTING_AVERAGE_AGAINST = createField("batting_average_against", org.jooq.impl.SQLDataType.DOUBLE, this, "");
+	public final TableField<PlayerPitchingStatlineRecord, Double> AVERAGE = createField("average", org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
 	/**
 	 * The column <code>public.player_pitching_statline.whip</code>.
@@ -173,6 +168,41 @@ public class PlayerPitchingStatline extends TableImpl<PlayerPitchingStatlineReco
 	 * The column <code>public.player_pitching_statline.player_id</code>.
 	 */
 	public final TableField<PlayerPitchingStatlineRecord, Integer> PLAYER_ID = createField("player_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.bb9</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Integer> BB9 = createField("bb9", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.babip</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Double> BABIP = createField("babip", org.jooq.impl.SQLDataType.DOUBLE, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.hr9</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Integer> HR9 = createField("hr9", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.gidp_opp</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Integer> GIDP_OPP = createField("gidp_opp", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.obp</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Double> OBP = createField("obp", org.jooq.impl.SQLDataType.DOUBLE, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.ops</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Double> OPS = createField("ops", org.jooq.impl.SQLDataType.DOUBLE, this, "");
+
+	/**
+	 * The column <code>public.player_pitching_statline.slg</code>.
+	 */
+	public final TableField<PlayerPitchingStatlineRecord, Double> SLG = createField("slg", org.jooq.impl.SQLDataType.DOUBLE, this, "");
 
 	/**
 	 * Create a <code>public.player_pitching_statline</code> table reference

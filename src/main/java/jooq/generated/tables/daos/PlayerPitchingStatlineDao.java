@@ -128,13 +128,6 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	}
 
 	/**
-	 * Fetch records that have <code>complete_game_shutouts IN (values)</code>
-	 */
-	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByCompleteGameShutouts(Integer... values) {
-		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.COMPLETE_GAME_SHUTOUTS, values);
-	}
-
-	/**
 	 * Fetch records that have <code>saves IN (values)</code>
 	 */
 	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchBySaves(Integer... values) {
@@ -142,10 +135,10 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	}
 
 	/**
-	 * Fetch records that have <code>save_opportunities IN (values)</code>
+	 * Fetch records that have <code>save_opps IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchBySaveOpportunities(Integer... values) {
-		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.SAVE_OPPORTUNITIES, values);
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchBySaveOpps(Integer... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.SAVE_OPPS, values);
 	}
 
 	/**
@@ -212,10 +205,10 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	}
 
 	/**
-	 * Fetch records that have <code>batting_average_against IN (values)</code>
+	 * Fetch records that have <code>average IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByBattingAverageAgainst(Double... values) {
-		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.BATTING_AVERAGE_AGAINST, values);
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByAverage(Double... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.AVERAGE, values);
 	}
 
 	/**
@@ -230,5 +223,54 @@ public class PlayerPitchingStatlineDao extends DAOImpl<PlayerPitchingStatlineRec
 	 */
 	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByPlayerId(Integer... values) {
 		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.PLAYER_ID, values);
+	}
+
+	/**
+	 * Fetch records that have <code>bb9 IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByBb9(Integer... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.BB9, values);
+	}
+
+	/**
+	 * Fetch records that have <code>babip IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByBabip(Double... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.BABIP, values);
+	}
+
+	/**
+	 * Fetch records that have <code>hr9 IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByHr9(Integer... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.HR9, values);
+	}
+
+	/**
+	 * Fetch records that have <code>gidp_opp IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByGidpOpp(Integer... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.GIDP_OPP, values);
+	}
+
+	/**
+	 * Fetch records that have <code>obp IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByObp(Double... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.OBP, values);
+	}
+
+	/**
+	 * Fetch records that have <code>ops IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchByOps(Double... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.OPS, values);
+	}
+
+	/**
+	 * Fetch records that have <code>slg IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.PlayerPitchingStatline> fetchBySlg(Double... values) {
+		return fetch(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE.SLG, values);
 	}
 }

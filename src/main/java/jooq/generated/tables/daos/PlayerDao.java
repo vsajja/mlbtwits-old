@@ -148,4 +148,11 @@ public class PlayerDao extends DAOImpl<PlayerRecord, jooq.generated.tables.pojos
 	public List<jooq.generated.tables.pojos.Player> fetchByBirthCountry(String... values) {
 		return fetch(Player.PLAYER.BIRTH_COUNTRY, values);
 	}
+
+	/**
+	 * Fetch records that have <code>team_code IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Player> fetchByTeamCode(String... values) {
+		return fetch(Player.PLAYER.TEAM_CODE, values);
+	}
 }

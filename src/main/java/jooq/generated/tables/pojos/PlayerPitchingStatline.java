@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatline implements Serializable {
 
-	private static final long serialVersionUID = 757478999;
+	private static final long serialVersionUID = -946070206;
 
 	private final Integer pitchingStatlineId;
 	private final Integer year;
@@ -34,9 +34,8 @@ public class PlayerPitchingStatline implements Serializable {
 	private final Integer gamesStarted;
 	private final Integer completeGames;
 	private final Integer shutouts;
-	private final Integer completeGameShutouts;
 	private final Integer saves;
-	private final Integer saveOpportunities;
+	private final Integer saveOpps;
 	private final Integer innings;
 	private final Integer hits;
 	private final Integer runs;
@@ -46,9 +45,16 @@ public class PlayerPitchingStatline implements Serializable {
 	private final Integer walks;
 	private final Integer intentionalWalks;
 	private final Integer strikeOuts;
-	private final Double  battingAverageAgainst;
+	private final Double  average;
 	private final Double  whip;
 	private final Integer playerId;
+	private final Integer bb9;
+	private final Double  babip;
+	private final Integer hr9;
+	private final Integer gidpOpp;
+	private final Double  obp;
+	private final Double  ops;
+	private final Double  slg;
 
 	public PlayerPitchingStatline(PlayerPitchingStatline value) {
 		this.pitchingStatlineId = value.pitchingStatlineId;
@@ -61,9 +67,8 @@ public class PlayerPitchingStatline implements Serializable {
 		this.gamesStarted = value.gamesStarted;
 		this.completeGames = value.completeGames;
 		this.shutouts = value.shutouts;
-		this.completeGameShutouts = value.completeGameShutouts;
 		this.saves = value.saves;
-		this.saveOpportunities = value.saveOpportunities;
+		this.saveOpps = value.saveOpps;
 		this.innings = value.innings;
 		this.hits = value.hits;
 		this.runs = value.runs;
@@ -73,9 +78,16 @@ public class PlayerPitchingStatline implements Serializable {
 		this.walks = value.walks;
 		this.intentionalWalks = value.intentionalWalks;
 		this.strikeOuts = value.strikeOuts;
-		this.battingAverageAgainst = value.battingAverageAgainst;
+		this.average = value.average;
 		this.whip = value.whip;
 		this.playerId = value.playerId;
+		this.bb9 = value.bb9;
+		this.babip = value.babip;
+		this.hr9 = value.hr9;
+		this.gidpOpp = value.gidpOpp;
+		this.obp = value.obp;
+		this.ops = value.ops;
+		this.slg = value.slg;
 	}
 
 	public PlayerPitchingStatline(
@@ -89,9 +101,8 @@ public class PlayerPitchingStatline implements Serializable {
 		Integer gamesStarted,
 		Integer completeGames,
 		Integer shutouts,
-		Integer completeGameShutouts,
 		Integer saves,
-		Integer saveOpportunities,
+		Integer saveOpps,
 		Integer innings,
 		Integer hits,
 		Integer runs,
@@ -101,9 +112,16 @@ public class PlayerPitchingStatline implements Serializable {
 		Integer walks,
 		Integer intentionalWalks,
 		Integer strikeOuts,
-		Double  battingAverageAgainst,
+		Double  average,
 		Double  whip,
-		Integer playerId
+		Integer playerId,
+		Integer bb9,
+		Double  babip,
+		Integer hr9,
+		Integer gidpOpp,
+		Double  obp,
+		Double  ops,
+		Double  slg
 	) {
 		this.pitchingStatlineId = pitchingStatlineId;
 		this.year = year;
@@ -115,9 +133,8 @@ public class PlayerPitchingStatline implements Serializable {
 		this.gamesStarted = gamesStarted;
 		this.completeGames = completeGames;
 		this.shutouts = shutouts;
-		this.completeGameShutouts = completeGameShutouts;
 		this.saves = saves;
-		this.saveOpportunities = saveOpportunities;
+		this.saveOpps = saveOpps;
 		this.innings = innings;
 		this.hits = hits;
 		this.runs = runs;
@@ -127,9 +144,16 @@ public class PlayerPitchingStatline implements Serializable {
 		this.walks = walks;
 		this.intentionalWalks = intentionalWalks;
 		this.strikeOuts = strikeOuts;
-		this.battingAverageAgainst = battingAverageAgainst;
+		this.average = average;
 		this.whip = whip;
 		this.playerId = playerId;
+		this.bb9 = bb9;
+		this.babip = babip;
+		this.hr9 = hr9;
+		this.gidpOpp = gidpOpp;
+		this.obp = obp;
+		this.ops = ops;
+		this.slg = slg;
 	}
 
 	public Integer getPitchingStatlineId() {
@@ -172,16 +196,12 @@ public class PlayerPitchingStatline implements Serializable {
 		return this.shutouts;
 	}
 
-	public Integer getCompleteGameShutouts() {
-		return this.completeGameShutouts;
-	}
-
 	public Integer getSaves() {
 		return this.saves;
 	}
 
-	public Integer getSaveOpportunities() {
-		return this.saveOpportunities;
+	public Integer getSaveOpps() {
+		return this.saveOpps;
 	}
 
 	public Integer getInnings() {
@@ -220,8 +240,8 @@ public class PlayerPitchingStatline implements Serializable {
 		return this.strikeOuts;
 	}
 
-	public Double getBattingAverageAgainst() {
-		return this.battingAverageAgainst;
+	public Double getAverage() {
+		return this.average;
 	}
 
 	public Double getWhip() {
@@ -230,6 +250,34 @@ public class PlayerPitchingStatline implements Serializable {
 
 	public Integer getPlayerId() {
 		return this.playerId;
+	}
+
+	public Integer getBb9() {
+		return this.bb9;
+	}
+
+	public Double getBabip() {
+		return this.babip;
+	}
+
+	public Integer getHr9() {
+		return this.hr9;
+	}
+
+	public Integer getGidpOpp() {
+		return this.gidpOpp;
+	}
+
+	public Double getObp() {
+		return this.obp;
+	}
+
+	public Double getOps() {
+		return this.ops;
+	}
+
+	public Double getSlg() {
+		return this.slg;
 	}
 
 	@Override
@@ -246,9 +294,8 @@ public class PlayerPitchingStatline implements Serializable {
 		sb.append(", ").append(gamesStarted);
 		sb.append(", ").append(completeGames);
 		sb.append(", ").append(shutouts);
-		sb.append(", ").append(completeGameShutouts);
 		sb.append(", ").append(saves);
-		sb.append(", ").append(saveOpportunities);
+		sb.append(", ").append(saveOpps);
 		sb.append(", ").append(innings);
 		sb.append(", ").append(hits);
 		sb.append(", ").append(runs);
@@ -258,9 +305,16 @@ public class PlayerPitchingStatline implements Serializable {
 		sb.append(", ").append(walks);
 		sb.append(", ").append(intentionalWalks);
 		sb.append(", ").append(strikeOuts);
-		sb.append(", ").append(battingAverageAgainst);
+		sb.append(", ").append(average);
 		sb.append(", ").append(whip);
 		sb.append(", ").append(playerId);
+		sb.append(", ").append(bb9);
+		sb.append(", ").append(babip);
+		sb.append(", ").append(hr9);
+		sb.append(", ").append(gidpOpp);
+		sb.append(", ").append(obp);
+		sb.append(", ").append(ops);
+		sb.append(", ").append(slg);
 
 		sb.append(")");
 		return sb.toString();

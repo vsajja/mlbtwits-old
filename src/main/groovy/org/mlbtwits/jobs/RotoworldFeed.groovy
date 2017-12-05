@@ -45,13 +45,12 @@ public class RotoworldFeed implements org.quartz.Job {
         URI redisURI = new URI(REDIS_URL);
         Jedis jedis = new Jedis(redisURI);
         log.info(jedis.ping())
-
-//        log.info(jedis.smembers("RotoworldFeedGuids").toString())
+        log.debug(jedis.smembers("RotoworldFeedGuids").toString())
 
         def user = mlbTwitsService.getUser('BOT_Rotoworld')
 
         newsMap.each { key, value ->
-            log.info(value.toString())
+            log.debug(value.toString())
 
             if (!jedis.smembers("RotoworldFeedGuids").contains(key)) {
                 jedis.sadd("RotoworldFeedGuids", key)

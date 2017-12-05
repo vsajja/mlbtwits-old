@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Player implements Serializable {
 
-	private static final long serialVersionUID = 1815501639;
+	private static final long serialVersionUID = -918883333;
 
 	private final Integer   playerId;
 	private final String    playerName;
@@ -38,6 +38,7 @@ public class Player implements Serializable {
 	private final String    throws_;
 	private final String    weight;
 	private final String    birthCountry;
+	private final String    teamCode;
 
 	public Player(Player value) {
 		this.playerId = value.playerId;
@@ -53,6 +54,7 @@ public class Player implements Serializable {
 		this.throws_ = value.throws_;
 		this.weight = value.weight;
 		this.birthCountry = value.birthCountry;
+		this.teamCode = value.teamCode;
 	}
 
 	public Player(
@@ -68,7 +70,8 @@ public class Player implements Serializable {
 		String    position,
 		String    throws_,
 		String    weight,
-		String    birthCountry
+		String    birthCountry,
+		String    teamCode
 	) {
 		this.playerId = playerId;
 		this.playerName = playerName;
@@ -83,6 +86,7 @@ public class Player implements Serializable {
 		this.throws_ = throws_;
 		this.weight = weight;
 		this.birthCountry = birthCountry;
+		this.teamCode = teamCode;
 	}
 
 	public Integer getPlayerId() {
@@ -137,6 +141,10 @@ public class Player implements Serializable {
 		return this.birthCountry;
 	}
 
+	public String getTeamCode() {
+		return this.teamCode;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Player (");
@@ -154,6 +162,7 @@ public class Player implements Serializable {
 		sb.append(", ").append(throws_);
 		sb.append(", ").append(weight);
 		sb.append(", ").append(birthCountry);
+		sb.append(", ").append(teamCode);
 
 		sb.append(")");
 		return sb.toString();

@@ -25,7 +25,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitchingStatlineRecord> {
 
-	private static final long serialVersionUID = 1601445013;
+	private static final long serialVersionUID = -986997925;
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.pitching_statline_id</code>.
@@ -178,25 +178,10 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	}
 
 	/**
-	 * Setter for <code>public.player_pitching_statline.complete_game_shutouts</code>.
-	 */
-	public PlayerPitchingStatlineRecord setCompleteGameShutouts(Integer value) {
-		setValue(10, value);
-		return this;
-	}
-
-	/**
-	 * Getter for <code>public.player_pitching_statline.complete_game_shutouts</code>.
-	 */
-	public Integer getCompleteGameShutouts() {
-		return (Integer) getValue(10);
-	}
-
-	/**
 	 * Setter for <code>public.player_pitching_statline.saves</code>.
 	 */
 	public PlayerPitchingStatlineRecord setSaves(Integer value) {
-		setValue(11, value);
+		setValue(10, value);
 		return this;
 	}
 
@@ -204,29 +189,29 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.saves</code>.
 	 */
 	public Integer getSaves() {
-		return (Integer) getValue(11);
+		return (Integer) getValue(10);
 	}
 
 	/**
-	 * Setter for <code>public.player_pitching_statline.save_opportunities</code>.
+	 * Setter for <code>public.player_pitching_statline.save_opps</code>.
 	 */
-	public PlayerPitchingStatlineRecord setSaveOpportunities(Integer value) {
-		setValue(12, value);
+	public PlayerPitchingStatlineRecord setSaveOpps(Integer value) {
+		setValue(11, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.player_pitching_statline.save_opportunities</code>.
+	 * Getter for <code>public.player_pitching_statline.save_opps</code>.
 	 */
-	public Integer getSaveOpportunities() {
-		return (Integer) getValue(12);
+	public Integer getSaveOpps() {
+		return (Integer) getValue(11);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.innings</code>.
 	 */
 	public PlayerPitchingStatlineRecord setInnings(Integer value) {
-		setValue(13, value);
+		setValue(12, value);
 		return this;
 	}
 
@@ -234,14 +219,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.innings</code>.
 	 */
 	public Integer getInnings() {
-		return (Integer) getValue(13);
+		return (Integer) getValue(12);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.hits</code>.
 	 */
 	public PlayerPitchingStatlineRecord setHits(Integer value) {
-		setValue(14, value);
+		setValue(13, value);
 		return this;
 	}
 
@@ -249,14 +234,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.hits</code>.
 	 */
 	public Integer getHits() {
-		return (Integer) getValue(14);
+		return (Integer) getValue(13);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.runs</code>.
 	 */
 	public PlayerPitchingStatlineRecord setRuns(Integer value) {
-		setValue(15, value);
+		setValue(14, value);
 		return this;
 	}
 
@@ -264,14 +249,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.runs</code>.
 	 */
 	public Integer getRuns() {
-		return (Integer) getValue(15);
+		return (Integer) getValue(14);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.earned_runs</code>.
 	 */
 	public PlayerPitchingStatlineRecord setEarnedRuns(Integer value) {
-		setValue(16, value);
+		setValue(15, value);
 		return this;
 	}
 
@@ -279,14 +264,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.earned_runs</code>.
 	 */
 	public Integer getEarnedRuns() {
-		return (Integer) getValue(16);
+		return (Integer) getValue(15);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.home_runs</code>.
 	 */
 	public PlayerPitchingStatlineRecord setHomeRuns(Integer value) {
-		setValue(17, value);
+		setValue(16, value);
 		return this;
 	}
 
@@ -294,14 +279,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.home_runs</code>.
 	 */
 	public Integer getHomeRuns() {
-		return (Integer) getValue(17);
+		return (Integer) getValue(16);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.hit_batsmen</code>.
 	 */
 	public PlayerPitchingStatlineRecord setHitBatsmen(Integer value) {
-		setValue(18, value);
+		setValue(17, value);
 		return this;
 	}
 
@@ -309,14 +294,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.hit_batsmen</code>.
 	 */
 	public Integer getHitBatsmen() {
-		return (Integer) getValue(18);
+		return (Integer) getValue(17);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.walks</code>.
 	 */
 	public PlayerPitchingStatlineRecord setWalks(Integer value) {
-		setValue(19, value);
+		setValue(18, value);
 		return this;
 	}
 
@@ -324,14 +309,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.walks</code>.
 	 */
 	public Integer getWalks() {
-		return (Integer) getValue(19);
+		return (Integer) getValue(18);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.intentional_walks</code>.
 	 */
 	public PlayerPitchingStatlineRecord setIntentionalWalks(Integer value) {
-		setValue(20, value);
+		setValue(19, value);
 		return this;
 	}
 
@@ -339,14 +324,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.intentional_walks</code>.
 	 */
 	public Integer getIntentionalWalks() {
-		return (Integer) getValue(20);
+		return (Integer) getValue(19);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.strike_outs</code>.
 	 */
 	public PlayerPitchingStatlineRecord setStrikeOuts(Integer value) {
-		setValue(21, value);
+		setValue(20, value);
 		return this;
 	}
 
@@ -354,29 +339,29 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.strike_outs</code>.
 	 */
 	public Integer getStrikeOuts() {
-		return (Integer) getValue(21);
+		return (Integer) getValue(20);
 	}
 
 	/**
-	 * Setter for <code>public.player_pitching_statline.batting_average_against</code>.
+	 * Setter for <code>public.player_pitching_statline.average</code>.
 	 */
-	public PlayerPitchingStatlineRecord setBattingAverageAgainst(Double value) {
-		setValue(22, value);
+	public PlayerPitchingStatlineRecord setAverage(Double value) {
+		setValue(21, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.player_pitching_statline.batting_average_against</code>.
+	 * Getter for <code>public.player_pitching_statline.average</code>.
 	 */
-	public Double getBattingAverageAgainst() {
-		return (Double) getValue(22);
+	public Double getAverage() {
+		return (Double) getValue(21);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.whip</code>.
 	 */
 	public PlayerPitchingStatlineRecord setWhip(Double value) {
-		setValue(23, value);
+		setValue(22, value);
 		return this;
 	}
 
@@ -384,14 +369,14 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.whip</code>.
 	 */
 	public Double getWhip() {
-		return (Double) getValue(23);
+		return (Double) getValue(22);
 	}
 
 	/**
 	 * Setter for <code>public.player_pitching_statline.player_id</code>.
 	 */
 	public PlayerPitchingStatlineRecord setPlayerId(Integer value) {
-		setValue(24, value);
+		setValue(23, value);
 		return this;
 	}
 
@@ -399,7 +384,112 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	 * Getter for <code>public.player_pitching_statline.player_id</code>.
 	 */
 	public Integer getPlayerId() {
+		return (Integer) getValue(23);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.bb9</code>.
+	 */
+	public PlayerPitchingStatlineRecord setBb9(Integer value) {
+		setValue(24, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.bb9</code>.
+	 */
+	public Integer getBb9() {
 		return (Integer) getValue(24);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.babip</code>.
+	 */
+	public PlayerPitchingStatlineRecord setBabip(Double value) {
+		setValue(25, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.babip</code>.
+	 */
+	public Double getBabip() {
+		return (Double) getValue(25);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.hr9</code>.
+	 */
+	public PlayerPitchingStatlineRecord setHr9(Integer value) {
+		setValue(26, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.hr9</code>.
+	 */
+	public Integer getHr9() {
+		return (Integer) getValue(26);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.gidp_opp</code>.
+	 */
+	public PlayerPitchingStatlineRecord setGidpOpp(Integer value) {
+		setValue(27, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.gidp_opp</code>.
+	 */
+	public Integer getGidpOpp() {
+		return (Integer) getValue(27);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.obp</code>.
+	 */
+	public PlayerPitchingStatlineRecord setObp(Double value) {
+		setValue(28, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.obp</code>.
+	 */
+	public Double getObp() {
+		return (Double) getValue(28);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.ops</code>.
+	 */
+	public PlayerPitchingStatlineRecord setOps(Double value) {
+		setValue(29, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.ops</code>.
+	 */
+	public Double getOps() {
+		return (Double) getValue(29);
+	}
+
+	/**
+	 * Setter for <code>public.player_pitching_statline.slg</code>.
+	 */
+	public PlayerPitchingStatlineRecord setSlg(Double value) {
+		setValue(30, value);
+		return this;
+	}
+
+	/**
+	 * Getter for <code>public.player_pitching_statline.slg</code>.
+	 */
+	public Double getSlg() {
+		return (Double) getValue(30);
 	}
 
 	// -------------------------------------------------------------------------
@@ -428,7 +518,7 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 	/**
 	 * Create a detached, initialised PlayerPitchingStatlineRecord
 	 */
-	public PlayerPitchingStatlineRecord(Integer pitchingStatlineId, Integer year, Integer teamId, Integer wins, Integer losses, Double era, Integer games, Integer gamesStarted, Integer completeGames, Integer shutouts, Integer completeGameShutouts, Integer saves, Integer saveOpportunities, Integer innings, Integer hits, Integer runs, Integer earnedRuns, Integer homeRuns, Integer hitBatsmen, Integer walks, Integer intentionalWalks, Integer strikeOuts, Double battingAverageAgainst, Double whip, Integer playerId) {
+	public PlayerPitchingStatlineRecord(Integer pitchingStatlineId, Integer year, Integer teamId, Integer wins, Integer losses, Double era, Integer games, Integer gamesStarted, Integer completeGames, Integer shutouts, Integer saves, Integer saveOpps, Integer innings, Integer hits, Integer runs, Integer earnedRuns, Integer homeRuns, Integer hitBatsmen, Integer walks, Integer intentionalWalks, Integer strikeOuts, Double average, Double whip, Integer playerId, Integer bb9, Double babip, Integer hr9, Integer gidpOpp, Double obp, Double ops, Double slg) {
 		super(PlayerPitchingStatline.PLAYER_PITCHING_STATLINE);
 
 		setValue(0, pitchingStatlineId);
@@ -441,20 +531,26 @@ public class PlayerPitchingStatlineRecord extends UpdatableRecordImpl<PlayerPitc
 		setValue(7, gamesStarted);
 		setValue(8, completeGames);
 		setValue(9, shutouts);
-		setValue(10, completeGameShutouts);
-		setValue(11, saves);
-		setValue(12, saveOpportunities);
-		setValue(13, innings);
-		setValue(14, hits);
-		setValue(15, runs);
-		setValue(16, earnedRuns);
-		setValue(17, homeRuns);
-		setValue(18, hitBatsmen);
-		setValue(19, walks);
-		setValue(20, intentionalWalks);
-		setValue(21, strikeOuts);
-		setValue(22, battingAverageAgainst);
-		setValue(23, whip);
-		setValue(24, playerId);
+		setValue(10, saves);
+		setValue(11, saveOpps);
+		setValue(12, innings);
+		setValue(13, hits);
+		setValue(14, runs);
+		setValue(15, earnedRuns);
+		setValue(16, homeRuns);
+		setValue(17, hitBatsmen);
+		setValue(18, walks);
+		setValue(19, intentionalWalks);
+		setValue(20, strikeOuts);
+		setValue(21, average);
+		setValue(22, whip);
+		setValue(23, playerId);
+		setValue(24, bb9);
+		setValue(25, babip);
+		setValue(26, hr9);
+		setValue(27, gidpOpp);
+		setValue(28, obp);
+		setValue(29, ops);
+		setValue(30, slg);
 	}
 }

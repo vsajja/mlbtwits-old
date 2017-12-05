@@ -1,3 +1,31 @@
-<p>
-  player-pitching-stats works!
-</p>
+<table class="player-pitching-stats table table-sm table-dark text-center"
+       style="text-align: center; vertical-align: center">
+  <thead>
+  <tr>
+    <td scope="col">Year</td>
+    <!--<td scope="col">Team</td>-->
+    <td scope="col">IP</td>
+    <td scope="col">W</td>
+    <td scope="col">L</td>
+    <td scope="col">ERA</td>
+    <!--<td scope="col">H</td>-->
+    <!--<td scope="col">BB</td>-->
+    <td scope="col">SO</td>
+    <td scope="col">WHIP</td>
+    <td scope="col">SV</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let pitchingStat of playerStats?.pitchingStats">
+    <td scope="row">{{pitchingStat?.year}}</td>
+    <!--<td scope="row">{{pitchingStat?.team}}</td>-->
+    <td scope="row">{{pitchingStat?.innings}}</td>
+    <td scope="row">{{pitchingStat?.wins}}</td>
+    <td scope="row">{{pitchingStat?.losses}}</td>
+    <td scope="row">{{pitchingStat?.era | number: '1.2'}}</td>
+    <td scope="row">{{pitchingStat?.strikeOuts}}</td>
+    <td scope="row">{{pitchingStat?.whip| number: '1.2'}}</td>
+    <td scope="row">{{pitchingStat?.saves}}</td>
+  </tr>
+  </tbody>
+</table>

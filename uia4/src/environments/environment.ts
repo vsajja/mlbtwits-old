@@ -8,6 +8,7 @@ export const environment = {
   version: '(dev)',
   serverUrl: 'http://localhost:5050/api/v1',
   // serverUrl: 'https://www.mlbtwits.com/api/v1',
+  // serverUrl: 'https://mlbtwits-app.herokuapp.com/api/v1',
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',

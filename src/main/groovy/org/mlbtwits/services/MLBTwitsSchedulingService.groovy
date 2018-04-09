@@ -57,7 +57,7 @@ class MLBTwitsSchedulingService implements Service {
                 .build();
 
         scheduler.scheduleJob(rotoworldJob, rotoworldJobTrigger);
-        scheduler.scheduleJob(mlbPlayerNewsJob, mlbPlayerNewsJobTrigger);
+//        scheduler.scheduleJob(mlbPlayerNewsJob, mlbPlayerNewsJobTrigger);
     }
 
     public void onStop(StopEvent event) {

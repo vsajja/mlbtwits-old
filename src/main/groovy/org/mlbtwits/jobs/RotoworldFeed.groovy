@@ -40,7 +40,7 @@ public class RotoworldFeed implements org.quartz.Job {
             newsMap.put(item.guid.toString(), message)
         }
 
-        String REDIS_URL = "redis://h:pf26cae7217cfb68da5689a2e216e920aca515b310952a09e06d42a6a23f2668f@ec2-34-198-54-21.compute-1.amazonaws.com:29439"
+        String REDIS_URL = "redis://h:p4863685e5dc061d0384fa0bdbd6090e5832fa679a226f76f35fd6d8730adc598@ec2-18-204-150-188.compute-1.amazonaws.com:10809"
 
         URI redisURI = new URI(REDIS_URL);
         Jedis jedis = new Jedis(redisURI);

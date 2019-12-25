@@ -1,6 +1,0 @@
-<div *ngIf="player?.position == 'P'; else hittingStatCard">
-  <app-player-pitching-stats [player]="player" [playerStats]="playerStats"></app-player-pitching-stats>
-</div>
-<ng-template #hittingStatCard>
-  <app-player-hitting-stats [player]="player" [playerStats]="playerStats"></app-player-hitting-stats>
-</ng-template>

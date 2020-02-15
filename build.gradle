@@ -2,87 +2,101 @@ buildscript {
     repositories {
         jcenter()
     }
+
     dependencies {
-        classpath 'gradle.plugin.io.ratpack:ratpack-gradle:1.4.4'
+        classpath 'io.ratpack:ratpack-gradle:1.7.5'
         classpath 'org.postgresql:postgresql:9.4-1206-jdbc42'
-        classpath 'org.jooq:jooq-codegen:3.7.1'
+//        classpath 'org.jooq:jooq-codegen:3.7.1'
+        classpath 'org.jooq:jooq-codegen:3.12.3'
     }
 }
 
-plugins {
-    id 'io.ratpack.ratpack-groovy' version '1.4.4'
-}
+apply plugin: "io.ratpack.ratpack-groovy"
 
 repositories {
     jcenter()
 }
 
+run {
+    jvmArgs "-Dratpack.port=5051"
+}
+
 dependencies {
-    compile 'org.postgresql:postgresql:9.4-1205-jdbc42'
-    compile 'redis.clients:jedis:2.9.0'
-    compile 'org.jooq:jooq:3.7.1'
-    compile 'org.pac4j:pac4j-http:1.8.5'
-    compile 'org.pac4j:pac4j-oauth:1.8.5'
-    compile 'joda-time:joda-time:2.9.4'
-    compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
-    compile 'org.quartz-scheduler:quartz:2.2.1'
-    compile 'org.quartz-scheduler:quartz-jobs:2.2.1'
-    compile 'org.twitter4j:twitter4j-core:4.0.6'
-    compile 'org.twitter4j:twitter4j-stream:4.0.6'
-    compile 'org.mindrot:jbcrypt:0.4'
-    compile ratpack.dependency('hikari')
-    compile ratpack.dependency('pac4j')
+    implementation 'org.postgresql:postgresql:9.4-1205-jdbc42'
+//    implementation 'redis.clients:jedis:2.9.0'
+//    implementation 'org.jooq:jooq:3.7.1'
+    implementation 'org.jooq:jooq:3.12.3'
+    implementation 'org.pac4j:pac4j-http:1.8.5'
+    implementation 'org.pac4j:pac4j-oauth:1.8.5'
+//    implementation 'joda-time:joda-time:2.9.4'
+    implementation 'org.ccil.cowan.tagsoup:tagsoup:1.2'
+    runtimeOnly 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.mindrot:jbcrypt:0.4'
 
-    runtime 'org.slf4j:slf4j-simple:1.7.12'
+    implementation ratpack.dependency('hikari')
+    implementation ratpack.dependency('pac4j')
 
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
-        exclude module: 'groovy-all'
-    }
-    testCompile ratpack.dependency('groovy-test')
+//    testImplementation('org.spockframework:spock-core:1.0-groovy-2.4') {
+//        exclude module: 'groovy-all'
+//    }
+//    testImplementation ratpack.dependency('groovy-test')
 }
 
 task stage {
     dependsOn installDist
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
-}
-
 import org.jooq.util.jaxb.*
 import org.jooq.util.*
+import org.jooq.codegen.*
 
 task jooqCodegen {
     doLast {
-        // TODO: move DB config to a properties file
-        Configuration configuration = new Configuration()
-                .withJdbc(new Jdbc()
-                .withDriver('org.postgresql.Driver')
-                .withProperties([new Property()
-                                         .withKey('ssl')
-                                         .withValue('true'),
-                                 new Property()
-                                         .withKey('sslmode')
-                                         .withValue('require'),
-                                new Property()
-                                         .withKey('sslfactory')
-                                         .withValue('org.postgresql.ssl.NonValidatingFactory')])
-                .withUrl('jdbc:postgresql://ec2-23-21-189-181.compute-1.amazonaws.com:5432/d77g4sf2ppde77')
-                .withUser('sfrpruswqvvbxx')
-                .withPassword('8f7dd8e89fdc60602e7ec4ca5226b1c366159cc1f8da260e16801227796f82ab'))
-                .withGenerator(new org.jooq.util.jaxb.Generator()
-                .withGenerate(new Generate()
-                .withImmutablePojos(true)
-                .withDaos(true)
-                .withFluentSetters(true))
-                .withDatabase(new org.jooq.util.jaxb.Database()
-                .withName('org.jooq.util.postgres.PostgresDatabase')
-                .withIncludes('.*')
-                .withExcludes('')
-                .withInputSchema('public'))
-                .withTarget(new Target()
-                .withPackageName('jooq.generated')
-                .withDirectory('src/main/java')))
-        GenerationTool.generate(configuration)
+        Properties props = new Properties()
+        props.load(new FileInputStream('src/ratpack/db.properties'))
+
+        def writer = new StringWriter()
+        def xml = new groovy.xml.MarkupBuilder(writer)
+                .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.12.0.xsd') {
+                    jdbc() {
+                        driver('org.postgresql.Driver')
+                        url("jdbc:postgresql://" +
+                                "${props.get('postgres.serverName')}" +
+                                ":" +
+                                "${props.get('postgres.portNumber')}" +
+                                "/" +
+                                "${props.get('postgres.databaseName')}" +
+                                "?ssl=true" +
+                                "&sslmode=require" +
+                                "&sslfactory=org.postgresql.ssl.NonValidatingFactory")
+                        user(props.get('postgres.user'))
+                        password(props.get('postgres.password'))
+                    }
+                    generator() {
+                        database() {
+                            includes('.*')
+                            excludes('')
+                            inputSchema('public')
+                        }
+
+                        // Watch out for this caveat when using MarkupBuilder with "reserved names"
+                        // - https://github.com/jOOQ/jOOQ/issues/4797
+                        // - http://stackoverflow.com/a/11389034/521799
+                        // - https://groups.google.com/forum/#!topic/jooq-user/wi4S9rRxk4A
+                        generate([:]) {
+                            pojos true
+                            daos true
+                            pojosEqualsAndHashCode true
+                            fluentSetters true
+                        }
+
+                        target() {
+                            packageName('jooq.generated')
+                            directory('src/main/java')
+                        }
+                    }
+                }
+
+        GenerationTool.generate(writer.toString())
     }
 }

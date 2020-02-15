@@ -1,0 +1,182 @@
+[
+    {
+        "mlb_team_id": 108,
+        "name": "Los Angeles Angels",
+        "code": "LAA",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 109,
+        "name": "Arizona Diamondbacks",
+        "code": "ARI",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 110,
+        "name": "Baltimore Orioles",
+        "code": "BAL",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 111,
+        "name": "Boston Red Sox",
+        "code": "BOS",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 112,
+        "name": "Chicago Cubs",
+        "code": "CHC",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 113,
+        "name": "Cincinnati Reds",
+        "code": "CIN",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 114,
+        "name": "Cleveland Indians",
+        "code": "CLE",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 115,
+        "name": "Colorado Rockies",
+        "code": "COL",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 116,
+        "name": "Detroit Tigers",
+        "code": "DET",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 117,
+        "name": "Houston Astros",
+        "code": "HOU",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 118,
+        "name": "Kansas City Royals",
+        "code": "KC",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 119,
+        "name": "Los Angeles Dodgers",
+        "code": "LAD",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 120,
+        "name": "Washington Nationals",
+        "code": "WSH",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 121,
+        "name": "New York Mets",
+        "code": "NYM",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 133,
+        "name": "Oakland Athletics",
+        "code": "OAK",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 134,
+        "name": "Pittsburgh Pirates",
+        "code": "PIT",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 135,
+        "name": "San Diego Padres",
+        "code": "SD",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 136,
+        "name": "Seattle Mariners",
+        "code": "SEA",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 137,
+        "name": "San Francisco Giants",
+        "code": "SF",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 138,
+        "name": "St. Louis Cardinals",
+        "code": "STL",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 139,
+        "name": "Tampa Bay Rays",
+        "code": "TB",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 140,
+        "name": "Texas Rangers",
+        "code": "TEX",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 141,
+        "name": "Toronto Blue Jays",
+        "code": "TOR",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 142,
+        "name": "Minnesota Twins",
+        "code": "MIN",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 143,
+        "name": "Philadelphia Phillies",
+        "code": "PHI",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 144,
+        "name": "Atlanta Braves",
+        "code": "ATL",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 145,
+        "name": "Chicago White Sox",
+        "code": "CWS",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 146,
+        "name": "Miami Marlins",
+        "code": "MIA",
+        "league": "National League"
+    },
+    {
+        "mlb_team_id": 147,
+        "name": "New York Yankees",
+        "code": "NYY",
+        "league": "American League"
+    },
+    {
+        "mlb_team_id": 158,
+        "name": "Milwaukee Brewers",
+        "code": "MIL",
+        "league": "National League"
+    }
+]

@@ -17,7 +17,7 @@ create table tweet
 	created_timestamp timestamp with time zone,
 	player_id integer
 		constraint tweet_player_player_id_fk
-			references player,
+			references mlb_player,
 	user_id integer not null
 )
 ;
@@ -33,12 +33,12 @@ create table team
 ;
 
 create unique index team_team_id_uindex
-	on team (team_id)
+	on mlb_team (team_id)
 ;
 
-alter table player
+alter table mlb_player
 	add constraint player_team_team_id_fk
-		foreign key (team_id) references team
+		foreign key (team_id) references mlb_team
 ;
 
 create table position
@@ -104,7 +104,7 @@ create table player_hitting_statline
 	ops double precision,
 	player_id integer
 		constraint player_hitting_statline_player_player_id_fk
-			references player
+			references mlb_player
 )
 ;
 

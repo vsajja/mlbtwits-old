@@ -96,8 +96,10 @@ ratpack {
                     team.code = mlbTeam.code
                     team.league = mlbTeam.league
 
-                     def upsertedTeam = baseballService.upsertMlbTeam(team)
-                     println upsertedTeam.toString()
+
+                    // TODO:
+                    // def upsertedTeam = baseballService.upsertTeam(team)
+                    // println upsertedTeam.toString()
                 }
 
                 render new JsonBuilder(mlbTeams).toPrettyString()
